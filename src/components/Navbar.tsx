@@ -85,23 +85,14 @@ export default function Navbar() {
               key={link.nameKey}
               to={link.href}
               className={({ isActive }) => 
-                `relative px-4 py-2 text-xs font-semibold rounded-full transition-colors duration-300 ${
-                  isActive ? 'text-white' : 'text-text-muted hover:text-text-title'
+                `px-4 py-2 text-xs font-bold rounded-full transition-all duration-300 ${
+                  isActive 
+                    ? 'bg-primary text-white shadow-md shadow-primary/20' 
+                    : 'text-[#4B5563] dark:text-[#D1D5DB] hover:text-[#09090B] dark:hover:text-white hover:bg-bg-card-hover/40'
                 }`
               }
             >
-              {({ isActive }) => (
-                <>
-                  {isActive && (
-                    <motion.span
-                      layoutId="activeNav"
-                      className="absolute inset-0 bg-primary/25 border border-primary/40 rounded-full"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                  {t(link.nameKey)}
-                </>
-              )}
+              {t(link.nameKey)}
             </NavLink>
           ))}
         </nav>
@@ -186,15 +177,17 @@ export default function Navbar() {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2.5">
               {navLinks.map((link) => (
                 <NavLink
                   key={link.nameKey}
                   to={link.href}
                   onClick={() => setIsOpen(false)}
                   className={({ isActive }) => 
-                    `text-xl font-bold py-2 border-b border-border-dark/40 ${
-                      isActive ? 'text-primary-light' : 'text-text-muted'
+                    `text-base font-bold py-2.5 px-4 rounded-xl transition-all duration-300 text-left ${
+                      isActive 
+                        ? 'bg-primary text-white shadow-md shadow-primary/20' 
+                        : 'text-[#4B5563] dark:text-[#D1D5DB] hover:text-[#09090B] dark:hover:text-white hover:bg-bg-card-hover/40'
                     }`
                   }
                 >
