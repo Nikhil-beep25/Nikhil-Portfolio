@@ -8,8 +8,8 @@ interface SEOProps {
 }
 
 export default function SEO({
-  title = "Nikhil Bhadauriya | Python Full-Stack & MERN Developer | SaaS Builder",
-  description = "I build scalable web applications, SaaS products, APIs, automation systems, and modern digital experiences using Python, React, Node.js, PostgreSQL, and cloud technologies.",
+  title = "Nikhil Bhadauriya | Python Full Stack Developer",
+  description = "Python Full Stack Developer specializing in React, Node.js, Django, FastAPI, PostgreSQL, MERN Stack, SaaS Development and Modern Web Applications.",
   image = "/favicon.svg",
   url = "https://nikhilbhadauriya.com",
 }: SEOProps) {

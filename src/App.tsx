@@ -1,18 +1,28 @@
 import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import SEO from './components/SEO';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
-import FeaturedProject from './components/FeaturedProject';
-import OtherProjects from './components/OtherProjects';
-import Journey from './components/Journey';
-import GithubShowcase from './components/GithubShowcase';
-import Resume from './components/Resume';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
 
-function App() {
+// Page Imports
+import Home from './pages/Home';
+import AboutPage from './pages/AboutPage';
+import SkillsPage from './pages/SkillsPage';
+import ProjectsPage from './pages/ProjectsPage';
+import JourneyPage from './pages/JourneyPage';
+import ContactPage from './pages/ContactPage';
+
+// Scroll to top helper on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
+// Inner App to access router hooks
+function AppContent() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -24,7 +34,7 @@ function App() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-bg-darkest text-zinc-100 selection:bg-primary/30 selection:text-primary-light">
+    <div className="relative min-h-screen bg-bg-darkest text-text-main selection:bg-primary/30 selection:text-primary-light flex flex-col justify-between">
       {/* Dynamic SEO Tag & JSON-LD Manager */}
       <SEO />
       
@@ -36,24 +46,42 @@ function App() {
         }}
       />
 
-      {/* Main UI Layout */}
+      {/* Main Navigation */}
       <Navbar />
       
-      <main>
-        <Hero />
-        <About />
-        <Skills />
-        <FeaturedProject />
-        <OtherProjects />
-        <Journey />
-        <GithubShowcase />
-        <Resume />
-        <Contact />
-      </main>
+      {/* Page Routing */}
+      <div className="flex-grow">
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/skills" element={<SkillsPage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/journey" element={<JourneyPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+        </Routes>
+      </div>
 
+      {/* Footer Branding */}
       <Footer />
     </div>
   );
 }
 
-export default App;
+export default function App() {
+  // Sync the theme variable directly on load
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+}
