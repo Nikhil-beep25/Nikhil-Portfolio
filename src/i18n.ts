@@ -21,7 +21,7 @@ const resources = {
         subtitle1: "Python Full Stack Developer",
         subtitle2: "MERN Stack Developer",
         subtitle3: "SaaS Builder",
-        description: "I build scalable web applications, SaaS products, robust APIs, automation systems, and modern digital experiences using Python, React, Node.js, PostgreSQL, and cloud technologies.",
+        description: "I build scalable web applications, APIs, SaaS products, automation systems, and modern digital experiences using Python, React, Node.js, PostgreSQL, and cloud technologies.",
         viewProjects: "View Projects",
         getResume: "Get Resume",
         contact: "Contact"

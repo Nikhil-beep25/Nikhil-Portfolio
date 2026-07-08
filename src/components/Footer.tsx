@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Terminal, Heart, Mail } from 'lucide-react';
+import { Heart, Mail } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 
 const footerNavLinks = [
@@ -23,12 +23,22 @@ export default function Footer() {
         <div className="flex flex-col items-center md:items-start text-center md:text-left gap-2.5">
           <Link 
             to="/" 
-            className="flex items-center gap-2 font-display text-lg font-bold tracking-tight text-text-title group"
+            className="flex items-center gap-3 group text-text-title relative"
           >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-violet-600 flex items-center justify-center text-white shadow-md shadow-cyan-500/20 transition-transform group-hover:scale-105 duration-300">
-              <Terminal size={16} />
-            </div>
-            <span>Nikhil</span>
+            <img
+              src="/images/profile.jpg"
+              alt="Nikhil Bhadauriya"
+              className="w-10 h-10 lg:w-12 lg:h-12 rounded-full object-cover flex-shrink-0 border-2 border-white/15 shadow-md shadow-primary/10 transition-all duration-400 ease-out group-hover:scale-108 group-hover:rotate-2 group-hover:shadow-lg group-hover:shadow-primary/25"
+              onError={(e) => {
+                e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2306B6D4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E";
+              }}
+            />
+            <span className="relative flex flex-col items-start py-1">
+              <span className="font-bold text-2xl leading-none tracking-tight transition-all duration-300 ease-out group-hover:text-primary group-hover:tracking-[1px] group-hover:scale-[1.03] origin-left">
+                Nikhil
+              </span>
+              <span className="absolute bottom-0 left-0 h-[2px] bg-primary w-0 transition-all duration-300 ease-out group-hover:w-full" />
+            </span>
           </Link>
           <p className="text-text-muted text-xs max-w-xs leading-relaxed">
             {t('footer.tagline')}

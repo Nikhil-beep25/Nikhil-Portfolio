@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Terminal, Sun, Moon, Languages } from 'lucide-react';
+import { Menu, X, Sun, Moon, Languages } from 'lucide-react';
 
 const navLinks = [
   { nameKey: 'navbar.home', href: '/' },
@@ -67,14 +67,21 @@ export default function Navbar() {
         {/* Logo Branding */}
         <Link 
           to="/" 
-          className="flex items-center gap-2 group font-display text-lg font-bold tracking-tight text-text-title"
+          className="flex items-center gap-3 group text-text-title relative"
         >
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-violet-600 flex items-center justify-center text-white shadow-md shadow-cyan-500/20 transition-transform group-hover:scale-105 duration-300">
-            <Terminal size={16} />
-          </div>
-          <span className="relative overflow-hidden block">
-            <span className="inline-block transition-transform duration-300 group-hover:-translate-y-full">Nikhil</span>
-            <span className="absolute left-0 top-0 inline-block text-primary-light transition-transform duration-300 translate-y-full group-hover:translate-y-0">SaaS Builder</span>
+          <img
+            src="/images/profile.jpg"
+            alt="Nikhil Bhadauriya"
+            className="w-10 h-10 lg:w-12 lg:h-12 rounded-full object-cover flex-shrink-0 border-2 border-white/15 shadow-md shadow-primary/10 transition-all duration-400 ease-out group-hover:scale-108 group-hover:rotate-2 group-hover:shadow-lg group-hover:shadow-primary/25"
+            onError={(e) => {
+              e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2306B6D4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E";
+            }}
+          />
+          <span className="relative flex flex-col items-start py-1">
+            <span className="font-bold text-2xl leading-none tracking-tight transition-all duration-300 ease-out group-hover:text-primary group-hover:tracking-[1px] group-hover:scale-[1.03] origin-left">
+              Nikhil
+            </span>
+            <span className="absolute bottom-0 left-0 h-[2px] bg-primary w-0 transition-all duration-300 ease-out group-hover:w-full" />
           </span>
         </Link>
 
@@ -87,8 +94,8 @@ export default function Navbar() {
               className={({ isActive }) => 
                 `px-4 py-2 text-xs font-bold rounded-full transition-all duration-300 border border-transparent ${
                   isActive 
-                    ? 'bg-gradient-to-r from-cyan-500 to-violet-600 text-white shadow-md shadow-cyan-500/20' 
-                    : 'text-text-muted hover:text-text-title hover:bg-cyan-500/10 hover:shadow-[0_0_15px_rgba(6,182,212,0.15)] hover:border-cyan-500/20'
+                    ? 'bg-primary text-white shadow-lg shadow-primary/25' 
+                    : 'text-text-muted hover:text-text-title hover:bg-primary/10 hover:shadow-[0_0_15px_rgba(6,182,212,0.15)] hover:border-primary/20'
                 }`
               }
             >
@@ -128,7 +135,7 @@ export default function Navbar() {
 
           <Link
             to="/contact"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white text-xs font-bold shadow-md shadow-cyan-500/25 hover:shadow-cyan-400/40 hover:scale-105 active:scale-95 transition-all duration-300 group"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary hover:bg-primary-hover text-white text-xs font-bold shadow-md shadow-primary/25 hover:scale-105 active:scale-95 transition-all duration-300"
           >
             {t('navbar.hireMe')}
           </Link>
@@ -170,39 +177,48 @@ export default function Navbar() {
       {/* Mobile Menu Dropdown */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            className="lg:hidden fixed top-[69px] left-0 right-0 bottom-0 bg-bg-darkest/98 backdrop-blur-xl border-t border-border-dark/60 z-40 px-6 py-8 flex flex-col gap-6"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="flex flex-col gap-2.5">
-              {navLinks.map((link) => (
-                <NavLink
-                  key={link.nameKey}
-                  to={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className={({ isActive }) => 
-                    `text-base font-bold py-2.5 px-4 rounded-xl transition-all duration-300 text-left ${
-                      isActive 
-                        ? 'bg-gradient-to-r from-cyan-500 to-violet-600 text-white shadow-md shadow-cyan-500/20' 
-                        : 'text-text-muted hover:text-text-title hover:bg-cyan-500/10'
-                    }`
-                  }
-                >
-                  {t(link.nameKey)}
-                </NavLink>
-              ))}
-            </div>
-            <Link
-              to="/contact"
+          <>
+            {/* Click Outside Overlay */}
+            <div 
+              className="fixed inset-0 z-30 bg-black/10 dark:bg-black/40 backdrop-blur-xs lg:hidden"
               onClick={() => setIsOpen(false)}
-              className="mt-auto w-full py-3.5 text-center rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white font-bold flex items-center justify-center gap-2 hover:scale-[1.02] transition-all duration-300"
+            />
+            
+            {/* Dedicated Mobile Dropdown */}
+            <motion.div
+              className="absolute top-full left-0 w-full bg-white dark:bg-bg-card border-b border-black/8 dark:border-white/8 shadow-lg dark:shadow-black/40 z-40 p-4 flex flex-col gap-4 lg:hidden"
+              initial={{ opacity: 0, y: -15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
             >
-              {t('navbar.getInTouch')}
-            </Link>
-          </motion.div>
+              <div className="flex flex-col gap-4">
+                {navLinks.map((link) => (
+                  <NavLink
+                    key={link.nameKey}
+                    to={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={({ isActive }) => 
+                      `text-sm font-bold py-2.5 px-4 rounded-xl transition-all duration-300 text-left ${
+                        isActive 
+                          ? 'bg-primary text-white shadow-md shadow-primary/25' 
+                          : 'text-text-muted hover:text-text-title hover:bg-primary/10'
+                      }`
+                    }
+                  >
+                    {t(link.nameKey)}
+                  </NavLink>
+                ))}
+              </div>
+              <Link
+                to="/contact"
+                onClick={() => setIsOpen(false)}
+                className="w-full py-3.5 text-center rounded-xl bg-primary hover:bg-primary-hover text-white font-bold flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.98] transition-all duration-300"
+              >
+                {t('navbar.getInTouch')}
+              </Link>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </motion.header>

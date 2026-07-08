@@ -67,7 +67,7 @@ export default function ProjectsPage() {
       desc: i18n.language === 'en'
         ? "Deploys the clustered Express.js REST API inside Docker containers. Configured auto-scaling triggers behind an HTTPS reverse proxy."
         : "डॉक कंटेनरों के अंदर क्लस्टर्ड एक्सप्रेस.जेएस रेस्ट एपीआई तैनात करता है। एक सुरक्षित एचटीटीपीएस रिवर्स प्रॉक्सी के साथ ऑटो-स्केलिंग ट्रिगर्स कॉन्फ़िगर किए गए हैं।",
-      badgeColor: "bg-violet-500/10 text-violet-400 border border-violet-500/20"
+      badgeColor: "bg-sky-500/10 text-sky-400 border border-sky-500/20"
     },
     {
       platform: "Neon Database",
@@ -157,7 +157,7 @@ export default function ProjectsPage() {
                 href="https://github.com/Nikhil-beep25"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white text-xs font-bold shadow-md shadow-cyan-500/20 hover:scale-105 active:scale-95 transition-all duration-300"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-bold shadow-md shadow-primary/20 hover:scale-105 active:scale-95 transition-all duration-300"
               >
                 {t('projects.demoRequest')}
                 <ExternalLink size={14} />
@@ -189,8 +189,8 @@ export default function ProjectsPage() {
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg transition-all border cursor-pointer ${
                     activeTab === tab.id 
-                      ? 'bg-gradient-to-r from-cyan-500 to-violet-600 border-cyan-500/20 text-white shadow-md shadow-cyan-500/15' 
-                      : 'text-text-muted hover:text-text-title hover:bg-cyan-500/10 hover:border-cyan-500/20 border-transparent'
+                      ? 'bg-primary border-primary/20 text-white shadow-md shadow-primary/15' 
+                      : 'text-text-muted hover:text-text-title hover:bg-primary/10 hover:border-primary/20 border-transparent'
                   }`}
                 >
                   {tab.icon}
@@ -270,7 +270,7 @@ export default function ProjectsPage() {
                               <div key={i} className="flex flex-col items-center gap-1.5 w-1/8">
                                 <div className="w-full bg-border-dark rounded-t-sm h-24 flex items-end">
                                   <div 
-                                    className="w-full bg-gradient-to-t from-cyan-500 to-violet-600 rounded-t-sm"
+                                    className="w-full bg-gradient-to-t from-primary to-secondary rounded-t-sm"
                                     style={{ height: bar.h }}
                                   />
                                 </div>
@@ -317,8 +317,8 @@ export default function ProjectsPage() {
                           <span>HTTPS REST</span>
                         </div>
 
-                        <div className="p-4 rounded-xl bg-violet-500/5 border border-violet-500/20 flex flex-col items-center w-36 text-center shadow-sm bg-bg-card">
-                          <Server className="text-violet-400 mb-2" size={20} />
+                         <div className="p-4 rounded-xl bg-sky-500/5 border border-sky-500/20 flex flex-col items-center w-36 text-center shadow-sm bg-bg-card">
+                          <Server className="text-sky-400 mb-2" size={20} />
                           <span className="text-xs font-bold text-text-title">Express API</span>
                           <span className="text-[9px] text-text-muted mt-1">Node.js clustered</span>
                         </div>

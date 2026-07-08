@@ -141,7 +141,7 @@ export default function SkillsPage() {
             <motion.div
               key={idx}
               variants={cardVariants}
-              className="group flex flex-col p-6 rounded-2xl glass-card transition-all duration-300 hover:border-cyan-500/25 hover:shadow-[0_0_30px_rgba(6,182,212,0.08),0_0_60px_rgba(124,58,237,0.05)] shadow-sm"
+              className="group flex flex-col p-6 rounded-2xl glass-card transition-all duration-300 hover:border-cyan-500/25 hover:shadow-[0_0_30px_rgba(6,182,212,0.08),0_0_60px_rgba(6,182,212,0.04)] shadow-sm"
             >
               {/* Category Header */}
               <div className="flex items-center gap-2.5 pb-4 mb-5 border-b border-border-dark">

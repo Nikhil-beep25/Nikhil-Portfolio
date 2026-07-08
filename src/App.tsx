@@ -42,7 +42,7 @@ function AppContent() {
       <div 
         className="pointer-events-none fixed inset-0 z-30 transition duration-200 opacity-60 hidden md:block"
         style={{
-          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(6, 182, 212, 0.12), rgba(124, 58, 237, 0.06), transparent 80%)`
+          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(6, 182, 212, 0.12), rgba(56, 189, 248, 0.05), transparent 80%)`
         }}
       />
 

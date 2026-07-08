@@ -64,50 +64,13 @@ export default function AboutPage() {
       descKey: "about.focusBackendDesc"
     },
     {
-      icon: <Cloud size={24} className="text-violet-400" />,
+      icon: <Cloud size={24} className="text-secondary" />,
       titleKey: "about.focusDevOps",
       descKey: "about.focusDevOpsDesc"
     }
   ];
 
-  // Real resume work experience details
-  const experience = [
-    {
-      role: "Python Full-Stack Engineer & SaaS Builder",
-      company: "Freelance & Independent Projects",
-      period: "2023 - Present",
-      bullets: [
-        "Architected and deployed full-stack school ERP (VidyaSanchar) serving 5,000+ users, utilizing Node.js, Express, PostgreSQL, and React.",
-        "Engineered RESTful microservices in FastAPI and Django, decreasing API load times by 35% through query optimization and caching.",
-        "Built and launched production SaaS architectures incorporating multi-tenant database isolation (schemas) and Stripe payment layers.",
-        "Automated deployment workflows using Docker containers, Nginx reverse proxies, and GitHub Actions pipelines."
-      ]
-    },
-    {
-      role: "Backend Web Developer",
-      company: "Contract Positions",
-      period: "2021 - 2023",
-      bullets: [
-        "Built responsive CRUD APIs using Flask and Django REST Framework, integrating Postgres and MongoDB databases.",
-        "Optimized complex database queries, indexes, and triggers, ensuring 99.9% application uptime.",
-        "Collaborated with frontend designers to integrate REST endpoints with modular React-TypeScript client dashboards."
-      ]
-    }
-  ];
 
-  const education = [
-    {
-      degree: "Bachelor of Science in Computer Science / Information Technology",
-      institution: "Indian University",
-      period: "Completed"
-    }
-  ];
-
-  const certifications = [
-    "Advanced Python Applications & Scripting",
-    "Full-Stack Web Development (MERN Ecosystem)",
-    "Docker & Container Orchestration Practices"
-  ];
 
   return (
     <motion.div 
@@ -197,14 +160,15 @@ export default function AboutPage() {
               <div className="flex flex-wrap gap-4">
                 <button
                   onClick={() => setShowModal(true)}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white text-xs font-semibold shadow-md shadow-cyan-500/25 hover:shadow-cyan-400/45 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-md shadow-primary/25 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
                 >
                   <Eye size={14} />
                   {i18n.language === 'en' ? "View Full Resume" : "पूरा रिज्यूमे देखें"}
                 </button>
 
                 <a
-                  href="/contact"
+                  href="/resume/Nikhil_Bhadauriya_Resume.pdf"
+                  download
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl glass hover:bg-bg-card-hover text-text-title text-xs font-semibold border border-border-dark hover:border-cyan-500/20 hover:scale-105 active:scale-95 transition-all duration-300"
                 >
                   <Download size={14} />
@@ -301,12 +265,15 @@ export default function AboutPage() {
                 <div className="flex flex-col md:flex-row md:justify-between items-start md:items-end border-b border-border-dark pb-8 gap-4">
                   <div>
                     <h1 className="text-3xl font-extrabold text-text-title tracking-tight font-display mb-1.5">Nikhil Bhadauriya</h1>
-                    <h2 className="text-base font-bold text-primary-light font-display">Python Full Stack Developer</h2>
+                    <h2 className="text-base font-bold text-primary-light font-display">Python Full-Stack Developer | MERN Stack Developer | SaaS Builder</h2>
+                    <div className="text-xs text-text-muted mt-2">
+                      Portfolio: <a href="https://nikhilbhadauriya-portfolio.netlify.app" target="_blank" rel="noreferrer" className="text-primary hover:underline">https://nikhilbhadauriya-portfolio.netlify.app</a>
+                    </div>
                   </div>
                   <div className="text-xs space-y-1 font-semibold text-text-muted">
                     <div className="flex items-center gap-2"><Mail size={11} /> nikhilbhadauriya2500@gmail.com</div>
                     <div className="flex items-center gap-2"><Phone size={11} /> +91 80773 13959</div>
-                    <div className="flex items-center gap-2"><MapPin size={11} /> India</div>
+                    <div className="flex items-center gap-2"><MapPin size={11} /> Agra, India</div>
                   </div>
                 </div>
 
@@ -315,34 +282,95 @@ export default function AboutPage() {
                     <Award size={12} className="text-primary-light" /> Professional Summary
                   </h3>
                   <p className="text-xs text-text-muted leading-relaxed">
-                    Highly analytical and result-driven Python Full Stack Developer with 5+ years of programming and software building experience. Specialized in architecting robust database schemas, clustered REST APIs, and responsive React frontend systems. Proven record of developing large institutional scale ERP platforms (VidyaSanchar) and building clean, modular SaaS solutions.
+                    Python Full-Stack Developer and MERN Stack Developer with hands-on experience building scalable web applications, SaaS products, REST APIs, and database-driven systems. Skilled in React, Node.js, Python, PostgreSQL, MongoDB, and modern frontend technologies. Passionate about software engineering, problem-solving, and building production-ready applications.
                   </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xs font-black text-text-title uppercase tracking-widest mb-3 flex items-center gap-2 border-b border-border-dark pb-1.5">
+                    <Code2 size={12} className="text-primary-light" /> Technical Skills
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div>
+                      <span className="font-bold text-text-title">Languages: </span>
+                      <span className="text-text-muted">Python, JavaScript, SQL</span>
+                    </div>
+                    <div>
+                      <span className="font-bold text-text-title">Frontend: </span>
+                      <span className="text-text-muted">React.js, HTML5, CSS3, Bootstrap, Tailwind CSS</span>
+                    </div>
+                    <div>
+                      <span className="font-bold text-text-title">Backend: </span>
+                      <span className="text-text-muted">Node.js, Express.js, Django, FastAPI, REST APIs</span>
+                    </div>
+                    <div>
+                      <span className="font-bold text-text-title">Databases: </span>
+                      <span className="text-text-muted">PostgreSQL, MongoDB, MySQL, Prisma ORM</span>
+                    </div>
+                    <div className="md:col-span-2">
+                      <span className="font-bold text-text-title">Tools: </span>
+                      <span className="text-text-muted">Git, GitHub, VS Code</span>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="space-y-6">
                   <h3 className="text-xs font-black text-text-title uppercase tracking-widest mb-3 flex items-center gap-2 border-b border-border-dark pb-1.5">
-                    <Briefcase size={12} className="text-primary-light" /> Professional Work History
+                    <Briefcase size={12} className="text-primary-light" /> Projects
                   </h3>
                   
                   <div className="space-y-6">
-                    {experience.map((exp, idx) => (
-                      <div key={idx} className="space-y-2">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h4 className="text-sm font-bold text-text-title font-display">{exp.role}</h4>
-                            <span className="text-[11px] text-text-muted font-semibold">{exp.company}</span>
-                          </div>
-                          <span className="text-[10px] font-bold font-mono text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded">
-                            {exp.period}
-                          </span>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h4 className="text-sm font-bold text-text-title font-display">1. VidyaSanchar ERP (Featured)</h4>
+                          <span className="text-[11px] text-text-muted font-semibold">React, Node.js, PostgreSQL, Prisma ORM</span>
                         </div>
-                        <ul className="list-disc pl-5 text-xs text-text-muted space-y-1.5 leading-relaxed">
-                          {exp.bullets.map((bullet, bIdx) => (
-                            <li key={bIdx}>{bullet}</li>
-                          ))}
-                        </ul>
                       </div>
-                    ))}
+                      <ul className="list-disc pl-5 text-xs text-text-muted space-y-1.5 leading-relaxed">
+                        <li>Built complete School ERP platform.</li>
+                        <li>Admin, Teacher, Student dashboards.</li>
+                        <li>Attendance management.</li>
+                        <li>Student management.</li>
+                        <li>Teacher management.</li>
+                        <li>Reporting system.</li>
+                        <li>PostgreSQL + Prisma architecture.</li>
+                        <li>REST APIs.</li>
+                        <li>Responsive SaaS-style UI.</li>
+                      </ul>
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h4 className="text-sm font-bold text-text-title font-display">2. E-Commerce Website</h4>
+                          <span className="text-[11px] text-text-muted font-semibold">React, Node.js, MongoDB</span>
+                        </div>
+                      </div>
+                      <ul className="list-disc pl-5 text-xs text-text-muted space-y-1.5 leading-relaxed">
+                        <li>Authentication system.</li>
+                        <li>Product catalog.</li>
+                        <li>Shopping cart.</li>
+                        <li>Order management.</li>
+                        <li>Responsive design.</li>
+                      </ul>
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h4 className="text-sm font-bold text-text-title font-display">3. Personal Portfolio Website</h4>
+                          <span className="text-[11px] text-text-muted font-semibold">React, TypeScript, Tailwind CSS</span>
+                        </div>
+                      </div>
+                      <ul className="list-disc pl-5 text-xs text-text-muted space-y-1.5 leading-relaxed">
+                        <li>Multi-page architecture.</li>
+                        <li>Dark/Light mode.</li>
+                        <li>Multilingual support.</li>
+                        <li>Responsive design.</li>
+                        <li>Performance optimization.</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
 
@@ -350,25 +378,24 @@ export default function AboutPage() {
                   <h3 className="text-xs font-black text-text-title uppercase tracking-widest mb-3 flex items-center gap-2 border-b border-border-dark pb-1.5">
                     <GraduationCap size={12} className="text-primary-light" /> Education
                   </h3>
-                  {education.map((edu, idx) => (
-                    <div key={idx} className="flex justify-between items-start">
-                      <div>
-                        <h4 className="text-xs font-bold text-text-title font-display">{edu.degree}</h4>
-                        <span className="text-[11px] text-text-muted font-semibold">{edu.institution}</span>
-                      </div>
-                      <span className="text-xs font-semibold text-text-muted">{edu.period}</span>
+                  <div className="flex justify-between items-start text-xs">
+                    <div>
+                      <h4 className="font-bold text-text-title font-display">Bachelor of Computer Applications (BCA)</h4>
+                      <span className="text-text-muted font-semibold">Dr. Bhim Rao Ambedkar University, Agra</span>
                     </div>
-                  ))}
+                    <span className="font-semibold text-text-muted">Expected Graduation: 2027</span>
+                  </div>
                 </div>
 
                 <div>
                   <h3 className="text-xs font-black text-text-title uppercase tracking-widest mb-3 flex items-center gap-2 border-b border-border-dark pb-1.5">
-                    <Award size={12} className="text-primary-light" /> Key Accreditations
+                    <Award size={12} className="text-primary-light" /> Achievements
                   </h3>
                   <ul className="list-disc pl-5 text-xs text-text-muted space-y-1">
-                    {certifications.map((c, idx) => (
-                      <li key={idx}>{c}</li>
-                    ))}
+                    <li>Built multiple full-stack applications from scratch.</li>
+                    <li>Developed scalable REST APIs and database-driven systems.</li>
+                    <li>Created modern SaaS-style interfaces.</li>
+                    <li>Continuously learning Python, MERN, and cloud technologies.</li>
                   </ul>
                 </div>
               </div>

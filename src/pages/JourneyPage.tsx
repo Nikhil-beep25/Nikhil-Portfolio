@@ -55,7 +55,7 @@ export default function JourneyPage() {
       description: i18n.language === 'en' 
         ? "Shifted focus to server-side web systems. Learned database normalization, indexing, and SQL queries. Mastered HTTP protocols, authentication (JWT), and API development using Django, Flask, and Express.js."
         : "सर्वर-साइड वेब सिस्टम पर ध्यान केंद्रित किया। डेटाबेस इंडेक्सिंग और एसक्यूएल क्वेरी सीखीं। Django, Flask और Express.js का उपयोग करके HTTP प्रोटोकॉल, प्रमाणीकरण (JWT) और एपीआई विकास में महारत हासिल की।",
-      icon: <Code2 size={18} className="text-purple-400" />,
+      icon: <Code2 size={18} className="text-secondary" />,
       tags: ["FastAPI", "SQL", "Django", "APIs"]
     },
     {
@@ -82,7 +82,7 @@ export default function JourneyPage() {
       description: i18n.language === 'en' 
         ? "Architected and built VidyaSanchar, a comprehensive School ERP application. Implemented role-based authorization, online fee processing, attendance logs, and real-time dashboard analytics."
         : "विद्यासंचार स्कूल ईआरपी एप्लीकेशन का निर्माण किया। भूमिका-आधारित प्रमाणीकरण, ऑनलाइन शुल्क प्रोसेसिंग, उपस्थिति लॉग और वास्तविक समय डैशबोर्ड एनालिटिक्स को लागू किया।",
-      icon: <Briefcase size={18} className="text-indigo-400" />,
+      icon: <Briefcase size={18} className="text-primary-light" />,
       tags: ["ERP System", "Neon DB", "Render", "Vercel"]
     },
     {
@@ -118,7 +118,7 @@ export default function JourneyPage() {
   const githubStats = [
     { label: i18n.language === 'en' ? "Total Contributions" : "कुल योगदान", value: "1,842", icon: <Activity className="text-emerald-400" size={16} /> },
     { label: i18n.language === 'en' ? "Stars Earned" : "अर्जित सितारे", value: "86", icon: <FaStar className="text-yellow-400" size={16} /> },
-    { label: i18n.language === 'en' ? "Merged PRs" : "मर्ज की गई पीआर", value: "142", icon: <GitPullRequest className="text-violet-400" size={16} /> },
+    { label: i18n.language === 'en' ? "Merged PRs" : "मर्ज की गई पीआर", value: "142", icon: <GitPullRequest className="text-secondary" size={16} /> },
     { label: i18n.language === 'en' ? "Repositories" : "रिपॉजिटरी", value: "32", icon: <Award className="text-sky-400" size={16} /> },
   ];
 
@@ -204,7 +204,7 @@ export default function JourneyPage() {
         <div ref={containerRef} className="relative max-w-4xl mx-auto mb-28">
           <div className="absolute left-4 md:left-1/2 top-2 bottom-2 w-0.5 bg-border-dark pointer-events-none -translate-x-1/2" />
           <motion.div 
-            className="absolute left-4 md:left-1/2 top-2 bottom-2 w-0.5 bg-gradient-to-b from-cyan-500 via-blue-500 to-violet-600 -translate-x-1/2 origin-top pointer-events-none"
+            className="absolute left-4 md:left-1/2 top-2 bottom-2 w-0.5 bg-gradient-to-b from-cyan-500 via-sky-500 to-cyan-400 -translate-x-1/2 origin-top pointer-events-none"
             style={{ scaleY }}
           />
 

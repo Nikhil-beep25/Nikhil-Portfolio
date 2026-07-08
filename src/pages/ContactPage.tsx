@@ -14,6 +14,7 @@ export default function ContactPage() {
   const { t, i18n } = useTranslation();
   const [formData, setFormData] = useState<FormState>({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState<Partial<FormState>>({});
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
 
   const validate = () => {
@@ -40,16 +41,53 @@ export default function ContactPage() {
     if (!validate()) return;
 
     setStatus('submitting');
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setStatus('success');
-    setFormData({ name: '', email: '', message: '' });
+    setSubmitError(null);
+
+    const API_URL = import.meta.env.DEV ? 'http://localhost:5001/api/contact' : '/api/contact';
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send message. Please try again.');
+      }
+
+      setStatus('success');
+      
+      const nameVal = formData.name;
+      const emailVal = formData.email;
+      const msgVal = formData.message;
+
+      setFormData({ name: '', email: '', message: '' });
+
+      // Automatically redirect to pre-filled WhatsApp
+      const text = `Hi Nikhil,\n\nMy Name: ${nameVal}\n\nEmail: ${emailVal}\n\nMessage:\n${msgVal}\n\nI found your portfolio and would like to discuss a project/opportunity.`;
+      const whatsappUrl = `https://wa.me/918077313959?text=${encodeURIComponent(text)}`;
+      
+      setTimeout(() => {
+        window.open(whatsappUrl, '_blank');
+      }, 1500);
+
+    } catch (err: any) {
+      console.error('Submission error:', err);
+      setSubmitError(err.message || 'An unexpected error occurred. Please try again.');
+      setStatus('idle');
+    }
   };
 
   const contactInfo = [
     {
       name: "Gmail / Email",
-      value: "nikhilbhadauriya2006@gmail.com",
-      url: "mailto:nikhilbhadauriya2006@gmail.com",
+      value: "nikhilbhadauriya2500@gmail.com",
+      url: "mailto:nikhilbhadauriya2500@gmail.com",
       icon: <Mail size={18} className="text-red-500" />,
       color: "hover:border-red-500/30 hover:bg-red-500/5",
       textCol: "hover:text-red-500"
@@ -171,6 +209,9 @@ export default function ContactPage() {
                     <p className="text-text-muted text-xs max-w-sm">
                       {t('contact.successDesc')}
                     </p>
+                    <p className="text-emerald-500 font-bold text-xs animate-pulse">
+                      Message sent successfully. Redirecting to WhatsApp...
+                    </p>
                     <button
                       onClick={() => setStatus('idle')}
                       className="mt-6 flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary-hover transition-colors cursor-pointer"
@@ -202,7 +243,7 @@ export default function ContactPage() {
                         className={`w-full px-4 py-3 rounded-xl bg-bg-darkest/60 border text-xs text-text-title focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all ${
                           errors.name ? 'border-red-500/50 focus:ring-red-500' : 'border-border-dark'
                         }`}
-                        placeholder="John Doe"
+                        placeholder="Nikhil Bhadauriya"
                       />
                       {errors.name && (
                         <span className="text-[10px] font-semibold text-red-500 flex items-center gap-1 mt-1">
@@ -226,7 +267,7 @@ export default function ContactPage() {
                         className={`w-full px-4 py-3 rounded-xl bg-bg-darkest/60 border text-xs text-text-title focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all ${
                           errors.email ? 'border-red-500/50 focus:ring-red-500' : 'border-border-dark'
                         }`}
-                        placeholder="john@example.com"
+                        placeholder="nikhil@example.com"
                       />
                       {errors.email && (
                         <span className="text-[10px] font-semibold text-red-500 flex items-center gap-1 mt-1">
@@ -260,11 +301,11 @@ export default function ContactPage() {
                       )}
                     </div>
 
-                    {/* Submit Button */}
+                     {/* Submit Button */}
                     <button
                       type="submit"
                       disabled={status === 'submitting'}
-                      className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 disabled:from-cyan-500/50 disabled:to-violet-600/50 text-white font-bold text-xs shadow-lg shadow-cyan-500/20 hover:shadow-cyan-400/30 hover:scale-[1.02] active:scale-95 transition-all duration-300 cursor-pointer"
+                      className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-primary hover:bg-primary-hover disabled:bg-primary/50 text-white font-bold text-xs shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all duration-300 cursor-pointer"
                     >
                       {status === 'submitting' ? (
                         <>
@@ -278,6 +319,13 @@ export default function ContactPage() {
                         </>
                       )}
                     </button>
+
+                    {submitError && (
+                      <div className="text-[10px] font-semibold text-red-500 flex items-start gap-1.5 mt-2 bg-red-500/5 border border-red-500/10 p-3 rounded-xl">
+                        <AlertTriangle size={14} className="shrink-0 mt-0.5" />
+                        <span>{submitError}</span>
+                      </div>
+                    )}
                   </motion.form>
                 )}
               </AnimatePresence>

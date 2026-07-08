@@ -61,9 +61,9 @@ export default function SEO({
       "jobTitle": "Python Full-Stack Developer & SaaS Builder",
       "url": url,
       "sameAs": [
-        "https://github.com/nikhilbhadauriya", // Fallback or updated standard profiles
-        "https://linkedin.com/in/nikhilbhadauriya",
-        "https://x.com/nikhilbhadauriya"
+        "https://github.com/Nikhil-beep25",
+        "https://www.linkedin.com/in/nikhil-bhadauriya-308414321",
+        "https://www.instagram.com/itsnikhilbhadauriya"
       ],
       "description": description,
       "knowsAbout": [
