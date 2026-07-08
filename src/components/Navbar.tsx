@@ -69,7 +69,7 @@ export default function Navbar() {
           to="/" 
           className="flex items-center gap-2 group font-display text-lg font-bold tracking-tight text-text-title"
         >
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary to-purple-400 flex items-center justify-center text-white shadow-md shadow-primary/20 transition-transform group-hover:scale-105 duration-300">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-violet-600 flex items-center justify-center text-white shadow-md shadow-cyan-500/20 transition-transform group-hover:scale-105 duration-300">
             <Terminal size={16} />
           </div>
           <span className="relative overflow-hidden block">
@@ -85,10 +85,10 @@ export default function Navbar() {
               key={link.nameKey}
               to={link.href}
               className={({ isActive }) => 
-                `px-4 py-2 text-xs font-bold rounded-full transition-all duration-300 ${
+                `px-4 py-2 text-xs font-bold rounded-full transition-all duration-300 border border-transparent ${
                   isActive 
-                    ? 'bg-primary text-white shadow-md shadow-primary/20' 
-                    : 'text-[#4B5563] dark:text-[#D1D5DB] hover:text-[#09090B] dark:hover:text-white hover:bg-bg-card-hover/40'
+                    ? 'bg-gradient-to-r from-cyan-500 to-violet-600 text-white shadow-md shadow-cyan-500/20' 
+                    : 'text-text-muted hover:text-text-title hover:bg-cyan-500/10 hover:shadow-[0_0_15px_rgba(6,182,212,0.15)] hover:border-cyan-500/20'
                 }`
               }
             >
@@ -128,7 +128,7 @@ export default function Navbar() {
 
           <Link
             to="/contact"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary hover:bg-primary-hover text-white text-xs font-bold shadow-md shadow-primary/20 hover:shadow-primary/35 transition-all duration-300 group"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white text-xs font-bold shadow-md shadow-cyan-500/25 hover:shadow-cyan-400/40 hover:scale-105 active:scale-95 transition-all duration-300 group"
           >
             {t('navbar.hireMe')}
           </Link>
@@ -186,8 +186,8 @@ export default function Navbar() {
                   className={({ isActive }) => 
                     `text-base font-bold py-2.5 px-4 rounded-xl transition-all duration-300 text-left ${
                       isActive 
-                        ? 'bg-primary text-white shadow-md shadow-primary/20' 
-                        : 'text-[#4B5563] dark:text-[#D1D5DB] hover:text-[#09090B] dark:hover:text-white hover:bg-bg-card-hover/40'
+                        ? 'bg-gradient-to-r from-cyan-500 to-violet-600 text-white shadow-md shadow-cyan-500/20' 
+                        : 'text-text-muted hover:text-text-title hover:bg-cyan-500/10'
                     }`
                   }
                 >
@@ -198,7 +198,7 @@ export default function Navbar() {
             <Link
               to="/contact"
               onClick={() => setIsOpen(false)}
-              className="mt-auto w-full py-3.5 text-center rounded-xl bg-primary hover:bg-primary-hover text-white font-bold flex items-center justify-center gap-2 transition-all duration-300"
+              className="mt-auto w-full py-3.5 text-center rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white font-bold flex items-center justify-center gap-2 hover:scale-[1.02] transition-all duration-300"
             >
               {t('navbar.getInTouch')}
             </Link>

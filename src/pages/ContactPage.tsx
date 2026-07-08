@@ -96,7 +96,7 @@ export default function ContactPage() {
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
@@ -138,14 +138,14 @@ export default function ContactPage() {
                     href={info.url}
                     target="_blank"
                     rel="noreferrer"
-                    className={`flex items-center gap-4 p-4 rounded-xl border border-border-dark bg-bg-card text-text-muted transition-all duration-300 group shadow-sm ${info.color} ${info.textCol}`}
+                    className={`flex items-center gap-4 p-4 rounded-xl glass-card text-text-muted transition-all duration-300 group shadow-sm ${info.color} ${info.textCol}`}
                   >
-                    <div className="p-2.5 rounded-lg bg-bg-dark border border-border-dark/60 transition-transform group-hover:scale-105 duration-200">
+                    <div className="p-2.5 rounded-lg bg-bg-dark/50 border border-border-dark/30 transition-transform group-hover:scale-105 duration-200">
                       {info.icon}
                     </div>
                     <div>
                       <span className="text-[9px] text-text-muted font-bold uppercase tracking-wider block">{info.name}</span>
-                      <span className="text-xs font-bold text-text-title group-hover:text-primary transition-colors font-mono">{info.value}</span>
+                      <span className="text-xs font-bold text-text-title group-hover:text-cyan-400 transition-colors font-mono">{info.value}</span>
                     </div>
                   </a>
                 ))}
@@ -155,7 +155,7 @@ export default function ContactPage() {
 
           {/* Right Column: Dynamic Form */}
           <div className="lg:col-span-7">
-            <div className="p-6 md:p-8 rounded-2xl border border-border-dark bg-bg-card flex flex-col shadow-sm relative text-left">
+            <div className="p-6 md:p-8 rounded-2xl glass-card flex flex-col shadow-sm relative text-left hover:border-cyan-500/10">
               
               <AnimatePresence mode="wait">
                 {status === 'success' ? (
@@ -199,7 +199,7 @@ export default function ContactPage() {
                         id="name"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className={`w-full px-4 py-3 rounded-xl bg-bg-darkest border text-xs text-text-title focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all ${
+                        className={`w-full px-4 py-3 rounded-xl bg-bg-darkest/60 border text-xs text-text-title focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all ${
                           errors.name ? 'border-red-500/50 focus:ring-red-500' : 'border-border-dark'
                         }`}
                         placeholder="John Doe"
@@ -223,7 +223,7 @@ export default function ContactPage() {
                         id="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className={`w-full px-4 py-3 rounded-xl bg-bg-darkest border text-xs text-text-title focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all ${
+                        className={`w-full px-4 py-3 rounded-xl bg-bg-darkest/60 border text-xs text-text-title focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all ${
                           errors.email ? 'border-red-500/50 focus:ring-red-500' : 'border-border-dark'
                         }`}
                         placeholder="john@example.com"
@@ -247,7 +247,7 @@ export default function ContactPage() {
                         rows={5}
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        className={`w-full px-4 py-3 rounded-xl bg-bg-darkest border text-xs text-text-title focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all resize-none ${
+                        className={`w-full px-4 py-3 rounded-xl bg-bg-darkest/60 border text-xs text-text-title focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all resize-none ${
                           errors.message ? 'border-red-500/50 focus:ring-red-500' : 'border-border-dark'
                         }`}
                         placeholder={t('contact.formPlaceholderMessage') || "Describe your project details..."}
@@ -264,7 +264,7 @@ export default function ContactPage() {
                     <button
                       type="submit"
                       disabled={status === 'submitting'}
-                      className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-primary hover:bg-primary-hover disabled:bg-primary/50 text-white font-semibold text-xs shadow-md transition-colors cursor-pointer"
+                      className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 disabled:from-cyan-500/50 disabled:to-violet-600/50 text-white font-bold text-xs shadow-lg shadow-cyan-500/20 hover:shadow-cyan-400/30 hover:scale-[1.02] active:scale-95 transition-all duration-300 cursor-pointer"
                     >
                       {status === 'submitting' ? (
                         <>

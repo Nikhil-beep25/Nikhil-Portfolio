@@ -34,15 +34,15 @@ function AppContent() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-bg-darkest text-text-main selection:bg-primary/30 selection:text-primary-light flex flex-col justify-between">
+    <div className="relative min-h-screen bg-bg-darkest text-text-main selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col justify-between">
       {/* Dynamic SEO Tag & JSON-LD Manager */}
       <SEO />
       
       {/* Cursor Glow Overlay */}
       <div 
-        className="pointer-events-none fixed inset-0 z-30 transition duration-200 opacity-50 hidden md:block"
+        className="pointer-events-none fixed inset-0 z-30 transition duration-200 opacity-60 hidden md:block"
         style={{
-          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(124, 58, 237, 0.08), transparent 80%)`
+          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(6, 182, 212, 0.12), rgba(124, 58, 237, 0.06), transparent 80%)`
         }}
       />
 

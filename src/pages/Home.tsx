@@ -48,8 +48,8 @@ export default function Home() {
       transition={{ duration: 0.5 }}
     >
       {/* Background gradients */}
-      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-10 right-1/4 w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-10 right-1/4 w-[500px] h-[500px] bg-violet-600/10 rounded-full blur-[110px] pointer-events-none" />
       
       {/* Grid overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.006)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.006)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
@@ -77,7 +77,7 @@ export default function Home() {
             variants={itemVariants}
             className="text-5xl md:text-7xl font-extrabold font-display leading-[1.1] mb-6 text-text-title tracking-tight"
           >
-            {t('hero.titleName')} <span className="text-gradient-purple">{t('hero.titleLastName')}</span>
+            {t('hero.titleName')} <span className="text-gradient-premium">{t('hero.titleLastName')}</span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -85,8 +85,8 @@ export default function Home() {
             variants={itemVariants}
             className="text-lg md:text-xl font-bold text-text-muted font-sans tracking-wide mb-6 flex flex-wrap justify-center lg:justify-start gap-x-3 divide-x divide-border-dark"
           >
-            <span className="text-primary-light">{t('hero.subtitle1')}</span>
-            <span className="pl-3 text-purple-400">{t('hero.subtitle2')}</span>
+            <span className="text-cyan-400">{t('hero.subtitle1')}</span>
+            <span className="pl-3 text-violet-400">{t('hero.subtitle2')}</span>
             <span className="pl-3 text-text-muted">{t('hero.subtitle3')}</span>
           </motion.h2>
 
@@ -105,7 +105,7 @@ export default function Home() {
           >
             <Link
               to="/projects"
-              className="flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-primary hover:bg-primary-hover text-white text-sm font-bold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 group"
+              className="flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white text-sm font-bold shadow-lg shadow-cyan-500/25 hover:shadow-cyan-400/40 hover:scale-105 active:scale-95 transition-all duration-300 group"
             >
               {t('hero.viewProjects')}
               <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
@@ -113,9 +113,9 @@ export default function Home() {
 
             <Link
               to="/about"
-              className="flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-bg-card hover:bg-bg-card-hover text-text-title border border-border-dark hover:border-primary/20 text-sm font-bold transition-all duration-300"
+              className="flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl glass hover:bg-bg-card-hover text-text-title border border-border-dark hover:border-cyan-500/30 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)] text-sm font-bold hover:scale-105 active:scale-95 transition-all duration-300"
             >
-              <FileText size={16} className="text-primary-light" />
+              <FileText size={16} className="text-cyan-400" />
               {t('hero.getResume')}
             </Link>
 
@@ -141,9 +141,9 @@ export default function Home() {
             
             {/* Center Core */}
             <motion.div 
-              className="absolute z-10 w-24 h-24 rounded-full bg-gradient-to-tr from-primary to-purple-500 flex items-center justify-center text-white shadow-[0_0_50px_rgba(124,58,237,0.3)] border border-white/20"
+              className="absolute z-10 w-24 h-24 rounded-full bg-gradient-to-tr from-cyan-500 to-violet-600 flex items-center justify-center text-white shadow-[0_0_50px_rgba(6,182,212,0.3)] border border-white/20"
               animate={{
-                boxShadow: ["0 0 40px rgba(124,58,237,0.25)", "0 0 60px rgba(124,58,237,0.45)", "0 0 40px rgba(124,58,237,0.25)"]
+                boxShadow: ["0 0 40px rgba(6,182,212,0.25)", "0 0 60px rgba(124, 58, 237, 0.35)", "0 0 40px rgba(6,182,212,0.25)"]
               }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
@@ -159,7 +159,7 @@ export default function Home() {
             >
               {/* Python Badge */}
               <div 
-                className="absolute -top-5 left-1/2 -translate-x-1/2 p-3 bg-bg-card hover:bg-bg-card-hover border border-border-dark hover:border-primary/50 rounded-xl text-yellow-500 shadow-lg cursor-pointer transition-colors duration-300"
+                className="absolute -top-5 left-1/2 -translate-x-1/2 p-3 bg-bg-card hover:bg-bg-card-hover border border-border-dark hover:border-cyan-500/50 rounded-xl text-yellow-500 shadow-lg cursor-pointer transition-colors duration-300"
                 style={{ transform: 'rotate(-360deg)' }}
                 title="Python"
               >
@@ -168,7 +168,7 @@ export default function Home() {
               
               {/* React Badge */}
               <div 
-                className="absolute -bottom-5 left-1/2 -translate-x-1/2 p-3 bg-bg-card hover:bg-bg-card-hover border border-border-dark hover:border-primary/50 rounded-xl text-blue-400 shadow-lg cursor-pointer transition-colors duration-300"
+                className="absolute -bottom-5 left-1/2 -translate-x-1/2 p-3 bg-bg-card hover:bg-bg-card-hover border border-border-dark hover:border-cyan-500/50 rounded-xl text-blue-400 shadow-lg cursor-pointer transition-colors duration-300"
                 style={{ transform: 'rotate(-360deg)' }}
                 title="React"
               >
@@ -185,7 +185,7 @@ export default function Home() {
             >
               {/* Node.js Badge */}
               <div 
-                className="absolute top-1/2 -left-5 -translate-y-1/2 p-3 bg-bg-card hover:bg-bg-card-hover border border-border-dark hover:border-primary/50 rounded-xl text-green-500 shadow-lg cursor-pointer transition-colors duration-300"
+                className="absolute top-1/2 -left-5 -translate-y-1/2 p-3 bg-bg-card hover:bg-bg-card-hover border border-border-dark hover:border-cyan-500/50 rounded-xl text-green-500 shadow-lg cursor-pointer transition-colors duration-300"
                 title="Node.js"
               >
                 <FaNodeJs size={22} />
@@ -193,7 +193,7 @@ export default function Home() {
               
               {/* PostgreSQL Badge */}
               <div 
-                className="absolute top-1/2 -right-5 -translate-y-1/2 p-3 bg-bg-card hover:bg-bg-card-hover border border-border-dark hover:border-primary/50 rounded-xl text-blue-500 shadow-lg cursor-pointer transition-colors duration-300"
+                className="absolute top-1/2 -right-5 -translate-y-1/2 p-3 bg-bg-card hover:bg-bg-card-hover border border-border-dark hover:border-cyan-500/50 rounded-xl text-blue-500 shadow-lg cursor-pointer transition-colors duration-300"
                 title="PostgreSQL"
               >
                 <SiPostgresql size={22} />
@@ -221,7 +221,7 @@ export default function Home() {
               className="absolute top-1/2 -translate-y-12 right-12 bg-bg-card/90 hover:bg-bg-card-hover border border-border-dark p-2.5 rounded-lg text-text-muted flex items-center gap-1.5 text-xs font-semibold cursor-pointer shadow-md"
               animate={floatAnimation(2.2)}
             >
-              <Layers className="text-purple-400" size={13} />
+              <Layers className="text-violet-400" size={13} />
               SaaS
             </motion.div>
           </div>
@@ -237,7 +237,7 @@ export default function Home() {
           }}
           transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <div className="w-1 h-1.5 rounded-full bg-primary-light" />
+          <div className="w-1 h-1.5 rounded-full bg-cyan-400" />
         </motion.div>
       </div>
     </motion.div>

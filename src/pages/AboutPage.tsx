@@ -49,22 +49,22 @@ export default function AboutPage() {
 
   const coreFocus = [
     {
-      icon: <Code2 size={24} className="text-purple-400" />,
+      icon: <Code2 size={24} className="text-cyan-400" />,
       titleKey: "about.focusPython",
       descKey: "about.focusPythonDesc"
     },
     {
-      icon: <Server size={24} className="text-blue-400" />,
+      icon: <Server size={24} className="text-sky-400" />,
       titleKey: "about.focusFullStack",
       descKey: "about.focusFullStackDesc"
     },
     {
-      icon: <Database size={24} className="text-teal-400" />,
+      icon: <Database size={24} className="text-emerald-400" />,
       titleKey: "about.focusBackend",
       descKey: "about.focusBackendDesc"
     },
     {
-      icon: <Cloud size={24} className="text-indigo-400" />,
+      icon: <Cloud size={24} className="text-violet-400" />,
       titleKey: "about.focusDevOps",
       descKey: "about.focusDevOpsDesc"
     }
@@ -117,7 +117,7 @@ export default function AboutPage() {
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[350px] h-[350px] bg-primary/5 rounded-full blur-[90px] pointer-events-none" />
+      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
@@ -148,8 +148,8 @@ export default function AboutPage() {
             {/* Statistics Row */}
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-6 mt-10">
               {stats.map((stat, idx) => (
-                <div key={idx} className="p-4 rounded-xl bg-bg-card border border-border-dark flex flex-col justify-center shadow-sm">
-                  <span className="text-3xl md:text-4xl font-extrabold font-display text-text-title mb-1">
+                <div key={idx} className="p-4 rounded-xl glass-card flex flex-col justify-center shadow-sm hover:border-cyan-500/25">
+                  <span className="text-3xl md:text-4xl font-extrabold font-display text-text-title mb-1 text-gradient-premium">
                     <Counter value={stat.value} suffix={stat.suffix} />
                   </span>
                   <span className="text-[10px] text-text-muted font-bold uppercase tracking-wider">{t(stat.labelKey)}</span>
@@ -163,12 +163,12 @@ export default function AboutPage() {
             {coreFocus.map((focus, idx) => (
               <div 
                 key={idx} 
-                className="p-6 rounded-2xl bg-bg-card border border-border-dark hover:border-primary/20 hover:bg-bg-card-hover transition-all duration-300 group flex flex-col h-full shadow-sm"
+                className="p-6 rounded-2xl glass-card transition-all duration-300 group flex flex-col h-full shadow-sm hover:border-cyan-500/25"
               >
-                <div className="p-3 w-fit rounded-xl bg-bg-dark border border-border-dark mb-5 group-hover:bg-primary/10 group-hover:text-primary transition-all duration-300">
+                <div className="p-3 w-fit rounded-xl bg-bg-dark border border-border-dark mb-5 group-hover:bg-cyan-500/10 group-hover:text-cyan-400 group-hover:border-cyan-500/20 transition-all duration-300">
                   {focus.icon}
                 </div>
-                <h5 className="text-base font-bold text-text-title mb-2 font-display group-hover:text-primary transition-colors duration-300">
+                <h5 className="text-base font-bold text-text-title mb-2 font-display group-hover:text-cyan-400 transition-colors duration-300">
                   {t(focus.titleKey)}
                 </h5>
                 <p className="text-xs text-text-muted leading-relaxed mt-auto">
@@ -197,7 +197,7 @@ export default function AboutPage() {
               <div className="flex flex-wrap gap-4">
                 <button
                   onClick={() => setShowModal(true)}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-md shadow-primary/25 hover:shadow-primary/45 transition-all duration-300 cursor-pointer"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white text-xs font-semibold shadow-md shadow-cyan-500/25 hover:shadow-cyan-400/45 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
                 >
                   <Eye size={14} />
                   {i18n.language === 'en' ? "View Full Resume" : "पूरा रिज्यूमे देखें"}
@@ -205,7 +205,7 @@ export default function AboutPage() {
 
                 <a
                   href="/contact"
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-bg-card hover:bg-bg-card-hover text-text-title text-xs font-semibold border border-border-dark hover:border-primary/20 transition-all duration-300"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl glass hover:bg-bg-card-hover text-text-title text-xs font-semibold border border-border-dark hover:border-cyan-500/20 hover:scale-105 active:scale-95 transition-all duration-300"
                 >
                   <Download size={14} />
                   {i18n.language === 'en' ? "Download PDF Resume" : "पीडीएफ रिज्यूमे डाउनलोड करें"}
@@ -216,17 +216,17 @@ export default function AboutPage() {
             {/* Right Resume tilted visual */}
             <div className="lg:col-span-5 flex justify-center">
               <motion.div 
-                className="relative w-64 h-80 rounded-xl bg-bg-card border border-border-dark p-5 shadow-2xl flex flex-col justify-between overflow-hidden cursor-pointer select-none"
+                className="relative w-64 h-80 rounded-xl glass-card p-5 shadow-2xl flex flex-col justify-between overflow-hidden cursor-pointer select-none"
                 style={{ perspective: 1000 }}
                 whileHover={{ 
                   rotateY: -12, 
                   rotateX: 8, 
                   scale: 1.03,
-                  borderColor: "rgba(124,58,237,0.3)"
+                  borderColor: "rgba(6,182,212,0.4)"
                 }}
                 onClick={() => setShowModal(true)}
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none" />
                 
                 <div className="space-y-3.5 text-left">
                   <div className="flex justify-between items-start">
@@ -234,7 +234,7 @@ export default function AboutPage() {
                       <div className="w-24 h-3 bg-text-title/80 rounded" />
                       <div className="w-16 h-2 bg-text-muted/60 rounded mt-1.5" />
                     </div>
-                    <FileText className="text-primary-light" size={20} />
+                    <FileText className="text-cyan-400" size={20} />
                   </div>
 
                   <div className="border-t border-border-dark pt-3 space-y-2.5">
@@ -254,7 +254,7 @@ export default function AboutPage() {
 
                 <div className="flex items-center justify-between border-t border-border-dark pt-3 text-left">
                   <div className="w-20 h-2 bg-text-muted/30 rounded" />
-                  <span className="text-[8px] font-bold text-primary-light uppercase tracking-wider">
+                  <span className="text-[8px] font-bold text-cyan-400 uppercase tracking-wider">
                     {i18n.language === 'en' ? "Preview CV" : "पूर्वावलोकन"}
                   </span>
                 </div>

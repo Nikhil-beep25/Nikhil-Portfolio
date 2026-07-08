@@ -56,7 +56,7 @@ export default function SkillsPage() {
       skills: [
         { name: "Node.js", icon: <FaNodeJs className="text-[#339933]" /> },
         { name: "Express.js", icon: <SiExpress className="text-text-title" /> },
-        { name: "REST APIs", icon: <Braces className="text-purple-400" /> },
+        { name: "REST APIs", icon: <Braces className="text-cyan-400" /> },
       ]
     },
     {
@@ -112,7 +112,7 @@ export default function SkillsPage() {
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[450px] h-[450px] bg-primary/5 rounded-full blur-[110px] pointer-events-none" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
@@ -141,7 +141,7 @@ export default function SkillsPage() {
             <motion.div
               key={idx}
               variants={cardVariants}
-              className={`group flex flex-col p-6 rounded-2xl bg-bg-card border border-border-dark hover:bg-bg-card-hover transition-all duration-300 hover:border-primary/20 ${category.glowColor} hover:shadow-lg shadow-sm`}
+              className="group flex flex-col p-6 rounded-2xl glass-card transition-all duration-300 hover:border-cyan-500/25 hover:shadow-[0_0_30px_rgba(6,182,212,0.08),0_0_60px_rgba(124,58,237,0.05)] shadow-sm"
             >
               {/* Category Header */}
               <div className="flex items-center gap-2.5 pb-4 mb-5 border-b border-border-dark">
@@ -158,13 +158,13 @@ export default function SkillsPage() {
                 {category.skills.map((skill, sIdx) => (
                   <motion.div
                     key={sIdx}
-                    className="flex items-center gap-3 p-2 rounded-xl bg-bg-dark border border-border-dark/50 hover:bg-bg-card hover:border-border-dark transition-all duration-200 group/item cursor-default shadow-sm"
+                    className="flex items-center gap-3 p-2 rounded-xl bg-bg-dark/40 border border-border-dark/30 hover:bg-cyan-500/5 hover:border-cyan-500/20 transition-all duration-200 group/item cursor-default shadow-sm"
                     whileHover={{ x: 4 }}
                   >
                     <span className="text-lg flex items-center justify-center transition-transform duration-300 group-hover/item:scale-110">
                       {skill.icon}
                     </span>
-                    <span className="text-xs font-bold text-text-muted group-hover/item:text-text-title transition-colors duration-200">
+                    <span className="text-xs font-bold text-text-muted group-hover/item:text-cyan-400 transition-colors duration-200">
                       {skill.name}
                     </span>
                   </motion.div>

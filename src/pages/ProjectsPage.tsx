@@ -20,7 +20,7 @@ export default function ProjectsPage() {
 
   const features = [
     { 
-      icon: <Users size={18} className="text-purple-400" />, 
+      icon: <Users size={18} className="text-cyan-400" />, 
       title: t('projects.featDashboards'), 
       desc: t('projects.featDashboardsDesc') 
     },
@@ -59,7 +59,7 @@ export default function ProjectsPage() {
       desc: i18n.language === 'en' 
         ? "Hosts the React & TypeScript SPA. Auto-builds from main branch and distributes assets via Edge CDN for sub-100ms loading speeds."
         : "रिएक्ट और टाइपस्क्रिप्ट एसपीए होस्ट करता है। मुख्य शाखा से ऑटो-बिल्ड और 100ms से कम समय में लोड होने के लिए एज सीडीएन द्वारा वितरित किया जाता है।",
-      badgeColor: "bg-black text-white"
+      badgeColor: "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
     },
     {
       platform: "Render",
@@ -67,7 +67,7 @@ export default function ProjectsPage() {
       desc: i18n.language === 'en'
         ? "Deploys the clustered Express.js REST API inside Docker containers. Configured auto-scaling triggers behind an HTTPS reverse proxy."
         : "डॉक कंटेनरों के अंदर क्लस्टर्ड एक्सप्रेस.जेएस रेस्ट एपीआई तैनात करता है। एक सुरक्षित एचटीटीपीएस रिवर्स प्रॉक्सी के साथ ऑटो-स्केलिंग ट्रिगर्स कॉन्फ़िगर किए गए हैं।",
-      badgeColor: "bg-indigo-600 text-white"
+      badgeColor: "bg-violet-500/10 text-violet-400 border border-violet-500/20"
     },
     {
       platform: "Neon Database",
@@ -75,7 +75,7 @@ export default function ProjectsPage() {
       desc: i18n.language === 'en'
         ? "Neon Serverless PostgreSQL database. Utilizes connection pooling, query indexing, and instant schema branching for reliable production data storage."
         : "नियॉन सर्वरलेस पोस्टग्रेएसक्यूएल डेटाबेस। विश्वसनीय डेटा स्टोरेज के लिए कनेक्शन पूलिंग, क्वेरी इंडेक्सिंग और स्कीमा ब्रांचिंग का उपयोग करता है।",
-      badgeColor: "bg-emerald-600 text-white"
+      badgeColor: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
     }
   ];
 
@@ -87,7 +87,7 @@ export default function ProjectsPage() {
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="absolute top-1/4 left-10 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/4 left-10 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
@@ -112,7 +112,7 @@ export default function ProjectsPage() {
             <div>
               <div className="inline-flex gap-2 mb-4">
                 {["React", "Node.js", "PostgreSQL", "Prisma"].map((tech) => (
-                  <span key={tech} className="px-2.5 py-1 rounded-md bg-bg-card text-text-muted text-xs font-semibold border border-border-dark">
+                  <span key={tech} className="px-2.5 py-1 rounded-md glass-card text-text-muted text-xs font-semibold hover:border-cyan-500/25">
                     {tech}
                   </span>
                 ))}
@@ -128,7 +128,7 @@ export default function ProjectsPage() {
             {/* Features Row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {features.map((feat, idx) => (
-                <div key={idx} className="p-4 rounded-xl bg-bg-card border border-border-dark flex gap-3 shadow-sm">
+                <div key={idx} className="p-4 rounded-xl glass-card flex gap-3 shadow-sm hover:border-cyan-500/25">
                   <div className="p-2 h-fit rounded-lg bg-bg-dark border border-border-dark/60">
                     {feat.icon}
                   </div>
@@ -143,8 +143,8 @@ export default function ProjectsPage() {
             {/* Metrics */}
             <div className="grid grid-cols-2 gap-4">
               {metrics.map((metric, idx) => (
-                <div key={idx} className="p-4 rounded-xl bg-primary/5 border border-primary/10 flex flex-col shadow-sm">
-                  <span className="text-2xl font-extrabold text-primary-light font-display">{metric.value}</span>
+                <div key={idx} className="p-4 rounded-xl glass-card border border-cyan-500/10 flex flex-col shadow-sm hover:border-cyan-500/25 hover:shadow-[0_0_15px_rgba(6,182,212,0.05)]">
+                  <span className="text-2xl font-extrabold text-cyan-400 font-display">{metric.value}</span>
                   <span className="text-[10px] font-bold text-text-title mb-0.5">{metric.label}</span>
                   <span className="text-[9px] text-text-muted">{metric.desc}</span>
                 </div>
@@ -157,7 +157,7 @@ export default function ProjectsPage() {
                 href="https://github.com/Nikhil-beep25"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white text-xs font-bold shadow-md transition-colors"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white text-xs font-bold shadow-md shadow-cyan-500/20 hover:scale-105 active:scale-95 transition-all duration-300"
               >
                 {t('projects.demoRequest')}
                 <ExternalLink size={14} />
@@ -166,7 +166,7 @@ export default function ProjectsPage() {
                 href="https://github.com/Nikhil-beep25"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-bg-card hover:bg-bg-card-hover text-text-title text-xs font-bold border border-border-dark transition-colors"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-lg glass hover:bg-bg-card-hover text-text-title text-xs font-bold border border-border-dark hover:scale-105 active:scale-95 transition-all duration-300"
               >
                 <FaGithub size={14} />
                 {t('projects.repo')}
@@ -187,10 +187,10 @@ export default function ProjectsPage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+                  className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg transition-all border cursor-pointer ${
                     activeTab === tab.id 
-                      ? 'bg-primary/20 border border-primary/30 text-text-title shadow-sm' 
-                      : 'text-text-muted hover:text-text-title hover:bg-bg-card-hover border border-transparent'
+                      ? 'bg-gradient-to-r from-cyan-500 to-violet-600 border-cyan-500/20 text-white shadow-md shadow-cyan-500/15' 
+                      : 'text-text-muted hover:text-text-title hover:bg-cyan-500/10 hover:border-cyan-500/20 border-transparent'
                   }`}
                 >
                   {tab.icon}
@@ -200,7 +200,7 @@ export default function ProjectsPage() {
             </div>
 
             {/* Tab content panel */}
-            <div className="glass-card rounded-2xl overflow-hidden border border-border-dark min-h-[380px] bg-bg-card/40">
+            <div className="glass-card rounded-2xl overflow-hidden border border-border-dark min-h-[380px]">
               <AnimatePresence mode="wait">
                 
                 {/* 1. Dashboard Preview */}
@@ -219,7 +219,7 @@ export default function ProjectsPage() {
                         <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
                         <span className="text-[10px] font-bold text-text-muted font-mono ml-2 uppercase">VidyaSanchar Hub v1.0</span>
                       </div>
-                      <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-600 dark:text-purple-300 text-[10px] font-bold">Admin Portal</span>
+                      <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-700 dark:text-cyan-300 text-[10px] font-bold">Admin Portal</span>
                     </div>
 
                     <div className="grid grid-cols-12 gap-4 text-left">
@@ -229,7 +229,7 @@ export default function ProjectsPage() {
                           <div 
                             key={item} 
                             className={`px-3 py-1.5 rounded-md text-[11px] font-semibold flex items-center justify-between ${
-                              idx === 0 ? 'bg-primary/10 text-primary border border-primary/20' : 'text-text-muted hover:text-text-title'
+                              idx === 0 ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20' : 'text-text-muted hover:text-text-title'
                             }`}
                           >
                             {item}
@@ -270,7 +270,7 @@ export default function ProjectsPage() {
                               <div key={i} className="flex flex-col items-center gap-1.5 w-1/8">
                                 <div className="w-full bg-border-dark rounded-t-sm h-24 flex items-end">
                                   <div 
-                                    className="w-full bg-gradient-to-t from-primary to-purple-400 rounded-t-sm"
+                                    className="w-full bg-gradient-to-t from-cyan-500 to-violet-600 rounded-t-sm"
                                     style={{ height: bar.h }}
                                   />
                                 </div>
@@ -317,8 +317,8 @@ export default function ProjectsPage() {
                           <span>HTTPS REST</span>
                         </div>
 
-                        <div className="p-4 rounded-xl bg-purple-500/5 border border-primary/20 flex flex-col items-center w-36 text-center shadow-sm bg-bg-card">
-                          <Server className="text-primary mb-2" size={20} />
+                        <div className="p-4 rounded-xl bg-violet-500/5 border border-violet-500/20 flex flex-col items-center w-36 text-center shadow-sm bg-bg-card">
+                          <Server className="text-violet-400 mb-2" size={20} />
                           <span className="text-xs font-bold text-text-title">Express API</span>
                           <span className="text-[9px] text-text-muted mt-1">Node.js clustered</span>
                         </div>
@@ -363,7 +363,7 @@ export default function ProjectsPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       {deploymentSteps.map((d, i) => (
-                        <div key={i} className="p-4 rounded-xl bg-bg-card border border-border-dark flex flex-col h-full justify-between shadow-sm">
+                        <div key={i} className="p-4 rounded-xl glass-card flex flex-col h-full justify-between shadow-sm hover:border-cyan-500/25">
                           <div>
                             <div className="flex items-center justify-between mb-3">
                               <span className="text-sm font-extrabold text-text-title font-display">{d.platform}</span>

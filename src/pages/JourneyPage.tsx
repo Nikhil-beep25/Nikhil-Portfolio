@@ -118,7 +118,7 @@ export default function JourneyPage() {
   const githubStats = [
     { label: i18n.language === 'en' ? "Total Contributions" : "कुल योगदान", value: "1,842", icon: <Activity className="text-emerald-400" size={16} /> },
     { label: i18n.language === 'en' ? "Stars Earned" : "अर्जित सितारे", value: "86", icon: <FaStar className="text-yellow-400" size={16} /> },
-    { label: i18n.language === 'en' ? "Merged PRs" : "मर्ज की गई पीआर", value: "142", icon: <GitPullRequest className="text-purple-400" size={16} /> },
+    { label: i18n.language === 'en' ? "Merged PRs" : "मर्ज की गई पीआर", value: "142", icon: <GitPullRequest className="text-violet-400" size={16} /> },
     { label: i18n.language === 'en' ? "Repositories" : "रिपॉजिटरी", value: "32", icon: <Award className="text-sky-400" size={16} /> },
   ];
 
@@ -168,11 +168,11 @@ export default function JourneyPage() {
   const { grid } = generateGrid();
 
   const getCellColor = (count: number) => {
-    if (count === 0) return 'bg-[#161b22] border-transparent';
-    if (count <= 2) return 'bg-[#0e4429] border-[#0e4429]/50';
-    if (count <= 4) return 'bg-[#006d32] border-[#006d32]/50';
-    if (count <= 6) return 'bg-[#26a641] border-[#26a641]/50';
-    return 'bg-[#39d353] border-[#39d353]/50';
+    if (count === 0) return 'bg-[#1e293b]/40 border-transparent';
+    if (count <= 2) return 'bg-cyan-950/40 border-cyan-900/30';
+    if (count <= 4) return 'bg-cyan-800/40 border-cyan-700/30';
+    if (count <= 6) return 'bg-cyan-600/40 border-cyan-500/30';
+    return 'bg-cyan-400/60 border-cyan-300/40 shadow-[0_0_8px_rgba(6,182,212,0.15)]';
   };
 
   return (
@@ -183,7 +183,7 @@ export default function JourneyPage() {
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[350px] h-[350px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
@@ -204,7 +204,7 @@ export default function JourneyPage() {
         <div ref={containerRef} className="relative max-w-4xl mx-auto mb-28">
           <div className="absolute left-4 md:left-1/2 top-2 bottom-2 w-0.5 bg-border-dark pointer-events-none -translate-x-1/2" />
           <motion.div 
-            className="absolute left-4 md:left-1/2 top-2 bottom-2 w-0.5 bg-gradient-to-b from-primary via-purple-500 to-primary-light -translate-x-1/2 origin-top pointer-events-none"
+            className="absolute left-4 md:left-1/2 top-2 bottom-2 w-0.5 bg-gradient-to-b from-cyan-500 via-blue-500 to-violet-600 -translate-x-1/2 origin-top pointer-events-none"
             style={{ scaleY }}
           />
 
@@ -249,7 +249,7 @@ export default function JourneyPage() {
                     <motion.div 
                       className="w-8 h-8 rounded-lg bg-bg-card border-2 border-border-dark flex items-center justify-center text-text-title shadow-md"
                       whileInView={{ 
-                        borderColor: "rgba(124,58,237,0.5)",
+                        borderColor: "rgba(6,182,212,0.5)",
                         scale: 1.05
                       }}
                       viewport={{ once: true }}
@@ -310,7 +310,7 @@ export default function JourneyPage() {
             <div className="lg:col-span-7 space-y-6 text-left">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {githubStats.map((stat, idx) => (
-                  <div key={idx} className="p-4 rounded-xl bg-bg-card border border-border-dark flex flex-col justify-between shadow-sm">
+                  <div key={idx} className="p-4 rounded-xl glass-card flex flex-col justify-between shadow-sm hover:border-cyan-500/25">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-[9px] text-text-muted font-bold uppercase tracking-wider">{stat.label}</span>
                       {stat.icon}
@@ -335,12 +335,12 @@ export default function JourneyPage() {
                       href={repo.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="p-5 rounded-2xl border border-border-dark bg-bg-card hover:border-primary/20 hover:bg-bg-card-hover transition-all duration-300 flex flex-col justify-between group h-full shadow-sm"
+                      className="p-5 rounded-2xl border border-border-dark glass-card hover:border-cyan-500/25 hover:bg-bg-card-hover/20 transition-all duration-300 flex flex-col justify-between group h-full shadow-sm"
                     >
                       <div>
                         <div className="flex items-center gap-2 mb-3">
-                          <Terminal size={14} className="text-text-muted group-hover:text-primary transition-colors" />
-                          <span className="text-xs font-bold text-text-title group-hover:text-primary transition-colors font-mono">{repo.name}</span>
+                          <Terminal size={14} className="text-text-muted group-hover:text-cyan-400 transition-colors" />
+                          <span className="text-xs font-bold text-text-title group-hover:text-cyan-400 transition-colors font-mono">{repo.name}</span>
                         </div>
                         <p className="text-[11px] text-text-muted leading-relaxed mb-6">
                           {repo.desc}
@@ -371,7 +371,7 @@ export default function JourneyPage() {
 
             {/* Custom contribution graph */}
             <div className="lg:col-span-5 h-full">
-              <div className="p-6 rounded-2xl border border-border-dark bg-bg-card flex flex-col justify-between h-full shadow-sm text-left">
+              <div className="p-6 rounded-2xl glass-card flex flex-col justify-between h-full shadow-sm text-left hover:border-cyan-500/25">
                 <div className="flex items-center justify-between mb-6 pb-4 border-b border-border-dark">
                   <div className="flex items-center gap-2.5">
                     <FaGithub size={18} className="text-text-muted" />
@@ -445,11 +445,11 @@ export default function JourneyPage() {
                 <div className="flex items-center justify-between text-[8px] font-bold text-text-muted uppercase tracking-wider font-mono mt-4 pt-4 border-t border-border-dark">
                   <span>Less</span>
                   <div className="flex gap-1">
-                    <span className="w-2.5 h-2.5 rounded-[1px] bg-[#161b22]" />
-                    <span className="w-2.5 h-2.5 rounded-[1px] bg-[#0e4429]" />
-                    <span className="w-2.5 h-2.5 rounded-[1px] bg-[#006d32]" />
-                    <span className="w-2.5 h-2.5 rounded-[1px] bg-[#26a641]" />
-                    <span className="w-2.5 h-2.5 rounded-[1px] bg-[#39d353]" />
+                    <span className="w-2.5 h-2.5 rounded-[1px] bg-[#1e293b]/40 border border-transparent" />
+                    <span className="w-2.5 h-2.5 rounded-[1px] bg-cyan-950/40 border border-cyan-900/30" />
+                    <span className="w-2.5 h-2.5 rounded-[1px] bg-cyan-800/40 border border-cyan-700/30" />
+                    <span className="w-2.5 h-2.5 rounded-[1px] bg-cyan-600/40 border border-cyan-500/30" />
+                    <span className="w-2.5 h-2.5 rounded-[1px] bg-cyan-400/60 border border-cyan-300/40 shadow-[0_0_8px_rgba(6,182,212,0.15)]" />
                   </div>
                   <span>More</span>
                 </div>

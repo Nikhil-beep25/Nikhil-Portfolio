@@ -25,7 +25,7 @@ export default function Footer() {
             to="/" 
             className="flex items-center gap-2 font-display text-lg font-bold tracking-tight text-text-title group"
           >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary to-purple-400 flex items-center justify-center text-white shadow-md shadow-primary/20 transition-transform group-hover:scale-105 duration-300">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-violet-600 flex items-center justify-center text-white shadow-md shadow-cyan-500/20 transition-transform group-hover:scale-105 duration-300">
               <Terminal size={16} />
             </div>
             <span>Nikhil</span>
