@@ -217,7 +217,7 @@ export default function Home() {
             {/* Tech Name / Short Label */}
             <div className="mt-6 text-center">
               <span className="text-xs font-bold font-mono tracking-widest text-primary-light uppercase bg-primary/10 border border-primary/20 px-3 py-1 rounded-full">
-                SaaS Architect
+                Full Stack Developer
               </span>
             </div>
           </motion.div>

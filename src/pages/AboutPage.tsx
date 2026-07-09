@@ -41,10 +41,10 @@ export default function AboutPage() {
   const [showModal, setShowModal] = useState(false);
 
   const stats = [
-    { labelKey: 'about.statYears', value: 5, suffix: '+' },
-    { labelKey: 'about.statProjects', value: 15, suffix: '+' },
-    { labelKey: 'about.statTech', value: 20, suffix: '+' },
-    { labelKey: 'about.statRepos', value: 30, suffix: '+' },
+    { labelKey: 'about.statReposPublished', value: 2 as string | number, isNumeric: true },
+    { labelKey: 'about.statPortfolioProjects', value: 1 as string | number, isNumeric: true },
+    { labelKey: 'about.statCoreTech', value: 'React, TypeScript, Node.js, Python, PostgreSQL, Prisma' as string | number, isNumeric: false },
+    { labelKey: 'about.statOSJourney', value: 'Started 2026' as string | number, isNumeric: false },
   ];
 
   const coreFocus = [
@@ -109,11 +109,17 @@ export default function AboutPage() {
             </div>
 
             {/* Statistics Row */}
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-6 mt-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10">
               {stats.map((stat, idx) => (
-                <div key={idx} className="p-4 rounded-xl glass-card flex flex-col justify-center shadow-sm hover:border-cyan-500/25">
-                  <span className="text-3xl md:text-4xl font-extrabold font-display text-text-title mb-1 text-gradient-premium">
-                    <Counter value={stat.value} suffix={stat.suffix} />
+                <div key={idx} className="p-5 rounded-xl glass-card flex flex-col justify-center shadow-sm hover:border-cyan-500/25">
+                  <span className={`font-display text-text-title mb-1.5 text-gradient-premium ${
+                    stat.isNumeric ? 'text-3xl md:text-4xl font-extrabold' : 'text-xs sm:text-sm font-semibold'
+                  }`}>
+                    {stat.isNumeric ? (
+                      <Counter value={stat.value as number} />
+                    ) : (
+                      stat.value as string
+                    )}
                   </span>
                   <span className="text-[10px] text-text-muted font-bold uppercase tracking-wider">{t(stat.labelKey)}</span>
                 </div>
@@ -392,9 +398,9 @@ export default function AboutPage() {
                     <Award size={12} className="text-primary-light" /> Achievements
                   </h3>
                   <ul className="list-disc pl-5 text-xs text-text-muted space-y-1">
-                    <li>Built multiple full-stack applications from scratch.</li>
-                    <li>Developed scalable REST APIs and database-driven systems.</li>
-                    <li>Created modern SaaS-style interfaces.</li>
+                    <li>Built a complete full-stack web application from scratch.</li>
+                    <li>Developed backend APIs and integrated database systems.</li>
+                    <li>Created clean, modern web interface implementations.</li>
                     <li>Continuously learning Python, MERN, and cloud technologies.</li>
                   </ul>
                 </div>

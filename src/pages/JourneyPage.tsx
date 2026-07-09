@@ -1,8 +1,10 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { FaGithub, FaStar, FaCodeBranch } from 'react-icons/fa';
-import { BookOpen, Terminal, Code2, Layers, Briefcase, Cloud, Compass, Globe, Activity, Award, GitPullRequest } from 'lucide-react';
+import { BookOpen, Terminal, Code2, Layers, Briefcase, Cloud, Compass, Globe, Award, ExternalLink } from 'lucide-react';
+import { fetchGitHubProfile } from '../services/githubService';
+import type { GitHubUserData, GitHubRepo } from '../services/githubService';
 
 interface Milestone {
   title: string;
@@ -12,20 +14,43 @@ interface Milestone {
   tags: string[];
 }
 
-interface Repo {
-  name: string;
-  desc: string;
-  stars: number;
-  forks: number;
-  language: string;
-  langColor: string;
-  url: string;
-}
+const getLangColorClass = (lang: string | null) => {
+  if (!lang) return 'bg-gray-500';
+  switch (lang.toLowerCase()) {
+    case 'typescript': return 'bg-blue-500';
+    case 'javascript': return 'bg-yellow-500';
+    case 'python': return 'bg-yellow-600';
+    case 'css': return 'bg-purple-500';
+    case 'html': return 'bg-orange-500';
+    default: return 'bg-cyan-500';
+  }
+};
 
 export default function JourneyPage() {
   const { t, i18n } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
-  const [hoveredCell, setHoveredCell] = useState<{ count: number; date: string } | null>(null);
+  const [githubData, setGithubData] = useState<{ user: GitHubUserData; repos: GitHubRepo[] } | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    fetchGitHubProfile()
+      .then(data => {
+        if (active) {
+          setGithubData(data);
+          setLoading(false);
+        }
+      })
+      .catch(err => {
+        if (active) {
+          console.error(err);
+          setError(err.message || 'Error fetching GitHub data');
+          setLoading(false);
+        }
+      });
+    return () => { active = false; };
+  }, []);
 
   // Track scroll for vertical timeline bar height
   const { scrollYProgress } = useScroll({
@@ -114,66 +139,7 @@ export default function JourneyPage() {
     }
   ];
 
-  // GitHub Stats
-  const githubStats = [
-    { label: i18n.language === 'en' ? "Total Contributions" : "कुल योगदान", value: "1,842", icon: <Activity className="text-emerald-400" size={16} /> },
-    { label: i18n.language === 'en' ? "Stars Earned" : "अर्जित सितारे", value: "86", icon: <FaStar className="text-yellow-400" size={16} /> },
-    { label: i18n.language === 'en' ? "Merged PRs" : "मर्ज की गई पीआर", value: "142", icon: <GitPullRequest className="text-secondary" size={16} /> },
-    { label: i18n.language === 'en' ? "Repositories" : "रिपॉजिटरी", value: "32", icon: <Award className="text-sky-400" size={16} /> },
-  ];
 
-  const featuredRepos: Repo[] = [
-    {
-      name: "vidyasanchar-core",
-      desc: "Robust full-stack school ERP backend architecture featuring processes for role validation, attendance tracking, and fee transactions.",
-      stars: 42,
-      forks: 14,
-      language: "TypeScript",
-      langColor: "bg-blue-500",
-      url: "https://github.com/Nikhil-beep25"
-    },
-    {
-      name: "saas-boilerplate-fastapi",
-      desc: "Production-ready SaaS template incorporating multi-tenant database separation, Redis task queuing with Celery, and custom Stripe integrations.",
-      stars: 28,
-      forks: 6,
-      language: "Python",
-      langColor: "bg-yellow-500",
-      url: "https://github.com/Nikhil-beep25"
-    }
-  ];
-
-  const generateGrid = () => {
-    const grid = [];
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    for (let day = 0; day < 7; day++) {
-      const row = [];
-      for (let week = 0; week < 24; week++) {
-        let count = 0;
-        const rand = Math.random();
-        if (day > 0 && day < 6) { 
-          if (rand > 0.85) count = Math.floor(Math.random() * 8) + 4;
-          else if (rand > 0.3) count = Math.floor(Math.random() * 4) + 1;
-        } else { 
-          if (rand > 0.8) count = Math.floor(Math.random() * 3) + 1;
-        }
-        const dateStr = `Week ${week + 1}, ${days[day]}`;
-        row.push({ count, date: dateStr });
-      }
-      grid.push(row);
-    }
-    return { grid };
-  };
-
-  const { grid } = generateGrid();
-
-  const getCellColor = (count: number) => {
-    if (count === 0) return 'bg-[#1e293b]/40 border-transparent';
-    if (count <= 2) return 'bg-cyan-950/40 border-cyan-900/30';
-    if (count <= 4) return 'bg-cyan-800/40 border-cyan-700/30';
-    if (count <= 6) return 'bg-cyan-600/40 border-cyan-500/30';
-    return 'bg-cyan-400/60 border-cyan-300/40 shadow-[0_0_8px_rgba(6,182,212,0.15)]';
-  };
 
   return (
     <motion.div 
@@ -301,161 +267,155 @@ export default function JourneyPage() {
               {i18n.language === 'en' ? "Open Source Activity" : "ओपन सोर्स गतिविधि"}
             </h3>
             <h2 className="text-2xl md:text-3xl font-bold font-display text-text-title tracking-tight">
-              {i18n.language === 'en' ? "Commit History & Public Contributions" : "कमिट इतिहास और सार्वजनिक योगदान"}
+              {i18n.language === 'en' ? "Verified GitHub Profile Data" : "सत्यापित गिटहब प्रोफ़ाइल डेटा"}
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Stats and repos */}
-            <div className="lg:col-span-7 space-y-6 text-left">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {githubStats.map((stat, idx) => (
-                  <div key={idx} className="p-4 rounded-xl glass-card flex flex-col justify-between shadow-sm hover:border-cyan-500/25">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-[9px] text-text-muted font-bold uppercase tracking-wider">{stat.label}</span>
-                      {stat.icon}
-                    </div>
-                    <div>
-                      <span className="text-xl font-bold text-text-title font-display block">{stat.value}</span>
-                    </div>
-                  </div>
-                ))}
+          {loading ? (
+            /* Skeleton Loader */
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch animate-pulse">
+              <div className="lg:col-span-4 p-6 rounded-2xl glass-card border border-border-dark/60 h-80 flex flex-col justify-between">
+                <div className="flex flex-col items-center text-center gap-4">
+                  <div className="w-24 h-24 rounded-full bg-border-dark" />
+                  <div className="h-4 bg-border-dark rounded w-3/4" />
+                  <div className="h-3 bg-border-dark rounded w-5/6" />
+                </div>
+                <div className="h-10 bg-border-dark rounded-xl w-full" />
               </div>
-
-              <div className="space-y-4">
-                <h4 className="text-base font-bold text-text-title font-display flex items-center gap-2">
-                  <Terminal size={16} className="text-primary-light" />
-                  {i18n.language === 'en' ? "Featured Repositories" : "विशेष रुप से प्रदर्शित रिपॉजिटरी"}
-                </h4>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {featuredRepos.map((repo, idx) => (
-                    <a 
-                      key={idx}
-                      href={repo.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="p-5 rounded-2xl border border-border-dark glass-card hover:border-cyan-500/25 hover:bg-bg-card-hover/20 transition-all duration-300 flex flex-col justify-between group h-full shadow-sm"
-                    >
-                      <div>
-                        <div className="flex items-center gap-2 mb-3">
-                          <Terminal size={14} className="text-text-muted group-hover:text-cyan-400 transition-colors" />
-                          <span className="text-xs font-bold text-text-title group-hover:text-cyan-400 transition-colors font-mono">{repo.name}</span>
-                        </div>
-                        <p className="text-[11px] text-text-muted leading-relaxed mb-6">
-                          {repo.desc}
-                        </p>
-                      </div>
-
-                      <div className="flex items-center justify-between text-[10px] text-text-muted font-semibold mt-auto pt-3 border-t border-border-dark">
-                        <div className="flex items-center gap-1.5">
-                          <span className={`w-2 h-2 rounded-full ${repo.langColor}`} />
-                          {repo.language}
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <span className="flex items-center gap-1 hover:text-text-title transition-colors">
-                            <FaStar size={11} />
-                            {repo.stars}
-                          </span>
-                          <span className="flex items-center gap-1 hover:text-text-title transition-colors">
-                            <FaCodeBranch size={11} />
-                            {repo.forks}
-                          </span>
-                        </div>
-                      </div>
-                    </a>
-                  ))}
+              <div className="lg:col-span-8 space-y-6 flex flex-col justify-between">
+                <div className="p-6 rounded-xl glass-card border border-border-dark/60 h-24" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow">
+                  <div className="p-5 rounded-2xl border border-border-dark/60 glass-card h-44" />
+                  <div className="p-5 rounded-2xl border border-border-dark/60 glass-card h-44" />
                 </div>
               </div>
             </div>
-
-            {/* Custom contribution graph */}
-            <div className="lg:col-span-5 h-full">
-              <div className="p-6 rounded-2xl glass-card flex flex-col justify-between h-full shadow-sm text-left hover:border-cyan-500/25">
-                <div className="flex items-center justify-between mb-6 pb-4 border-b border-border-dark">
-                  <div className="flex items-center gap-2.5">
-                    <FaGithub size={18} className="text-text-muted" />
-                    <span className="text-xs font-bold text-text-title font-display">github.com/Nikhil-beep25</span>
-                  </div>
-                  <a 
-                    href="https://github.com/Nikhil-beep25"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-1.5 rounded-lg bg-bg-dark text-text-muted hover:text-text-title hover:bg-bg-card border border-border-dark/50 transition-colors"
-                  >
-                    <FaGithub size={14} />
-                  </a>
-                </div>
-
-                <div className="mb-4">
-                  <p className="text-[11px] text-text-muted leading-relaxed">
-                    {i18n.language === 'en'
-                      ? "Interactive visual of commits, workflows, and contributions in the past 24 weeks."
-                      : "पिछले 24 हफ्तों में कमिट, वर्कफ़्लो और योगदान का इंटरैक्टिव दृश्य।"}
+          ) : error || !githubData ? (
+            /* Error / Fallback State */
+            <div className="text-center p-12 rounded-2xl border border-red-500/10 bg-red-500/5 max-w-xl mx-auto">
+              <p className="text-sm font-bold text-red-400">
+                {i18n.language === 'en' ? "GitHub data currently unavailable" : "गिटहब डेटा वर्तमान में अनुपलब्ध है"}
+              </p>
+              <p className="text-xs text-text-muted mt-2 leading-relaxed">
+                {i18n.language === 'en'
+                  ? "We were unable to load real-time profile statistics. You can view the profile directly on GitHub."
+                  : "हम वास्तविक समय प्रोफ़ाइल आंकड़े लोड करने में असमर्थ थे। आप सीधे गिटहब पर प्रोफ़ाइल देख सकते हैं।"}
+              </p>
+              <a
+                href="https://github.com/Nikhil-beep25"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 mt-6 px-5 py-2.5 rounded-xl bg-bg-dark border border-border-dark text-text-title text-xs font-semibold hover:border-cyan-500/30 transition-all mx-auto w-fit"
+              >
+                <FaGithub size={14} />
+                {i18n.language === 'en' ? "Visit GitHub Profile" : "गिटहब प्रोफ़ाइल देखें"}
+              </a>
+            </div>
+          ) : (
+            /* Live Dynamic Data Display */
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+              {/* Profile Card */}
+              <div className="lg:col-span-4 p-6 rounded-2xl glass-card border border-border-dark/60 flex flex-col justify-between text-center hover:border-cyan-500/25 transition-all shadow-sm">
+                <div className="flex flex-col items-center">
+                  <img
+                    src={githubData.user.avatarUrl}
+                    alt={i18n.language === 'en' ? "Nikhil's GitHub avatar" : "निखिल का गिटहब अवतार"}
+                    className="w-24 h-24 rounded-full border-2 border-white/10 shadow-lg object-cover mb-4"
+                  />
+                  <span className="text-base font-bold text-text-title font-display">Nikhil-beep25</span>
+                  <p className="text-xs text-text-muted mt-3 leading-relaxed px-4">
+                    {githubData.user.bio || (i18n.language === 'en' ? "Full Stack Developer building web projects." : "वेब प्रोजेक्ट बनाने वाले फुल स्टैक डेवलपर।")}
                   </p>
                 </div>
+                <div className="mt-8">
+                  <a
+                    href={githubData.user.htmlUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-center gap-2 w-full px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-white text-xs font-semibold shadow-md shadow-primary/25 active:scale-95 transition-all duration-300"
+                  >
+                    <FaGithub size={14} />
+                    {i18n.language === 'en' ? "Visit GitHub Profile" : "गिटहब प्रोफ़ाइल देखें"}
+                    <ExternalLink size={12} />
+                  </a>
+                </div>
+              </div>
 
-                {/* SVG Cell Grid */}
-                <div className="relative p-3 rounded-xl bg-bg-dark border border-border-dark flex flex-col gap-1.5 overflow-x-auto">
-                  <div className="flex justify-between pl-6 text-[8px] font-bold text-text-muted uppercase tracking-widest font-mono">
-                    <span>Jan</span>
-                    <span>Feb</span>
-                    <span>Mar</span>
-                    <span>Apr</span>
-                    <span>May</span>
-                    <span>Jun</span>
-                  </div>
-
-                  <div className="flex gap-1.5">
-                    <div className="flex flex-col justify-between text-[8px] font-bold text-text-muted font-mono pr-1">
-                      <span>S</span>
-                      <span>M</span>
-                      <span>W</span>
-                      <span>F</span>
-                      <span>S</span>
+              {/* Repositories & Stats Section */}
+              <div className="lg:col-span-8 flex flex-col gap-6 text-left">
+                {/* Stats Block */}
+                <div className="p-5 rounded-xl glass-card border border-border-dark/60 flex items-center justify-between shadow-sm hover:border-cyan-500/25 transition-all">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2.5 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                      <Award size={18} />
                     </div>
-
-                    <div className="flex flex-col gap-1 flex-grow">
-                      {grid.map((row, rIdx) => (
-                        <div key={rIdx} className="flex gap-1">
-                          {row.map((cell, cIdx) => (
-                            <div
-                              key={cIdx}
-                              className={`w-3 h-3 rounded-[2px] border ${getCellColor(cell.count)} transition-all duration-150 cursor-pointer hover:scale-110 hover:z-10`}
-                              onMouseEnter={() => setHoveredCell({ count: cell.count, date: cell.date })}
-                              onMouseLeave={() => setHoveredCell(null)}
-                            />
-                          ))}
-                        </div>
-                      ))}
+                    <div>
+                      <span className="text-[10px] text-text-muted font-bold uppercase tracking-wider block">
+                        {i18n.language === 'en' ? "Public Repositories" : "सार्वजनिक रिपॉजिटरी"}
+                      </span>
+                      <span className="text-2xl font-bold text-text-title font-display mt-0.5 block">
+                        {githubData.user.publicRepos}
+                      </span>
                     </div>
                   </div>
-
-                  <div className="min-h-[20px] flex items-center justify-center mt-2.5">
-                    <span className="text-[9px] text-text-muted font-bold font-mono uppercase tracking-wider">
-                      {hoveredCell 
-                        ? `${hoveredCell.count} commit${hoveredCell.count !== 1 ? 's' : ''} on ${hoveredCell.date}`
-                        : (i18n.language === 'en' ? "Hover over cells to see commits" : "कमिट देखने के लिए सेल पर होवर करें")
-                      }
-                    </span>
-                  </div>
+                  <span className="text-xs text-text-muted font-semibold bg-bg-dark border border-border-dark/60 px-3 py-1 rounded-full">
+                    {i18n.language === 'en' ? "Verified Live" : "सत्यापित लाइव"}
+                  </span>
                 </div>
 
-                {/* Grid Legend */}
-                <div className="flex items-center justify-between text-[8px] font-bold text-text-muted uppercase tracking-wider font-mono mt-4 pt-4 border-t border-border-dark">
-                  <span>Less</span>
-                  <div className="flex gap-1">
-                    <span className="w-2.5 h-2.5 rounded-[1px] bg-[#1e293b]/40 border border-transparent" />
-                    <span className="w-2.5 h-2.5 rounded-[1px] bg-cyan-950/40 border border-cyan-900/30" />
-                    <span className="w-2.5 h-2.5 rounded-[1px] bg-cyan-800/40 border border-cyan-700/30" />
-                    <span className="w-2.5 h-2.5 rounded-[1px] bg-cyan-600/40 border border-cyan-500/30" />
-                    <span className="w-2.5 h-2.5 rounded-[1px] bg-cyan-400/60 border border-cyan-300/40 shadow-[0_0_8px_rgba(6,182,212,0.15)]" />
+                {/* Repos Block */}
+                <div className="space-y-4">
+                  <h4 className="text-sm font-bold text-text-title font-display flex items-center gap-2">
+                    <Terminal size={16} className="text-primary-light" />
+                    {i18n.language === 'en' ? "Verified Pinned Repositories" : "सत्यापित पिन की गई रिपॉजिटरी"}
+                  </h4>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {githubData.repos.map((repo, idx) => (
+                      <a
+                        key={idx}
+                        href={repo.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="p-5 rounded-2xl border border-border-dark/60 glass-card hover:border-cyan-500/25 hover:bg-bg-card-hover/20 transition-all duration-300 flex flex-col justify-between group h-full shadow-sm"
+                      >
+                        <div>
+                          <div className="flex items-center gap-2 mb-3">
+                            <Terminal size={14} className="text-text-muted group-hover:text-cyan-400 transition-colors" />
+                            <span className="text-xs font-bold text-text-title group-hover:text-cyan-400 transition-colors font-mono">{repo.name}</span>
+                          </div>
+                          <p className="text-[11px] text-text-muted leading-relaxed mb-6">
+                            {repo.description || (
+                              repo.name === 'VidyaSanchar'
+                                ? (i18n.language === 'en' ? "A comprehensive School ERP prototype built with React, Node.js, and PostgreSQL." : "रिएक्ट, नोड और पोस्टग्रेएसक्यूएल के साथ निर्मित एक व्यापक स्कूल ईआरपी प्रोटोटाइप।")
+                                : (i18n.language === 'en' ? "Nikhil Bhadauriya's professional portfolio website." : "निखिल भदौरिया की पेशेवर पोर्टफोलियो वेबसाइट।")
+                            )}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between text-[10px] text-text-muted font-semibold mt-auto pt-3 border-t border-border-dark/60">
+                          <div className="flex items-center gap-1.5">
+                            <span className={`w-2 h-2 rounded-full ${getLangColorClass(repo.language)}`} />
+                            {repo.language || 'TypeScript'}
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <span className="flex items-center gap-1 hover:text-text-title transition-colors">
+                              <FaStar size={11} />
+                              {repo.stars}
+                            </span>
+                            <span className="flex items-center gap-1 hover:text-text-title transition-colors">
+                              <FaCodeBranch size={11} />
+                              {repo.forks}
+                            </span>
+                          </div>
+                        </div>
+                      </a>
+                    ))}
                   </div>
-                  <span>More</span>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
 
       </div>

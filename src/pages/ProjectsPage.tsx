@@ -2,27 +2,25 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { 
-  Users, CheckSquare, IndianRupee, BarChart3, ShieldAlert, 
-  ExternalLink, BookOpen, Layers, Server, Database, ChevronRight, Zap, Cloud
+  Users, CheckSquare, IndianRupee, BarChart3, 
+  ExternalLink, Layers, Server, Database, ChevronRight, Zap, Cloud
 } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 
 export default function ProjectsPage() {
   const { t, i18n } = useTranslation();
-  const [activeTab, setActiveTab] = useState<'preview' | 'architecture' | 'deployment' | 'journey'>('preview');
+  const [activeTab, setActiveTab] = useState<'preview' | 'architecture' | 'features' | 'roadmap'>('preview');
 
   const metrics = [
-    { label: t('projects.metricInst'), value: "10+", desc: "Schools active" },
-    { label: t('projects.metricUsers'), value: "5,000+", desc: "Students/teachers/parents" },
-    { label: t('projects.metricSpeed'), value: "<150ms", desc: "Optimized queries" },
-    { label: t('projects.metricUptime'), value: "99.9%", desc: "Hosted on Neon RDS" }
+    { label: i18n.language === 'en' ? "Project Type" : "प्रोजेक्ट का प्रकार", value: i18n.language === 'en' ? "Prototype" : "प्रोटोटाइप", desc: i18n.language === 'en' ? "Educational simulation" : "शैक्षिक सिमुलेशन" },
+    { label: i18n.language === 'en' ? "Development Status" : "विकास की स्थिति", value: i18n.language === 'en' ? "In Progress" : "प्रगति पर है", desc: i18n.language === 'en' ? "Active learning project" : "सक्रिय सीखने का प्रोजेक्ट" }
   ];
 
   const features = [
     { 
       icon: <Users size={18} className="text-cyan-400" />, 
-      title: t('projects.featDashboards'), 
-      desc: t('projects.featDashboardsDesc') 
+      title: i18n.language === 'en' ? "User Management" : "उपयोगकर्ता प्रबंधन", 
+      desc: i18n.language === 'en' ? "Student & Teacher records and profiles management." : "छात्र और शिक्षक रिकॉर्ड और प्रोफाइल प्रबंधन।" 
     },
     { 
       icon: <CheckSquare size={18} className="text-emerald-400" />, 
@@ -38,44 +36,6 @@ export default function ProjectsPage() {
       icon: <BarChart3 size={18} className="text-yellow-400" />, 
       title: t('projects.featReports'), 
       desc: t('projects.featReportsDesc') 
-    }
-  ];
-
-  const challenges = [
-    {
-      problem: t('projects.challenge1Prob'),
-      solution: t('projects.challenge1Sol')
-    },
-    {
-      problem: t('projects.challenge2Prob'),
-      solution: t('projects.challenge2Sol')
-    }
-  ];
-
-  const deploymentSteps = [
-    {
-      platform: "Vercel",
-      role: i18n.language === 'en' ? "Frontend Client Hosting" : "फ्रंटएंड क्लाइंट होस्टिंग",
-      desc: i18n.language === 'en' 
-        ? "Hosts the React & TypeScript SPA. Auto-builds from main branch and distributes assets via Edge CDN for sub-100ms loading speeds."
-        : "रिएक्ट और टाइपस्क्रिप्ट एसपीए होस्ट करता है। मुख्य शाखा से ऑटो-बिल्ड और 100ms से कम समय में लोड होने के लिए एज सीडीएन द्वारा वितरित किया जाता है।",
-      badgeColor: "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
-    },
-    {
-      platform: "Render",
-      role: i18n.language === 'en' ? "Backend Web Service" : "बैकएंड वेब सर्विस",
-      desc: i18n.language === 'en'
-        ? "Deploys the clustered Express.js REST API inside Docker containers. Configured auto-scaling triggers behind an HTTPS reverse proxy."
-        : "डॉक कंटेनरों के अंदर क्लस्टर्ड एक्सप्रेस.जेएस रेस्ट एपीआई तैनात करता है। एक सुरक्षित एचटीटीपीएस रिवर्स प्रॉक्सी के साथ ऑटो-स्केलिंग ट्रिगर्स कॉन्फ़िगर किए गए हैं।",
-      badgeColor: "bg-sky-500/10 text-sky-400 border border-sky-500/20"
-    },
-    {
-      platform: "Neon Database",
-      role: i18n.language === 'en' ? "Serverless PostgreSQL" : "सर्वरलेस पोस्टग्रेएसक्यूएल",
-      desc: i18n.language === 'en'
-        ? "Neon Serverless PostgreSQL database. Utilizes connection pooling, query indexing, and instant schema branching for reliable production data storage."
-        : "नियॉन सर्वरलेस पोस्टग्रेएसक्यूएल डेटाबेस। विश्वसनीय डेटा स्टोरेज के लिए कनेक्शन पूलिंग, क्वेरी इंडेक्सिंग और स्कीमा ब्रांचिंग का उपयोग करता है।",
-      badgeColor: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
     }
   ];
 
@@ -181,8 +141,8 @@ export default function ProjectsPage() {
               {[
                 { id: 'preview', label: t('projects.tabPreview'), icon: <Layers size={14} /> },
                 { id: 'architecture', label: t('projects.tabArchitecture'), icon: <Database size={14} /> },
-                { id: 'deployment', label: i18n.language === 'en' ? 'Deployment' : 'डिप्लॉयमेंट', icon: <Cloud size={14} /> },
-                { id: 'journey', label: t('projects.tabChallenges'), icon: <ShieldAlert size={14} /> },
+                { id: 'features', label: i18n.language === 'en' ? 'Features & Tech Stack' : 'विशेषताएं और टेक स्टैक', icon: <CheckSquare size={14} /> },
+                { id: 'roadmap', label: i18n.language === 'en' ? 'Project Roadmap' : 'प्रोजेक्ट रोडमैप', icon: <Cloud size={14} /> },
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -219,7 +179,10 @@ export default function ProjectsPage() {
                         <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
                         <span className="text-[10px] font-bold text-text-muted font-mono ml-2 uppercase">VidyaSanchar Hub v1.0</span>
                       </div>
-                      <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-700 dark:text-cyan-300 text-[10px] font-bold">Admin Portal</span>
+                      <div className="flex gap-2">
+                        <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-700 dark:text-cyan-300 text-[10px] font-bold">Concept UI</span>
+                        <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-700 dark:text-amber-300 text-[10px] font-bold">Prototype Preview</span>
+                      </div>
                     </div>
 
                     <div className="grid grid-cols-12 gap-4 text-left">
@@ -242,15 +205,15 @@ export default function ProjectsPage() {
                       <div className="col-span-12 sm:col-span-9 flex flex-col gap-4">
                         <div className="grid grid-cols-3 gap-3">
                           <div className="p-3 rounded-lg bg-bg-dark border border-border-dark">
-                            <span className="text-[9px] font-semibold text-text-muted uppercase tracking-wider block">Attendance</span>
+                            <span className="text-[9px] font-semibold text-text-muted uppercase tracking-wider block">Demo Attendance</span>
                             <span className="text-sm font-bold text-emerald-500 mt-1 block">96.8%</span>
                           </div>
                           <div className="p-3 rounded-lg bg-bg-dark border border-border-dark">
-                            <span className="text-[9px] font-semibold text-text-muted uppercase tracking-wider block">New Admits</span>
+                            <span className="text-[9px] font-semibold text-text-muted uppercase tracking-wider block">Sample Admits</span>
                             <span className="text-sm font-bold text-text-title mt-1 block">+124</span>
                           </div>
                           <div className="p-3 rounded-lg bg-bg-dark border border-border-dark">
-                            <span className="text-[9px] font-semibold text-text-muted uppercase tracking-wider block">Defaulters</span>
+                            <span className="text-[9px] font-semibold text-text-muted uppercase tracking-wider block">Mock Defaulters</span>
                             <span className="text-sm font-bold text-red-500 mt-1 block">14</span>
                           </div>
                         </div>
@@ -258,7 +221,7 @@ export default function ProjectsPage() {
                         {/* Graph mock */}
                         <div className="p-4 rounded-xl bg-bg-dark border border-border-dark flex flex-col gap-3">
                           <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold text-text-title">Monthly Fee Collections</span>
+                            <span className="text-xs font-bold text-text-title">Concept Visualization - Sample Fee Data</span>
                             <span className="text-[10px] text-text-muted">Target: 95%</span>
                           </div>
                           <div className="flex items-end justify-between h-28 pt-4 px-2">
@@ -284,7 +247,7 @@ export default function ProjectsPage() {
                   </motion.div>
                 )}
 
-                {/* 2. Architecture Diagram */}
+                {/* 2. Architecture & Design */}
                 {activeTab === 'architecture' && (
                   <motion.div
                     key="architecture"
@@ -336,76 +299,110 @@ export default function ProjectsPage() {
                           <span className="text-[9px] text-text-muted mt-1">Neon Serverless</span>
                         </div>
                       </div>
+
+                      {/* Security Features */}
+                      <div className="mt-8 border-t border-border-dark/60 pt-4">
+                        <h6 className="text-xs font-bold text-text-title uppercase tracking-wider mb-3">Security Features</h6>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
+                          {[
+                            i18n.language === 'en' ? "Role Based Access" : "भूमिका आधारित पहुंच",
+                            i18n.language === 'en' ? "Secure Authentication" : "सुरक्षित प्रमाणीकरण",
+                            i18n.language === 'en' ? "Protected Routes" : "सुरक्षित रूट्स",
+                            i18n.language === 'en' ? "Data Validation" : "डेटा सत्यापन"
+                          ].map((secFeature) => (
+                            <div key={secFeature} className="p-2.5 rounded-lg bg-bg-dark border border-border-dark text-[10px] font-bold text-text-muted">
+                              {secFeature}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </motion.div>
                 )}
 
-                {/* 3. Deployment Flow */}
-                {activeTab === 'deployment' && (
+                {/* 3. Features & Tech Stack */}
+                {activeTab === 'features' && (
                   <motion.div
-                    key="deployment"
+                    key="features"
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -15 }}
                     className="p-6 text-left space-y-6"
                   >
-                    <div>
-                      <h5 className="text-sm font-bold text-text-title mb-1.5 flex items-center gap-2">
-                        <Cloud size={16} className="text-primary-light" />
-                        {i18n.language === 'en' ? 'Deployment Architecture' : 'डिप्लॉयमेंट आर्किटेक्चर'}
-                      </h5>
-                      <p className="text-xs text-text-muted">
-                        {i18n.language === 'en'
-                          ? "VidyaSanchar is deployed in a fully automated CI/CD pipeline across three optimized cloud platforms."
-                          : "विद्यासंचार तीन अनुकूलित क्लाउड प्लेटफॉर्म पर पूरी तरह से स्वचालित सीआई/सीडी पाइपलाइन में तैनात है।"}
-                      </p>
-                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* Features Card */}
+                      <div className="p-5 rounded-xl bg-bg-dark border border-border-dark flex flex-col h-full shadow-sm">
+                        <h5 className="text-xs font-bold text-text-title uppercase tracking-widest border-b border-border-dark/60 pb-2 mb-3">
+                          {i18n.language === 'en' ? "Features Implemented" : "लागू की गई विशेषताएं"}
+                        </h5>
+                        <ul className="list-disc pl-5 text-xs text-text-muted space-y-1.5 leading-relaxed">
+                          {[
+                            "Student Management",
+                            "Teacher Management",
+                            "Attendance Management",
+                            "Fee Management",
+                            "Role-Based Access Control",
+                            "Dashboard UI",
+                            "Authentication",
+                            "Reports Module"
+                          ].map(f => <li key={f}>{f}</li>)}
+                        </ul>
+                      </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      {deploymentSteps.map((d, i) => (
-                        <div key={i} className="p-4 rounded-xl glass-card flex flex-col h-full justify-between shadow-sm hover:border-cyan-500/25">
-                          <div>
-                            <div className="flex items-center justify-between mb-3">
-                              <span className="text-sm font-extrabold text-text-title font-display">{d.platform}</span>
-                              <span className={`px-2 py-0.5 rounded text-[8px] font-bold ${d.badgeColor}`}>
-                                {d.role}
-                              </span>
-                            </div>
-                            <p className="text-xs text-text-muted leading-relaxed">
-                              {d.desc}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
+                      {/* Tech Stack Card */}
+                      <div className="p-5 rounded-xl bg-bg-dark border border-border-dark flex flex-col h-full shadow-sm">
+                        <h5 className="text-xs font-bold text-text-title uppercase tracking-widest border-b border-border-dark/60 pb-2 mb-3">
+                          {i18n.language === 'en' ? "Technology Stack" : "तकनीकी स्टैक"}
+                        </h5>
+                        <ul className="list-disc pl-5 text-xs text-text-muted space-y-1.5 leading-relaxed">
+                          {[
+                            "React",
+                            "TypeScript",
+                            "Tailwind CSS",
+                            "Node.js",
+                            "Express",
+                            "PostgreSQL",
+                            "Prisma"
+                          ].map(t => <li key={t}>{t}</li>)}
+                        </ul>
+                      </div>
                     </div>
                   </motion.div>
                 )}
 
-                {/* 4. Challenges Solved */}
-                {activeTab === 'journey' && (
+                {/* 4. Project Roadmap */}
+                {activeTab === 'roadmap' && (
                   <motion.div
-                    key="journey"
+                    key="roadmap"
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -15 }}
                     className="p-6 space-y-6 text-left"
                   >
-                    <h5 className="text-sm font-bold text-text-title mb-2 flex items-center gap-2">
-                      <BookOpen size={16} className="text-primary-light" />
-                      {t('projects.challengeTitle')}
-                    </h5>
+                    <div>
+                      <h5 className="text-sm font-bold text-text-title mb-1.5 flex items-center gap-2">
+                        <Cloud size={16} className="text-primary-light" />
+                        {i18n.language === 'en' ? 'Future Project Roadmap' : 'भविष्य का प्रोजेक्ट रोडमैप'}
+                      </h5>
+                      <p className="text-xs text-text-muted mb-4">
+                        {i18n.language === 'en'
+                          ? "Upcoming features and development stages planned for VidyaSanchar."
+                          : "विद्यासंचार के लिए आगामी विशेषताएं और नियोजित डिप्लॉयमेंट चरण।"}
+                      </p>
+                    </div>
 
-                    <div className="space-y-4">
-                      {challenges.map((c, i) => (
-                        <div key={i} className="p-4 rounded-xl bg-bg-dark border border-border-dark space-y-2">
-                          <div className="flex items-start gap-2">
-                            <span className="px-1.5 py-0.5 rounded bg-red-500/25 text-red-500 text-[8px] font-bold mt-0.5">CHALLENGE</span>
-                            <p className="text-xs font-bold text-text-title">{c.problem}</p>
-                          </div>
-                          <div className="flex items-start gap-2 pl-1">
-                            <span className="px-1.5 py-0.5 rounded bg-emerald-500/25 text-emerald-600 dark:text-emerald-400 text-[8px] font-bold mt-0.5">SOLUTION</span>
-                            <p className="text-xs text-text-muted leading-normal">{c.solution}</p>
-                          </div>
+                    <div className="relative border-l border-border-dark pl-6 space-y-6">
+                      {[
+                        { title: "Parent Portal", desc: "Separate access dashboard for parent accounts to inspect attendance and grades." },
+                        { title: "Notifications", desc: "Email and SMS integrations to send automatic updates to parents/students." },
+                        { title: "Timetable Management", desc: "Automated schedule builder and calendar viewer for classes." },
+                        { title: "Examination Module", desc: "Simulated grade book sheets and report card generation." },
+                        { title: "Deployment Pipeline", desc: "Dockerized setup for easy replication and continuous deployment." }
+                      ].map((item, index) => (
+                        <div key={index} className="relative">
+                          <span className="absolute -left-[30px] top-1.5 w-2 h-2 rounded-full bg-cyan-400 border border-bg-card" />
+                          <h6 className="text-xs font-bold text-text-title">{item.title}</h6>
+                          <p className="text-[10px] text-text-muted mt-0.5 leading-normal">{item.desc}</p>
                         </div>
                       ))}
                     </div>
