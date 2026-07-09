@@ -1,5 +1,0 @@
-{
-  "routes": [
-    { "src": "/api/contact", "dest": "/api/contact.ts" }
-  ]
-}

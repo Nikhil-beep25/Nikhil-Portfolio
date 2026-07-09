@@ -43,7 +43,7 @@ export default function ContactPage() {
     setStatus('submitting');
     setSubmitError(null);
 
-    const API_URL = import.meta.env.DEV ? 'http://localhost:5001/api/contact' : '/api/contact';
+    const API_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/contact`;
 
     try {
       const response = await fetch(API_URL, {

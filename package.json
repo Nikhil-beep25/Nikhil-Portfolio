@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "server": "tsx api/contact.ts",
+    "server": "node backend/server.js",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"
