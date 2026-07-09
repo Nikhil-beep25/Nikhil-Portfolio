@@ -13,7 +13,8 @@ router.get('/', (req, res) => {
 });
 
 // POST /api/contact
-router.post('/', async (req, res, next) => {
+router.post('/', async (req, res) => {
+  console.log("RESEND_API_KEY exists:", !!process.env.RESEND_API_KEY);
   try {
     const { name, email, message } = req.body;
 
@@ -55,7 +56,9 @@ router.post('/', async (req, res, next) => {
     });
 
     if (data.error) {
-      throw new Error(data.error.message || 'Resend error occurred.');
+      const resendError = new Error(data.error.message || 'Resend error occurred.');
+      resendError.details = data.error;
+      throw resendError;
     }
 
     return res.status(200).json({
@@ -65,7 +68,16 @@ router.post('/', async (req, res, next) => {
     });
 
   } catch (error) {
-    next(error);
+    console.error("Resend Error:", error);
+    
+    const errorMessage = process.env.NODE_ENV === 'production' 
+      ? 'Failed to send message. Please try again.' 
+      : error.message || 'Resend error occurred.';
+
+    return res.status(500).json({
+      success: false,
+      error: errorMessage
+    });
   }
 });
 
