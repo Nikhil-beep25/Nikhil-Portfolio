@@ -60,7 +60,7 @@ router.post('/', async (req, res, next) => {
 
     return res.status(200).json({
       success: true,
-      message: 'Email sent successfully',
+      message: 'Message received successfully',
       data: data.data
     });
 
