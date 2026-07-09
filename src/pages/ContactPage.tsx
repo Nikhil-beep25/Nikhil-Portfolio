@@ -43,10 +43,12 @@ export default function ContactPage() {
     setStatus('submitting');
     setSubmitError(null);
 
-    const API_URL = import.meta.env.VITE_API_URL || '';
+    const API_URL = import.meta.env.VITE_API_URL || 'https://nikhil-portfolio-o37x.onrender.com';
+    const targetUrl = `${API_URL}/api/contact`;
+    console.log('Sending message to API URL:', targetUrl);
 
     try {
-      const response = await fetch(`${API_URL}/api/contact`, {
+      const response = await fetch(targetUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
