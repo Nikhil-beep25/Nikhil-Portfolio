@@ -12,12 +12,19 @@ const PORT = process.env.PORT || 5001;
 // Middlewares
 app.use(cors({
   origin: '*', // In production, replace with specific domains like Netlify URL for security
-  methods: ['POST', 'OPTIONS'],
+  methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type']
 }));
 app.use(express.json());
 
 // Routes
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Portfolio Backend Running 🚀"
+  });
+});
+
 app.use('/api/contact', contactRoute);
 
 // Global Error Handler
