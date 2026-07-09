@@ -6,7 +6,7 @@ const resend = new Resend(process.env.RESEND_API_KEY || '');
 
 // GET /api/contact
 router.get('/', (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
     message: "Contact API Running"
   });
