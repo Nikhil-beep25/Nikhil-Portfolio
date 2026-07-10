@@ -11,7 +11,7 @@ export default function SEO({
   title = "Nikhil Bhadauriya | Python Full Stack Developer",
   description = "Python Full Stack Developer specializing in React, Node.js, Django, FastAPI, PostgreSQL, MERN Stack, SaaS Development and Modern Web Applications.",
   image = "/favicon.svg",
-  url = "https://nikhilbhadauriya.com",
+  url = "https://nikhilbhadauriya-portfolio.vercel.app",
 }: SEOProps) {
   useEffect(() => {
     // 1. Title
@@ -44,6 +44,16 @@ export default function SEO({
     setMetaTag('name', 'twitter:title', title);
     setMetaTag('name', 'twitter:description', description);
     setMetaTag('name', 'twitter:image', image);
+    setMetaTag('name', 'twitter:url', url);
+
+    // 3. Canonical Link
+    let canonicalLink = document.head.querySelector('link[rel="canonical"]');
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.setAttribute('href', url);
 
     // 3. JSON-LD Structured Data
     let scriptElement = document.getElementById('jsonld-seo') as HTMLScriptElement | null;

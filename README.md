@@ -1,32 +1,48 @@
-# React + TypeScript + Vite
+# Nikhil Bhadauriya - Professional Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Modern, high-performance portfolio website showcasing projects, skills, and professional journey. Built with React, TypeScript, Vite, Tailwind CSS, and Framer Motion.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Check out the live portfolio: [https://nikhilbhadauriya-portfolio.vercel.app](https://nikhilbhadauriya-portfolio.vercel.app)
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend**: React (TypeScript), Vite, Tailwind CSS, Framer Motion, Lucide Icons, React Icons
+- **Internationalization**: i18next (English & Hindi support)
+- **Backend**: Express, Node.js, Resend (for handling contact form inquiries)
+- **Deployment**: Vercel (Frontend), Render (Backend)
 
-## Expanding the Oxlint configuration
+## 📦 Getting Started
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+### Prerequisites
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+- Node.js (v18+)
+- npm or yarn
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Nikhil-beep25/Nikhil-Portfolio.git
+   cd Nikhil-Portfolio
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Build for production:
+   ```bash
+   npm run build
+   ```
+
+## 📄 License
+
+This project is licensed under the MIT License.

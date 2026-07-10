@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5001;
 
 // Middlewares
 app.use(cors({
-  origin: '*', // In production, replace with specific domains like Netlify URL for security
+  origin: '*', // In production, replace with specific domains like Vercel URL for security
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type']
 }));

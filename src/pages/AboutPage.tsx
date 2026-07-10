@@ -273,7 +273,7 @@ export default function AboutPage() {
                     <h1 className="text-3xl font-extrabold text-text-title tracking-tight font-display mb-1.5">Nikhil Bhadauriya</h1>
                     <h2 className="text-base font-bold text-primary-light font-display">Python Full-Stack Developer | MERN Stack Developer | SaaS Builder</h2>
                     <div className="text-xs text-text-muted mt-2">
-                      Portfolio: <a href="https://nikhilbhadauriya-portfolio.netlify.app" target="_blank" rel="noreferrer" className="text-primary hover:underline">https://nikhilbhadauriya-portfolio.netlify.app</a>
+                      Portfolio: <a href="https://nikhilbhadauriya-portfolio.vercel.app" target="_blank" rel="noreferrer" className="text-primary hover:underline">https://nikhilbhadauriya-portfolio.vercel.app</a>
                     </div>
                   </div>
                   <div className="text-xs space-y-1 font-semibold text-text-muted">
