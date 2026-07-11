@@ -101,6 +101,98 @@ const resources = {
         successDesc: "Thank you for reaching out, Nikhil. I have received your message and will respond to you shortly.",
         sendAnother: "Send another message"
       },
+      home: {
+        summary: {
+          badge: "Professional Summary",
+          title: "Building Modern Digital Experiences",
+          content: "I am Nikhil Bhadauriya, a Full Stack Developer specializing in React, TypeScript, Node.js, Python, PostgreSQL, and modern web technologies. I enjoy building scalable applications, intuitive user interfaces, and robust backend systems that solve real-world problems."
+        },
+        whatIDo: {
+          badge: "Services",
+          title: "What I Do",
+          frontend: {
+            title: "Frontend Development",
+            description: "Building responsive, accessible, and modern interfaces using React and TypeScript."
+          },
+          backend: {
+            title: "Backend Development",
+            description: "Designing APIs, authentication systems, and scalable server architectures."
+          },
+          database: {
+            title: "Database Design",
+            description: "Creating efficient PostgreSQL schemas and optimized data models."
+          },
+          fullstack: {
+            title: "Full Stack Solutions",
+            description: "Delivering complete end-to-end web applications from idea to deployment."
+          }
+        },
+        focus: {
+          badge: "Current Focus",
+          title: "Currently Building",
+          item1: "VidyaSanchar ERP System",
+          item2: "Advanced React Applications",
+          item3: "Python Backend Services",
+          item4: "SaaS Architecture Learning",
+          item5: "Cloud Deployment & DevOps"
+        },
+        tech: {
+          badge: "Skills Stack",
+          title: "Technology Highlights",
+          reactTs: "React & TypeScript",
+          nodeExpress: "Node.js & Express",
+          pythonDjango: "Python & Django",
+          postgresPrisma: "PostgreSQL & Prisma",
+          dockerGit: "Docker & Git",
+          tailwindCss: "Tailwind CSS"
+        },
+        whyMe: {
+          badge: "Value Proposition",
+          title: "Why Work With Me",
+          cleanArch: {
+            title: "Clean Architecture",
+            description: "Writing modular, structured, and easy-to-scale codebases following modern best practices."
+          },
+          responsive: {
+            title: "Responsive Design",
+            description: "Crafting fluid, mobile-first layouts that work beautifully across all screen shapes and sizes."
+          },
+          performance: {
+            title: "Performance Focused",
+            description: "Optimizing bundle size, rendering pathways, and SQL queries to hit sub-second load times."
+          },
+          learning: {
+            title: "Continuous Learning",
+            description: "Always updating my toolbelt with state-of-the-art frameworks, deployment models, and design standards."
+          }
+        },
+        spotlight: {
+          badge: "Project Spotlight",
+          title: "Featured Project Spotlight",
+          tagline: "Prototype Under Active Development",
+          feature1: "Student Management",
+          feature2: "Teacher Management",
+          feature3: "Attendance Tracking",
+          feature4: "Fee Management",
+          feature5: "Role-Based Access",
+          feature6: "Reports & Analytics"
+        },
+        journey: {
+          badge: "Evolution",
+          title: "Development Journey",
+          startedOS: "Started Open Source Journey",
+          builtPortfolio: "Built Personal Portfolio",
+          startedVS: "Started VidyaSanchar ERP",
+          learningSaaS: "Learning SaaS Architecture"
+        },
+        cta: {
+          title: "Let's Build Something Amazing Together",
+          subtitle: "Looking for a full-stack developer or micro-SaaS builder? Feel free to reach out, download my resume, or check my complete code repository.",
+          viewProjects: "View Projects",
+          downloadResume: "Download Resume",
+          contactMe: "Contact Me"
+        }
+      },
       footer: {
         tagline: "Building premium, scalable full-stack web products and SaaS architectures.",
         crafted: "Crafted with"
@@ -205,6 +297,98 @@ const resources = {
         successTitle: "संदेश सफलतापूर्वक भेजा गया!",
         successDesc: "सम्पर्क करने के लिए धन्यवाद, निखिल। मुझे आपका संदेश मिल गया है और मैं जल्द ही जवाब दूँगा।",
         sendAnother: "एक और संदेश भेजें"
+      },
+      home: {
+        summary: {
+          badge: "प्रोफेशनल सारांश",
+          title: "आधुनिक डिजिटल अनुभव बनाना",
+          content: "मैं निखिल भदौरिया हूँ, एक फुल स्टैक डेवलपर जो रिएक्ट, टाइपस्क्रिप्ट, नोड.जेएस, पायथन, पोस्टग्रेएसक्यूएल और आधुनिक वेब तकनीकों में माहिर है। मुझे स्केलेबल एप्लिकेशन, सहज यूजर इंटरफेस और मजबूत बैकएंड सिस्टम बनाना पसंद है जो वास्तविक दुनिया की समस्याओं को हल करते हैं।"
+        },
+        whatIDo: {
+          badge: "सेवाएं",
+          title: "मैं क्या करता हूँ",
+          frontend: {
+            title: "फ्रंटएंड डेवलपमेंट",
+            description: "रिएक्ट और टाइपस्क्रिप्ट का उपयोग करके रिस्पॉन्सिव, सुलभ और आधुनिक इंटरफेस बनाना।"
+          },
+          backend: {
+            title: "बैकएंड डेवलपमेंट",
+            description: "एपीआई, प्रमाणीकरण सिस्टम और स्केलेबल सर्वर आर्किटेक्चर डिजाइन करना।"
+          },
+          database: {
+            title: "डेटाबेस डिज़ाइन",
+            description: "कुशल पोस्टग्रेएसक्यूएल स्कीमा और अनुकूलित डेटा मॉडल बनाना।"
+          },
+          fullstack: {
+            title: "फुल स्टैक समाधान",
+            description: "विचार से लेकर परिनियोजन तक संपूर्ण एंड-तू-एंड वेब एप्लिकेशन वितरित करना।"
+          }
+        },
+        focus: {
+          badge: "वर्तमान फोकस",
+          title: "अभी बना रहा हूँ",
+          item1: "विद्यासंचार ईआरपी सिस्टम",
+          item2: "उन्नत रिएक्ट एप्लिकेशन",
+          item3: "पायथन बैकएंड सेवाएं",
+          item4: "SaaS आर्किटेक्चर सीखना",
+          item5: "क्लाउड परिनियोजन और देवऑप्स"
+        },
+        tech: {
+          badge: "कौशल स्टैक",
+          title: "तकनीकी हाइलाइट्स",
+          reactTs: "React और TypeScript",
+          nodeExpress: "Node.js और Express",
+          pythonDjango: "Python और Django",
+          postgresPrisma: "PostgreSQL और Prisma",
+          dockerGit: "Docker और Git",
+          tailwindCss: "Tailwind CSS"
+        },
+        whyMe: {
+          badge: "मूल्य प्रस्ताव",
+          title: "मेरे साथ काम क्यों करें",
+          cleanArch: {
+            title: "स्वच्छ आर्किटेक्चर",
+            description: "आधुनिक सर्वोत्तम प्रथाओं का पालन करते हुए मॉड्यूलर, संरचित और स्केलेबल कोडबेस लिखना।"
+          },
+          responsive: {
+            title: "उत्तरदायी डिज़ाइन",
+            description: "सभी डिवाइस आकारों में त्रुटिहीन काम करने वाले सुंदर मोबाइल-फर्स्ट लेआउट तैयार करना।"
+          },
+          performance: {
+            title: "प्रदर्शन केंद्रित",
+            description: "गति बढ़ाने के लिए बंडल आकार, रेंडरिंग पथ और एसक्यूएल प्रश्नों का अनुकूलन करना।"
+          },
+          learning: {
+            title: "निरंतर सीखना",
+            description: "हमेशा नई तकनीकों, फ्रेमवर्क और आधुनिक उद्योग मानकों को अपने कौशल में शामिल करना।"
+          }
+        },
+        spotlight: {
+          badge: "परियोजना स्पॉटलाइट",
+          title: "फीचर्ड प्रोजेक्ट स्पॉटलाइट",
+          tagline: "सक्रिय विकास के तहत प्रोटोटाइप",
+          feature1: "छात्र प्रबंधन",
+          feature2: "शिक्षक प्रबंधन",
+          feature3: "उपस्थिति ट्रैकिंग",
+          feature4: "शुल्क प्रबंधन",
+          feature5: "भूमिका-आधारित पहुँच",
+          feature6: "रिपोर्ट और एनालिटिक्स"
+        },
+        journey: {
+          badge: "सफर",
+          title: "विकास यात्रा",
+          startedOS: "ओपन सोर्स सफर शुरू किया",
+          builtPortfolio: "व्यक्तिगत पोर्टफोलियो बनाया",
+          startedVS: "विद्यासंचार ईआरपी शुरू किया",
+          learningSaaS: "SaaS आर्किटेक्चर सीखना शुरू किया"
+        },
+        cta: {
+          title: "आइए मिलकर कुछ अद्भुत बनाएं",
+          subtitle: "क्या आप एक फुल-स्टैक डेवलपर या माइक्रो-SaaS बिल्डर की तलाश में हैं? मुझसे बेझिझक संपर्क करें, मेरा रिज्यूमे डाउनलोड करें, या मेरे पूर्ण कोड रिपॉजिटरी की जांच करें।",
+          viewProjects: "प्रोजेक्ट्स देखें",
+          downloadResume: "रिज्यूमे डाउनलोड करें",
+          contactMe: "मुझसे संपर्क करें"
+        }
       },
       footer: {
         tagline: "प्रीमियम, स्केलेबल फुल-स्टैक वेब उत्पाद और SaaS आर्किटेक्चर बनाना।",
