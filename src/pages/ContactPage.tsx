@@ -43,21 +43,21 @@ export default function ContactPage() {
     setSubmitError(null);
 
     try {
-      // Simulate Express Backend API post request
-      await new Promise(resolve => setTimeout(resolve, 1400));
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Failed to send message.');
+      }
+
       setStatus('success');
-      
-      // Open prefilled WhatsApp message to Nikhil Bhadauriya
-      const encodedMsg = encodeURIComponent(
-        `Hi Nikhil, my name is ${formData.name}. I saw your developer portfolio. Here is my request: ${formData.message}. You can reply to me at ${formData.email}.`
-      );
-      const whatsappUrl = `https://wa.me/918077313959?text=${encodedMsg}`;
-      
-      // Delay opening WhatsApp slightly to allow success state animation to show
-      setTimeout(() => {
-        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-      }, 1000);
-      
       setFormData({ name: '', email: '', message: '' });
     } catch (err: any) {
       setSubmitError(err.message || "Failed to submit. Please try again.");
@@ -202,15 +202,26 @@ export default function ContactPage() {
                 </div>
                 <h3 className="text-lg font-bold text-[#111827] font-display">Message Sent Successfully!</h3>
                 <p className="text-xs text-[#374151] max-w-sm leading-relaxed font-semibold">
-                  Thank you! Your message payload has been validated. Opening WhatsApp direct chat gateway to Nikhil Bhadauriya.
+                  Your message has been delivered successfully. I will get back to you soon.
                 </p>
-                <button
-                  onClick={() => setStatus('idle')}
-                  className="flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary-hover transition-colors cursor-pointer"
-                >
-                  Send another message
-                  <ArrowRight size={12} />
-                </button>
+                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                  <a
+                    href="https://wa.me/918077313959"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold transition-all duration-300 shadow-md cursor-pointer hover:scale-[1.02] justify-center"
+                  >
+                    <FaWhatsapp size={14} />
+                    Contact on WhatsApp
+                  </a>
+                  <button
+                    onClick={() => setStatus('idle')}
+                    className="flex items-center justify-center gap-1.5 text-xs font-bold text-primary hover:text-primary-hover transition-colors cursor-pointer px-5 py-2.5 rounded-xl border border-primary/20 hover:bg-primary/5"
+                  >
+                    Send another message
+                    <ArrowRight size={12} />
+                  </button>
+                </div>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6 text-left">
@@ -282,7 +293,7 @@ export default function ContactPage() {
                   disabled={status === 'submitting'}
                   className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white text-xs font-bold transition-all duration-300 disabled:opacity-60 shadow-md shadow-primary/10 cursor-pointer hover:scale-[1.01] active:scale-[0.98]"
                 >
-                  {status === 'submitting' ? 'Transmitting Data...' : 'Submit Message'}
+                  {status === 'submitting' ? 'Sending Message...' : 'Submit Message'}
                   <Send size={12} />
                 </button>
               </form>

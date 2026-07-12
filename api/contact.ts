@@ -1,43 +1,45 @@
-const express = require('express');
-const { Resend } = require('resend');
+import { Resend } from 'resend';
 
-const router = express.Router();
 const resend = new Resend(process.env.RESEND_API_KEY || '');
 
-// GET /api/contact
-router.get('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "Contact API Running"
-  });
-});
+export default async function handler(req: any, res: any) {
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
 
-// POST /api/contact
-router.post('/', async (req, res) => {
-  console.log("RESEND_API_KEY exists:", !!process.env.RESEND_API_KEY);
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ success: false, error: 'Method Not Allowed' });
+  }
+
   try {
     const { name, email, message } = req.body;
 
-    // STEP 1: Validation
     if (!name || !name.trim()) {
-      return res.status(400).json({ success: false, error: 'Full Name is required.' });
+      return res.status(400).json({ success: false, error: 'Name is required.' });
     }
     if (!email || !email.trim()) {
-      return res.status(400).json({ success: false, error: 'Email Address is required.' });
+      return res.status(400).json({ success: false, error: 'Email is required.' });
     }
-
-    // Email regex validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return res.status(400).json({ success: false, error: 'Please enter a valid email address.' });
+      return res.status(400).json({ success: false, error: 'Invalid email format.' });
     }
-
     if (!message || !message.trim()) {
       return res.status(400).json({ success: false, error: 'Message is required.' });
     }
 
-    // STEP 2: Send email using Resend API
     const timestamp = new Date().toISOString();
+
     const data = await resend.emails.send({
       from: 'Portfolio Contact <onboarding@resend.dev>',
       to: 'nikhilbhadauriya2500@gmail.com',
@@ -58,29 +60,19 @@ router.post('/', async (req, res) => {
     });
 
     if (data.error) {
-      const resendError = new Error(data.error.message || 'Resend error occurred.');
-      resendError.details = data.error;
-      throw resendError;
+      throw new Error(data.error.message || 'Resend error occurred.');
     }
 
     return res.status(200).json({
       success: true,
-      message: 'Message received successfully',
+      message: 'Your message has been delivered successfully. I will get back to you soon.',
       data: data.data
     });
-
-  } catch (error) {
-    console.error("Resend Error:", error);
-    
-    const errorMessage = process.env.NODE_ENV === 'production' 
-      ? 'Failed to send message. Please try again.' 
-      : error.message || 'Resend error occurred.';
-
+  } catch (error: any) {
+    console.error('Contact API Error:', error);
     return res.status(500).json({
       success: false,
-      error: errorMessage
+      error: error.message || 'Failed to send message. Please try again.'
     });
   }
-});
-
-module.exports = router;
+}

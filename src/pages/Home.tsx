@@ -3,9 +3,9 @@ import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from
 import { useTranslation } from 'react-i18next';
 import { 
   ArrowRight, Mail, Layers, Code2, Server, Database, 
-  Sparkles, Cpu, Smartphone, CheckCircle2, Send, Compass, BookOpen
+  Sparkles, Cpu, Smartphone, CheckCircle2, Send, Compass, BookOpen, AlertTriangle
 } from 'lucide-react';
-import { FaPython, FaReact, FaNodeJs, FaDocker, FaGithub, FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa';
+import { FaPython, FaReact, FaNodeJs, FaDocker, FaGithub, FaLinkedin, FaTwitter, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import { SiPostgresql, SiTailwindcss, SiTypescript, SiDjango, SiExpress, SiPrisma } from 'react-icons/si';
 import AnimatedRole from '../components/AnimatedRole';
 
@@ -199,16 +199,35 @@ export default function Home() {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
+    setSubmitError(null);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formState)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Failed to send message.');
+      }
+
       setIsSubmitting(false);
       setSubmitSuccess(true);
       setFormState({ name: '', email: '', message: '' });
-      setTimeout(() => setSubmitSuccess(false), 5000);
-    }, 1500);
+    } catch (err: any) {
+      setSubmitError(err.message || "Failed to submit. Please try again.");
+      setIsSubmitting(false);
+    }
   };
 
   // What I Do Cards
@@ -1549,13 +1568,20 @@ export default function Home() {
                         />
                       </div>
 
+                      {submitError && (
+                        <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 rounded-lg text-[10px] font-bold font-mono flex items-center gap-2">
+                          <AlertTriangle size={12} />
+                          {submitError}
+                        </div>
+                      )}
+
                       <button
                         type="submit"
                         disabled={isSubmitting}
                         className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold transition-all duration-300 cursor-pointer shadow-md hover:scale-[1.01] active:scale-[0.98]"
                       >
                         {isSubmitting ? (
-                          <span>{t('contact.sending')}</span>
+                          <span>Sending Message...</span>
                         ) : (
                           <>
                             <span>{t('contact.send')}</span>
@@ -1576,11 +1602,29 @@ export default function Home() {
                         <CheckCircle2 size={36} className="animate-bounce" />
                       </div>
                       <h4 className="text-xl font-bold text-[#111827] mb-2">
-                        {t('contact.successTitle')}
+                        Message Sent Successfully!
                       </h4>
-                      <p className="text-xs text-[#374151] max-w-sm font-semibold">
-                        {t('contact.successDesc')}
+                      <p className="text-xs text-[#374151] max-w-sm font-semibold mb-4">
+                        Your message has been delivered successfully. I will get back to you soon.
                       </p>
+                      <div className="flex flex-col sm:flex-row gap-3 pt-2 w-full justify-center">
+                        <a
+                          href="https://wa.me/918077313959"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold transition-all duration-300 shadow-md cursor-pointer hover:scale-[1.02] justify-center"
+                        >
+                          <FaWhatsapp size={14} />
+                          Contact on WhatsApp
+                        </a>
+                        <button
+                          onClick={() => setSubmitSuccess(false)}
+                          className="flex items-center justify-center gap-1.5 text-xs font-bold text-primary hover:text-primary-hover transition-colors cursor-pointer px-5 py-2.5 rounded-xl border border-primary/20 hover:bg-primary/5"
+                        >
+                          Send another message
+                          <ArrowRight size={12} />
+                        </button>
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
