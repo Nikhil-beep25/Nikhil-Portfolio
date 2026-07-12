@@ -161,7 +161,7 @@ export default function AboutPage() {
             {/* Authentic Copy Block */}
             <div className="space-y-4 text-sm md:text-base text-text-muted leading-relaxed">
               <p>
-                Passionate full-stack developer focused on building scalable web applications, SaaS products and modern user experiences. Experienced with React, TypeScript, Node.js and PostgreSQL. Currently building real-world projects and continuously learning advanced software engineering concepts.
+                Passionate full-stack developer focused on building scalable web applications, SaaS products and modern user experiences. Building projects with React, TypeScript, Node.js and PostgreSQL. Currently developing personal projects and continuously learning advanced software engineering concepts.
               </p>
             </div>
 

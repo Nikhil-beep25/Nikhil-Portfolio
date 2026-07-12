@@ -465,7 +465,7 @@ export default function Home() {
                 Building modern web applications, AI-powered products, and scalable SaaS platforms using React, TypeScript, Node.js, PostgreSQL, and modern cloud technologies.
               </p>
               <p>
-                Focused on creating clean user experiences, production-ready systems, and continuously improving through real-world projects.
+                Focused on creating clean user experiences, building functional systems, and continuously improving through personal and educational projects.
               </p>
             </motion.div>
 
@@ -624,8 +624,9 @@ export default function Home() {
                   <span className="text-[10px] font-bold uppercase tracking-wider text-text-muted font-mono mb-2 block">Current Focus</span>
                   <ul className="text-xs text-text-main space-y-1.5 font-bold font-mono">
                     <li>• Full Stack Development</li>
-                    <li>• SaaS Systems</li>
-                    <li>• AI Integration</li>
+                    <li>• Python Development</li>
+                    <li>• SaaS Applications</li>
+                    <li>• AI & Automation Learning</li>
                   </ul>
                 </div>
                 <div className="flex flex-col text-left">
@@ -671,27 +672,36 @@ export default function Home() {
           </div>
 
           {/* Stats Counters Row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 my-12">
-            {[
-              { value: 5, suffix: "+", label: "Real Projects" },
-              { value: 15, suffix: "+", label: "Core Technologies" },
-              { value: 2, suffix: "+", label: "Years Programming" },
-              { value: 100, suffix: "%", label: "Commitment to Quality" }
-            ].map((stat, idx) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-12">
+            {([
+              { value: 3, suffix: "+", label: "Projects Built", desc: "Projects built using React, TypeScript, Node.js, PostgreSQL, and Python." },
+              { value: 10, suffix: "+", label: "Technologies Explored", desc: "Hands-on learning and practical implementation across modern web technologies." },
+              { text: "Fresher", suffix: "", label: "Developer", desc: "Actively building projects and expanding full-stack development skills." },
+              { text: "Continuous", suffix: " Learner", label: "Skills Improvement", desc: "Focused on improving development skills through projects and real-world practice." }
+            ] as any[]).map((stat, idx) => (
               <motion.div
                 key={idx}
-                className="p-6 rounded-2xl bg-white/[0.01] border border-white/5 text-center flex flex-col justify-center shadow-inner"
+                className="p-6 rounded-2xl bg-white/[0.01] border border-white/5 text-center flex flex-col justify-between shadow-inner h-full min-h-[160px]"
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
               >
-                <span className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary font-display">
-                  <CountUp value={stat.value} suffix={stat.suffix} />
-                </span>
-                <span className="text-[10px] md:text-xs font-mono font-bold uppercase tracking-wider text-text-muted mt-2 block">
-                  {stat.label}
-                </span>
+                <div>
+                  <span className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary font-display block">
+                    {'value' in stat ? (
+                      <CountUp value={stat.value} suffix={stat.suffix} />
+                    ) : (
+                      <span>{stat.text}{stat.suffix}</span>
+                    )}
+                  </span>
+                  <span className="text-[10px] md:text-xs font-mono font-bold uppercase tracking-wider text-text-muted mt-2 block">
+                    {stat.label}
+                  </span>
+                </div>
+                <p className="text-[10px] md:text-xs text-text-muted/80 leading-relaxed mt-3 pt-3 border-t border-white/5 font-medium">
+                  {stat.desc}
+                </p>
               </motion.div>
             ))}
           </div>
