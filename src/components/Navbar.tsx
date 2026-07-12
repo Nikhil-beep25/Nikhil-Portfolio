@@ -32,9 +32,8 @@ export default function Navbar() {
   const [customizerOpen, setCustomizerOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Sticky navbar hide-on-scroll-down states
-  const [visible, setVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  // Scroll state for sticky shadow
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // Theme customizer states
   const [themeMode, setThemeMode] = useState<'light' | 'dark' | 'system'>(() => {
@@ -45,26 +44,19 @@ export default function Navbar() {
     return localStorage.getItem('theme-color') || 'purple';
   });
 
-  // Track scroll position for hide-on-scroll-down behavior
+  // Track scroll position for header shadow
   useEffect(() => {
-    const controlNavbar = () => {
-      const currentScrollY = window.scrollY;
-      
-      if (currentScrollY > 150) {
-        if (currentScrollY > lastScrollY) {
-          setVisible(false);
-        } else {
-          setVisible(true);
-        }
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
       } else {
-        setVisible(true);
+        setIsScrolled(false);
       }
-      setLastScrollY(currentScrollY);
     };
 
-    window.addEventListener('scroll', controlNavbar);
-    return () => window.removeEventListener('scroll', controlNavbar);
-  }, [lastScrollY]);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -147,13 +139,14 @@ export default function Navbar() {
   };
 
   return (
-    <motion.header
-      className="fixed left-0 right-0 z-50 mx-auto w-[min(92%,1280px)] h-[72px] rounded-2xl glass-navbar px-6 top-4 flex items-center"
-      initial={{ y: -100 }}
-      animate={{ y: visible ? 0 : -120 }}
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+    <header
+      className={`fixed top-0 left-0 w-full h-[72px] z-[9999] transition-all duration-300 flex items-center ${
+        isScrolled 
+          ? 'bg-bg-darkest/80 backdrop-blur-lg border-b border-border-dark shadow-lg shadow-black/10' 
+          : 'bg-transparent border-b border-transparent'
+      }`}
     >
-      <div className="flex items-center justify-between w-full">
+      <div className="flex items-center justify-between w-full max-w-[1280px] mx-auto px-6">
         
         {/* Logo Branding */}
         <Link 
@@ -191,10 +184,9 @@ export default function Navbar() {
             >
               {isActive(link.path) && (
                 <motion.span
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+                  layoutId="activeNav"
                   className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 rounded-full -z-10 shadow-[0_0_15px_rgba(139,92,246,0.05)]"
-                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
               {t(link.nameKey)}
@@ -454,6 +446,6 @@ export default function Navbar() {
           </>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 }

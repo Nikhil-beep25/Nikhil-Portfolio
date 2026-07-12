@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { FaPython, FaReact, FaNodeJs, FaDocker, FaGithub, FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa';
 import { SiPostgresql, SiTailwindcss, SiTypescript, SiDjango, SiExpress, SiPrisma } from 'react-icons/si';
+import AnimatedRole from '../components/AnimatedRole';
 
 
 
@@ -83,6 +84,48 @@ const SocialDock = () => {
   );
 };
 
+const CountUp = ({ value, duration = 1500, suffix = "" }: { value: number; duration?: number; suffix?: string }) => {
+  const [count, setCount] = useState(0);
+  const [elementRef, setElementRef] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!elementRef) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          let start = 0;
+          const end = value;
+          if (start === end) return;
+
+          const totalMilliseconds = duration;
+          const incrementTime = Math.max(Math.floor(totalMilliseconds / end), 20);
+          
+          const timer = setInterval(() => {
+            start += 1;
+            setCount(start);
+            if (start >= end) {
+              clearInterval(timer);
+            }
+          }, incrementTime);
+
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(elementRef);
+    return () => observer.disconnect();
+  }, [elementRef, value, duration]);
+
+  return (
+    <span ref={setElementRef}>
+      {count}{suffix}
+    </span>
+  );
+};
+
 export default function Home() {
 
 
@@ -108,20 +151,45 @@ export default function Home() {
   };
 
   const { t } = useTranslation();
-  const [typedStack, setTypedStack] = useState("");
-  const stackText = "React • TypeScript • Node.js • PostgreSQL";
+
+  // Typewriter effect
+  const typewriterTexts = [
+    "Building Modern Web Applications",
+    "Developing Python Backend Systems",
+    "Creating Scalable SaaS Products",
+    "Building AI-Powered Solutions"
+  ];
+  const [typewriterText, setTypewriterText] = useState("");
+  const [textIndex, setTextIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(100);
 
   useEffect(() => {
-    let index = 0;
-    const interval = setInterval(() => {
-      setTypedStack(stackText.slice(0, index + 1));
-      index++;
-      if (index >= stackText.length) {
-        clearInterval(interval);
+    const handleType = () => {
+      const currentFullText = typewriterTexts[textIndex];
+      if (!isDeleting) {
+        setTypewriterText(currentFullText.slice(0, typewriterText.length + 1));
+        setTypingSpeed(60);
+        
+        if (typewriterText === currentFullText) {
+          setTypingSpeed(2000);
+          setIsDeleting(true);
+        }
+      } else {
+        setTypewriterText(currentFullText.slice(0, typewriterText.length - 1));
+        setTypingSpeed(30);
+        
+        if (typewriterText === "") {
+          setIsDeleting(false);
+          setTextIndex((prev) => (prev + 1) % typewriterTexts.length);
+          setTypingSpeed(400);
+        }
       }
-    }, 50);
-    return () => clearInterval(interval);
-  }, []);
+    };
+
+    const timer = setTimeout(handleType, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [typewriterText, isDeleting, textIndex, typingSpeed]);
 
   const [activeProjectFilter, setActiveProjectFilter] = useState<'All' | 'Full Stack' | 'React' | 'SaaS' | 'ERP' | 'Portfolio'>('All');
   
@@ -334,14 +402,14 @@ export default function Home() {
         <div className="max-w-[1280px] mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
           
           {/* LEFT SIDE: Personal Branding Layout */}
-          <motion.div 
-            className="lg:col-span-6 flex flex-col justify-center text-left py-4 md:py-8"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
+          <div className="lg:col-span-6 flex flex-col justify-center text-left py-4 md:py-8">
             {/* Status Badge */}
-            <div className="w-fit mb-6">
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="w-fit mb-6"
+            >
               <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-400">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -349,17 +417,16 @@ export default function Home() {
                 </span>
                 AVAILABLE FOR PROJECTS
               </span>
-            </div>
+            </motion.div>
 
             {/* Heading & Massive Name */}
             <div className="mb-4 w-full max-w-[850px] overflow-visible z-10 relative select-none cursor-default">
-              {/* Soft glow behind the text (z-index: 1, Blur: 40px, Opacity: 15%) */}
               <div className="absolute inset-0 bg-[#38BDF8]/15 blur-[40px] z-[1] pointer-events-none rounded-full w-full h-full" />
               
               <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
                 whileHover={{ scale: 1.02 }}
                 style={{ fontSize: "clamp(52px, 5vw, 72px)", lineHeight: "1", letterSpacing: "-0.03em" }}
                 className="font-black font-display name-gradient-text relative select-none cursor-default whitespace-nowrap overflow-visible z-10 pb-1"
@@ -368,29 +435,47 @@ export default function Home() {
               </motion.h1>
             </div>
 
-            {/* Subtitle/Role */}
-            <div className="mb-5 space-y-1.5 text-left">
-              <h3 className="text-xl md:text-2xl font-black text-text-title font-display leading-tight">
-                Full Stack Developer
-              </h3>
-              <p className="text-[10px] md:text-xs font-mono font-bold text-secondary-light tracking-widest uppercase h-4 flex items-center">
-                {typedStack}
-                <span className="animate-pulse border-r-2 border-primary-light h-3 ml-0.5" />
+            {/* Subtitle/Role with rotating professional titles */}
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+              className="mb-5 space-y-1.5 text-left"
+            >
+              {/* Rotating Title */}
+              <div className="relative h-[28px] md:h-[34px] overflow-hidden w-full">
+                <AnimatedRole className="text-xl md:text-2xl absolute left-0 top-0" />
+              </div>
+
+              {/* Typing Animation */}
+              <p className="text-[10px] md:text-xs font-mono font-bold text-secondary-light tracking-widest uppercase h-5 flex items-center">
+                {typewriterText}
+                <span className="w-[2px] h-3.5 bg-primary-light ml-1 animate-pulse inline-block" />
               </p>
-            </div>
+            </motion.div>
 
             {/* Short description */}
-            <div className="text-sm md:text-base text-text-muted leading-relaxed max-w-2xl mb-7 space-y-3">
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
+              className="text-sm md:text-base text-text-muted leading-relaxed max-w-2xl mb-7 space-y-3"
+            >
               <p>
                 Building modern web applications, AI-powered products, and scalable SaaS platforms using React, TypeScript, Node.js, PostgreSQL, and modern cloud technologies.
               </p>
               <p>
                 Focused on creating clean user experiences, production-ready systems, and continuously improving through real-world projects.
               </p>
-            </div>
+            </motion.div>
 
             {/* Actions */}
-            <div className="flex flex-wrap gap-4">
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
+              className="flex flex-wrap gap-4"
+            >
               <a
                 href="#projects"
                 className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white text-xs font-bold shadow-md hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
@@ -406,8 +491,8 @@ export default function Home() {
               >
                 📄 View Resume
               </a>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
           {/* RIGHT SIDE: Apple Vision Pro style independent floating system with Mouse Parallax */}
           <motion.div 
@@ -421,8 +506,17 @@ export default function Home() {
             {/* Outer Box Container with center profile image */}
             <div className="relative w-[360px] h-[360px] md:w-[500px] md:h-[500px] flex items-center justify-center">
               
-              {/* Profile Image Frame (15% larger) */}
-              <div className="relative w-60 h-60 md:w-[330px] md:h-[330px] rounded-full p-1.5 bg-gradient-to-tr from-primary to-secondary shadow-[0_0_50px_rgba(139,92,246,0.15)] flex-shrink-0 z-10 overflow-hidden">
+              {/* Profile Image Frame (15% larger) with 6px floating animation */}
+              <motion.div 
+                animate={{ y: [0, -6, 0] }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut"
+                }}
+                className="relative w-60 h-60 md:w-[330px] md:h-[330px] rounded-full p-1.5 bg-gradient-to-tr from-primary to-secondary shadow-[0_0_50px_rgba(139,92,246,0.15)] flex-shrink-0 z-10 overflow-hidden"
+              >
                 <div className="w-full h-full rounded-full overflow-hidden border-4 border-bg-darkest relative bg-bg-dark flex items-center justify-center">
                   <img 
                     src="/images/profile.jpg" 
@@ -433,7 +527,7 @@ export default function Home() {
                     }}
                   />
                 </div>
-              </div>
+              </motion.div>
 
               {/* Independent Floating Tech Badges (Circular Orbit) with Mouse Parallax transforms */}
               {[
@@ -506,8 +600,8 @@ export default function Home() {
             {/* Left Card: Summary Description */}
             <motion.div 
               className="lg:col-span-8 p-8 rounded-[32px] glass-aurora border border-white/5 relative overflow-hidden flex flex-col justify-between"
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
             >
@@ -552,10 +646,10 @@ export default function Home() {
             {/* Right Card: Education Dashboard widget */}
             <motion.div 
               className="lg:col-span-4 p-8 rounded-[32px] glass-aurora border border-white/5 text-left flex flex-col justify-between"
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
             >
               <div>
                 <span className="text-transparent bg-gradient-to-r from-primary to-secondary bg-clip-text font-mono text-[10px] font-bold tracking-widest uppercase mb-3 bg-white/[0.02] border border-white/5 px-3 py-1 rounded-full">
@@ -574,6 +668,84 @@ export default function Home() {
                 <span className="text-[11px] font-mono text-text-muted font-semibold">Self-Directed CS Fundamentals & Engineering Studies</span>
               </div>
             </motion.div>
+          </div>
+
+          {/* Stats Counters Row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 my-12">
+            {[
+              { value: 5, suffix: "+", label: "Real Projects" },
+              { value: 15, suffix: "+", label: "Core Technologies" },
+              { value: 2, suffix: "+", label: "Years Programming" },
+              { value: 100, suffix: "%", label: "Commitment to Quality" }
+            ].map((stat, idx) => (
+              <motion.div
+                key={idx}
+                className="p-6 rounded-2xl bg-white/[0.01] border border-white/5 text-center flex flex-col justify-center shadow-inner"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+              >
+                <span className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary font-display">
+                  <CountUp value={stat.value} suffix={stat.suffix} />
+                </span>
+                <span className="text-[10px] md:text-xs font-mono font-bold uppercase tracking-wider text-text-muted mt-2 block">
+                  {stat.label}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Highlight Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-8">
+            {[
+              {
+                title: "Frontend Development",
+                icon: <Code2 className="text-primary-light" size={20} />,
+                desc: "Creating high-fidelity, responsive user interfaces with modular components, dynamic theme states, and smooth layouts.",
+                techs: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"]
+              },
+              {
+                title: "Backend Development",
+                icon: <Server className="text-secondary-light" size={20} />,
+                desc: "Designing secure, production-ready RESTful APIs with route guards, middleware authentication, and request handling.",
+                techs: ["Node.js", "Express", "REST APIs", "Prisma ORM"]
+              },
+              {
+                title: "Python Development",
+                icon: <FaPython className="text-secondary" size={20} />,
+                desc: "Engineering backend services, custom data operations, task scheduling, automation scripts, and server applications.",
+                techs: ["Python 3", "Django", "Data Analytics", "Automation"]
+              },
+              {
+                title: "Database Design",
+                icon: <Database className="text-primary" size={20} />,
+                desc: "Structuring normalized, efficient relational databases with proper schema models, index optimizations, and pooling.",
+                techs: ["PostgreSQL", "Prisma ORM", "SQL Schema", "Data Modeling"]
+              }
+            ].map((card, idx) => (
+              <motion.div
+                key={card.title}
+                className="p-6 rounded-[24px] glass-aurora border border-white/5 flex flex-col justify-between text-left transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/5 group"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+              >
+                <div className="p-3 bg-white/[0.02] border border-white/5 rounded-xl w-fit mb-5 group-hover:border-primary/30 transition-colors">
+                  {card.icon}
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-text-title font-display mb-2">{card.title}</h4>
+                  <p className="text-[11px] text-text-muted leading-relaxed mb-4">{card.desc}</p>
+                </div>
+                <div className="flex flex-wrap gap-1 mt-auto pt-3 border-t border-white/5">
+                  {card.techs.map((t) => (
+                    <span key={t} className="px-2 py-0.5 rounded bg-white/[0.03] border border-white/5 text-[9px] text-text-muted font-mono font-semibold">{t}</span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
           </div>
 
           {/* Expanded Personal Story & Current Goals Panels */}
@@ -1309,7 +1481,10 @@ export default function Home() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <div className="p-8 rounded-[32px] glass-aurora border border-white/5 shadow-2xl relative">
+              <div 
+                className="p-8 rounded-[32px] border shadow-2xl relative backdrop-blur-md"
+                style={{ backgroundColor: 'rgba(255,255,255,0.85)', borderColor: 'rgba(125,125,125,0.18)' }}
+              >
                 <AnimatePresence mode="wait">
                   {!submitSuccess ? (
                     <motion.form 
@@ -1321,7 +1496,7 @@ export default function Home() {
                       exit={{ opacity: 0 }}
                     >
                       <div className="flex flex-col text-left">
-                        <label htmlFor="name" className="text-xs font-bold text-text-title mb-2 tracking-wide font-mono">
+                        <label htmlFor="name" className="text-xs font-semibold text-[#374151] mb-2 tracking-[0.08em] uppercase font-mono">
                           {t('contact.formName')}
                         </label>
                         <input
@@ -1330,12 +1505,13 @@ export default function Home() {
                           required
                           value={formState.name}
                           onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                          className="px-4 py-3 text-xs rounded-xl bg-white/[0.02] border border-white/5 focus:border-primary/50 outline-none text-text-title transition-all duration-300"
+                          placeholder="Enter your name"
+                          className="w-full px-4.5 py-3 rounded-2xl bg-white/75 backdrop-blur-[10px] border-[1.5px] border-[rgba(125,125,125,0.18)] focus:border-primary focus:shadow-[0_0_15px_rgba(139,92,246,0.25)] focus:scale-[1.01] transition-all duration-200 outline-none text-xs text-[#111827] font-medium placeholder:text-[#6B7280] placeholder:opacity-100 placeholder:font-medium"
                         />
                       </div>
 
                       <div className="flex flex-col text-left">
-                        <label htmlFor="email" className="text-xs font-bold text-text-title mb-2 tracking-wide font-mono">
+                        <label htmlFor="email" className="text-xs font-semibold text-[#374151] mb-2 tracking-[0.08em] uppercase font-mono">
                           {t('contact.formEmail')}
                         </label>
                         <input
@@ -1344,29 +1520,29 @@ export default function Home() {
                           required
                           value={formState.email}
                           onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                          className="px-4 py-3 text-xs rounded-xl bg-white/[0.02] border border-white/5 focus:border-primary/50 outline-none text-text-title transition-all duration-300"
+                          placeholder="you@example.com"
+                          className="w-full px-4.5 py-3 rounded-2xl bg-white/75 backdrop-blur-[10px] border-[1.5px] border-[rgba(125,125,125,0.18)] focus:border-primary focus:shadow-[0_0_15px_rgba(139,92,246,0.25)] focus:scale-[1.01] transition-all duration-200 outline-none text-xs text-[#111827] font-medium placeholder:text-[#6B7280] placeholder:opacity-100 placeholder:font-medium"
                         />
                       </div>
 
                       <div className="flex flex-col text-left">
-                        <label htmlFor="message" className="text-xs font-bold text-text-title mb-2 tracking-wide font-mono">
+                        <label htmlFor="message" className="text-xs font-semibold text-[#374151] mb-2 tracking-[0.08em] uppercase font-mono">
                           {t('contact.formMessage')}
                         </label>
                         <textarea
                           id="message"
                           required
-                          rows={4}
-                          placeholder={t('contact.formPlaceholderMessage')}
                           value={formState.message}
                           onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                          className="px-4 py-3 text-xs rounded-xl bg-white/[0.02] border border-white/5 focus:border-primary/50 outline-none text-text-title transition-all duration-300 resize-none"
+                          placeholder="Detail your request..."
+                          className="w-full px-4.5 py-3 rounded-2xl bg-white/75 backdrop-blur-[10px] border-[1.5px] border-[rgba(125,125,125,0.18)] focus:border-primary focus:shadow-[0_0_15px_rgba(139,92,246,0.25)] focus:scale-[1.01] transition-all duration-200 outline-none text-xs text-[#111827] font-medium placeholder:text-[#6B7280] placeholder:opacity-100 placeholder:font-medium resize-none min-h-[180px]"
                         />
                       </div>
 
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold transition-all duration-300 cursor-pointer shadow-md"
+                        className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold transition-all duration-300 cursor-pointer shadow-md hover:scale-[1.01] active:scale-[0.98]"
                       >
                         {isSubmitting ? (
                           <span>{t('contact.sending')}</span>
@@ -1389,10 +1565,10 @@ export default function Home() {
                       <div className="w-16 h-16 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
                         <CheckCircle2 size={36} className="animate-bounce" />
                       </div>
-                      <h4 className="text-xl font-bold text-text-title mb-2">
+                      <h4 className="text-xl font-bold text-[#111827] mb-2">
                         {t('contact.successTitle')}
                       </h4>
-                      <p className="text-xs text-text-muted max-w-sm">
+                      <p className="text-xs text-[#374151] max-w-sm font-semibold">
                         {t('contact.successDesc')}
                       </p>
                     </motion.div>

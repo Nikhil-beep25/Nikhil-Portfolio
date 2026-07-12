@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { 
@@ -6,12 +7,52 @@ import {
 import { 
   SiTypescript, SiPostgresql, SiPrisma, SiTailwindcss 
 } from 'react-icons/si';
-import { 
-  MapPin, Mail 
-} from 'lucide-react';
+import { MapPin, Mail } from 'lucide-react';
+import AnimatedRole from '../components/AnimatedRole';
 
 export default function AboutPage() {
   useTranslation();
+
+
+
+  // Typewriter effect
+  const typewriterTexts = [
+    "React + TypeScript Developer",
+    "Python Backend Engineer",
+    "PostgreSQL Database Designer",
+    "SaaS Application Builder"
+  ];
+  const [typewriterText, setTypewriterText] = useState("");
+  const [textIndex, setTextIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(100);
+
+  useEffect(() => {
+    const handleType = () => {
+      const currentFullText = typewriterTexts[textIndex];
+      if (!isDeleting) {
+        setTypewriterText(currentFullText.slice(0, typewriterText.length + 1));
+        setTypingSpeed(60);
+        
+        if (typewriterText === currentFullText) {
+          setTypingSpeed(2000);
+          setIsDeleting(true);
+        }
+      } else {
+        setTypewriterText(currentFullText.slice(0, typewriterText.length - 1));
+        setTypingSpeed(30);
+        
+        if (typewriterText === "") {
+          setIsDeleting(false);
+          setTextIndex((prev) => (prev + 1) % typewriterTexts.length);
+          setTypingSpeed(400);
+        }
+      }
+    };
+
+    const timer = setTimeout(handleType, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [typewriterText, isDeleting, textIndex, typingSpeed]);
 
   // 4 True recruiter-friendly developer cards
   const infoCards = [
@@ -103,9 +144,19 @@ export default function AboutPage() {
               />
             </div>
 
-            <h3 className="text-lg md:text-xl font-mono font-bold text-secondary-light tracking-wide">
-              Full Stack Developer
-            </h3>
+            {/* Subtitle/Role with rotating professional titles and typewriter */}
+            <div className="space-y-1.5 text-left pb-1">
+              {/* Rotating Title */}
+              <div className="relative h-[24px] md:h-[30px] overflow-hidden w-full">
+                <AnimatedRole className="text-lg md:text-xl absolute left-0 top-0" />
+              </div>
+
+              {/* Typing Animation */}
+              <p className="text-[10px] md:text-xs font-mono font-bold text-secondary-light/80 tracking-widest uppercase h-5 flex items-center">
+                {typewriterText}
+                <span className="w-[2px] h-3.5 bg-primary-light ml-1 animate-pulse inline-block" />
+              </p>
+            </div>
             
             {/* Authentic Copy Block */}
             <div className="space-y-4 text-sm md:text-base text-text-muted leading-relaxed">
