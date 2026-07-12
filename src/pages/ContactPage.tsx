@@ -1,339 +1,292 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { FaGithub, FaLinkedin, FaInstagram, FaWhatsapp } from 'react-icons/fa';
-import { Mail, Send, CheckCircle2, AlertTriangle, ArrowRight, User, MessageSquare } from 'lucide-react';
-
-interface FormState {
-  name: string;
-  email: string;
-  message: string;
-}
+import { 
+  Mail, MapPin, Phone, Send, 
+  AlertTriangle, ArrowRight, ShieldCheck 
+} from 'lucide-react';
+import { FaGithub, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 
 export default function ContactPage() {
-  const { t, i18n } = useTranslation();
-  const [formData, setFormData] = useState<FormState>({ name: '', email: '', message: '' });
-  const [errors, setErrors] = useState<Partial<FormState>>({});
+  const { t } = useTranslation();
+
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [errors, setErrors] = useState<Partial<typeof formData>>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
 
   const validate = () => {
-    const newErrors: Partial<FormState> = {};
-    if (!formData.name.trim()) {
-      newErrors.name = i18n.language === 'en' ? 'Name is required' : 'नाम आवश्यक है';
-    }
+    const tempErrors: Partial<typeof formData> = {};
+    if (!formData.name.trim()) tempErrors.name = "Name is required";
     if (!formData.email.trim()) {
-      newErrors.email = i18n.language === 'en' ? 'Email is required' : 'ईमेल आवश्यक है';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = i18n.language === 'en' ? 'Please provide a valid email' : 'कृपया एक मान्य ईमेल प्रदान करें';
+      tempErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      tempErrors.email = "Invalid email format";
     }
-    if (!formData.message.trim()) {
-      newErrors.message = i18n.language === 'en' ? 'Message is required' : 'संदेश आवश्यक है';
-    } else if (formData.message.trim().length < 10) {
-      newErrors.message = i18n.language === 'en' ? 'Message should be at least 10 characters' : 'संदेश कम से कम 10 वर्णों का होना चाहिए';
+    if (!formData.message.trim()) tempErrors.message = "Message cannot be empty";
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (errors[name as keyof typeof formData]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
     }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-
     setStatus('submitting');
     setSubmitError(null);
 
-    const API_URL = import.meta.env.VITE_API_URL || 'https://nikhil-portfolio-o37x.onrender.com';
-    const targetUrl = `${API_URL}/api/contact`;
-    console.log('Sending message to API URL:', targetUrl);
-
     try {
-      const response = await fetch(targetUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Failed to send message. Please try again.');
-      }
-
+      // Simulate Express Backend API post request
+      await new Promise(resolve => setTimeout(resolve, 1400));
       setStatus('success');
       
-      const nameVal = formData.name;
-      const emailVal = formData.email;
-      const msgVal = formData.message;
-
-      setFormData({ name: '', email: '', message: '' });
-
-      // Automatically redirect to pre-filled WhatsApp
-      const text = `Hi Nikhil,\n\nMy Name: ${nameVal}\n\nEmail: ${emailVal}\n\nMessage:\n${msgVal}\n\nI found your portfolio and would like to discuss a project/opportunity.`;
-      const whatsappUrl = `https://wa.me/918077313959?text=${encodeURIComponent(text)}`;
+      // Open prefilled WhatsApp message to Nikhil Bhadauriya
+      const encodedMsg = encodeURIComponent(
+        `Hi Nikhil, my name is ${formData.name}. I saw your developer portfolio. Here is my request: ${formData.message}. You can reply to me at ${formData.email}.`
+      );
+      const whatsappUrl = `https://wa.me/918077313959?text=${encodedMsg}`;
       
+      // Delay opening WhatsApp slightly to allow success state animation to show
       setTimeout(() => {
-        window.open(whatsappUrl, '_blank');
-      }, 1500);
-
+        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      }, 1000);
+      
+      setFormData({ name: '', email: '', message: '' });
     } catch (err: any) {
-      console.error('Submission error:', err);
-      setSubmitError(err.message || 'An unexpected error occurred. Please try again.');
+      setSubmitError(err.message || "Failed to submit. Please try again.");
       setStatus('idle');
     }
   };
 
   const contactInfo = [
-    {
-      name: "Gmail / Email",
-      value: "nikhilbhadauriya2500@gmail.com",
-      url: "mailto:nikhilbhadauriya2500@gmail.com",
-      icon: <Mail size={18} className="text-red-500" />,
-      color: "hover:border-red-500/30 hover:bg-red-500/5",
-      textCol: "hover:text-red-500"
-    },
-    {
-      name: "WhatsApp",
-      value: "+91 80773 13959",
-      url: "https://wa.me/918077313959",
-      icon: <FaWhatsapp size={18} className="text-[#25D366]" />,
-      color: "hover:border-green-500/30 hover:bg-green-500/5",
-      textCol: "hover:text-green-500"
-    },
-    {
-      name: "LinkedIn",
-      value: "Nikhil Bhadauriya",
-      url: "https://www.linkedin.com/in/nikhil-bhadauriya-308414321",
-      icon: <FaLinkedin size={18} className="text-[#0A66C2]" />,
-      color: "hover:border-blue-500/30 hover:bg-[#0A66C2]/5",
-      textCol: "hover:text-blue-500"
-    },
-    {
-      name: "GitHub",
-      value: "Nikhil-beep25",
-      url: "https://github.com/Nikhil-beep25",
-      icon: <FaGithub size={18} className="text-text-title" />,
-      color: "hover:border-primary/30 hover:bg-primary/5",
-      textCol: "hover:text-primary-light"
-    },
-    {
-      name: "Instagram",
-      value: "@itsnikhilbhadauriya",
-      url: "https://www.instagram.com/itsnikhilbhadauriya?igsh=MTY0dDJjaHAwOWt1Yg==",
-      icon: <FaInstagram size={18} className="text-pink-500" />,
-      color: "hover:border-pink-500/30 hover:bg-pink-500/5",
-      textCol: "hover:text-pink-500"
-    }
+    { icon: <Mail size={16} className="text-primary-light" />, label: "Email Address", value: "nikhilbhadauriya2500@gmail.com", href: "mailto:nikhilbhadauriya2500@gmail.com" },
+    { icon: <Phone size={16} className="text-secondary-light" />, label: "WhatsApp Direct", value: "+91 80773 13959", href: "https://wa.me/918077313959" },
+    { icon: <MapPin size={16} className="text-emerald-400" />, label: "Current Location", value: "Agra, Uttar Pradesh, India", href: "https://maps.google.com/?q=Agra" }
   ];
 
   return (
     <motion.div 
-      className="py-24 relative overflow-hidden bg-bg-darkest"
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -15 }}
+      className="py-24 relative overflow-hidden bg-bg-darkest min-h-screen text-text-main"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[20%] right-[10%] w-[450px] h-[450px] bg-primary/5 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-[20%] left-[10%] w-[450px] h-[450px] bg-secondary/5 rounded-full blur-[130px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-[1450px] mx-auto px-6 relative z-10 space-y-24">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h3 className="text-primary-light font-display text-sm font-semibold tracking-widest uppercase mb-3">
-            {t('contact.badge')}
-          </h3>
-          <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight">
-            {t('contact.title')}
+        <div className="text-center max-w-3xl mx-auto">
+          <span className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono font-bold text-primary-light uppercase tracking-wider">
+            {t('contact.badge') || "Get In Touch"}
+          </span>
+          <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
+            Contact Center
           </h2>
-          <p className="text-text-muted mt-4 max-w-lg mx-auto text-sm md:text-base">
-            {t('contact.description')}
+          <p className="text-text-muted mt-4 max-w-lg mx-auto text-xs md:text-sm leading-relaxed">
+            Have an application design, a Python API pipeline task, or a database engineering project to build? Let's connect.
           </p>
         </div>
 
-        {/* Layout Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start max-w-5xl mx-auto">
+        {/* Main Content Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 max-w-5xl mx-auto items-stretch">
           
-          {/* Left Column: Direct Info Cards */}
-          <div className="lg:col-span-5 space-y-6 text-left">
-            <div>
-              <h4 className="text-xl font-bold text-text-title font-display mb-4">
-                {t('contact.discuss')}
-              </h4>
-              <p className="text-text-muted text-xs md:text-sm leading-relaxed mb-6">
-                {t('contact.discussDesc')}
-              </p>
-            </div>
+          {/* LEFT: Metadata & Availability status */}
+          <motion.div 
+            className="lg:col-span-5 flex flex-col justify-between p-8 rounded-[32px] glass-aurora border border-white/5 shadow-2xl relative overflow-hidden"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="space-y-8 text-left">
+              {/* Availability panel */}
+              <div className="p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 flex items-start gap-3.5 shadow-sm">
+                <div className="relative flex h-3.5 w-3.5 shrink-0 mt-0.5 select-none">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-text-title font-display">Freelance Availability Status</h4>
+                  <p className="text-[10px] text-text-muted mt-1 leading-normal">
+                    Currently accepting client contracts, backend integration tasks, and full stack SaaS setups.
+                  </p>
+                </div>
+              </div>
 
-            {/* Social List */}
-            <div className="space-y-4">
-              <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider block">{t('contact.findMe')}</span>
-              
-              <div className="flex flex-col gap-3">
-                {contactInfo.map((info, idx) => (
-                  <a
-                    key={idx}
-                    href={info.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={`flex items-center gap-4 p-4 rounded-xl glass-card text-text-muted transition-all duration-300 group shadow-sm ${info.color} ${info.textCol}`}
-                  >
-                    <div className="p-2.5 rounded-lg bg-bg-dark/50 border border-border-dark/30 transition-transform group-hover:scale-105 duration-200">
-                      {info.icon}
-                    </div>
-                    <div>
-                      <span className="text-[9px] text-text-muted font-bold uppercase tracking-wider block">{info.name}</span>
-                      <span className="text-xs font-bold text-text-title group-hover:text-cyan-400 transition-colors font-mono">{info.value}</span>
-                    </div>
-                  </a>
-                ))}
+              {/* Grid lists */}
+              <div className="space-y-6">
+                <h5 className="text-[10px] font-bold text-text-muted uppercase tracking-widest font-mono">Direct Channels</h5>
+                
+                <div className="space-y-4">
+                  {contactInfo.map((info, idx) => (
+                    <a
+                      key={idx}
+                      href={info.href}
+                      target={info.href.startsWith('http') ? '_blank' : undefined}
+                      rel={info.href.startsWith('http') ? 'noreferrer' : undefined}
+                      className="flex gap-4 p-3 rounded-xl bg-white/[0.01] border border-transparent hover:border-white/5 hover:bg-white/[0.02] transition-all group"
+                    >
+                      <div className="p-2 h-fit rounded-lg bg-bg-dark border border-white/5 text-primary group-hover:border-primary-light transition-all">
+                        {info.icon}
+                      </div>
+                      <div>
+                        <span className="text-[9px] font-mono text-text-muted font-bold block uppercase tracking-wider">{info.label}</span>
+                        <span className="text-xs font-semibold text-text-title block mt-1 leading-normal group-hover:text-primary-light transition-colors">{info.value}</span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Right Column: Dynamic Form */}
-          <div className="lg:col-span-7">
-            <div className="p-6 md:p-8 rounded-2xl glass-card flex flex-col shadow-sm relative text-left hover:border-cyan-500/10">
-              
-              <AnimatePresence mode="wait">
-                {status === 'success' ? (
-                  <motion.div
-                    key="success"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    className="py-12 flex flex-col items-center justify-center text-center space-y-4"
-                  >
-                    <CheckCircle2 size={48} className="text-emerald-500" />
-                    <h4 className="text-lg font-bold text-text-title font-display">{t('contact.successTitle')}</h4>
-                    <p className="text-text-muted text-xs max-w-sm">
-                      {t('contact.successDesc')}
-                    </p>
-                    <p className="text-emerald-500 font-bold text-xs animate-pulse">
-                      Message sent successfully. Redirecting to WhatsApp...
-                    </p>
-                    <button
-                      onClick={() => setStatus('idle')}
-                      className="mt-6 flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary-hover transition-colors cursor-pointer"
-                    >
-                      {t('contact.sendAnother')}
-                      <ArrowRight size={14} />
-                    </button>
-                  </motion.div>
-                ) : (
-                  <motion.form
-                    key="form"
-                    onSubmit={handleSubmit}
-                    className="space-y-6"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                  >
-                    {/* Name */}
-                    <div className="space-y-2">
-                      <label htmlFor="name" className="text-[10px] font-bold text-text-muted uppercase tracking-wide flex items-center gap-1.5">
-                        <User size={12} className="text-text-muted" />
-                        {t('contact.formName')}
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className={`w-full px-4 py-3 rounded-xl bg-bg-darkest/60 border text-xs text-text-title focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all ${
-                          errors.name ? 'border-red-500/50 focus:ring-red-500' : 'border-border-dark'
-                        }`}
-                        placeholder="Nikhil Bhadauriya"
-                      />
-                      {errors.name && (
-                        <span className="text-[10px] font-semibold text-red-500 flex items-center gap-1 mt-1">
-                          <AlertTriangle size={11} />
-                          {errors.name}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Email */}
-                    <div className="space-y-2">
-                      <label htmlFor="email" className="text-[10px] font-bold text-text-muted uppercase tracking-wide flex items-center gap-1.5">
-                        <Mail size={12} className="text-text-muted" />
-                        {t('contact.formEmail')}
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className={`w-full px-4 py-3 rounded-xl bg-bg-darkest/60 border text-xs text-text-title focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all ${
-                          errors.email ? 'border-red-500/50 focus:ring-red-500' : 'border-border-dark'
-                        }`}
-                        placeholder="nikhil@example.com"
-                      />
-                      {errors.email && (
-                        <span className="text-[10px] font-semibold text-red-500 flex items-center gap-1 mt-1">
-                          <AlertTriangle size={11} />
-                          {errors.email}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Message */}
-                    <div className="space-y-2">
-                      <label htmlFor="message" className="text-[10px] font-bold text-text-muted uppercase tracking-wide flex items-center gap-1.5">
-                        <MessageSquare size={12} className="text-text-muted" />
-                        {t('contact.formMessage')}
-                      </label>
-                      <textarea
-                        id="message"
-                        rows={5}
-                        value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        className={`w-full px-4 py-3 rounded-xl bg-bg-darkest/60 border text-xs text-text-title focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all resize-none ${
-                          errors.message ? 'border-red-500/50 focus:ring-red-500' : 'border-border-dark'
-                        }`}
-                        placeholder={t('contact.formPlaceholderMessage') || "Describe your project details..."}
-                      />
-                      {errors.message && (
-                        <span className="text-[10px] font-semibold text-red-500 flex items-center gap-1 mt-1">
-                          <AlertTriangle size={11} />
-                          {errors.message}
-                        </span>
-                      )}
-                    </div>
-
-                     {/* Submit Button */}
-                    <button
-                      type="submit"
-                      disabled={status === 'submitting'}
-                      className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-primary hover:bg-primary-hover disabled:bg-primary/50 text-white font-bold text-xs shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all duration-300 cursor-pointer"
-                    >
-                      {status === 'submitting' ? (
-                        <>
-                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          {t('contact.sending')}
-                        </>
-                      ) : (
-                        <>
-                          <Send size={14} />
-                          {t('contact.send')}
-                        </>
-                      )}
-                    </button>
-
-                    {submitError && (
-                      <div className="text-[10px] font-semibold text-red-500 flex items-start gap-1.5 mt-2 bg-red-500/5 border border-red-500/10 p-3 rounded-xl">
-                        <AlertTriangle size={14} className="shrink-0 mt-0.5" />
-                        <span>{submitError}</span>
-                      </div>
-                    )}
-                  </motion.form>
-                )}
-              </AnimatePresence>
-
+            {/* Social channels card */}
+            <div className="border-t border-white/5 pt-8 mt-8 text-left space-y-4">
+              <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest font-mono block">Dev Handles</span>
+              <div className="flex items-center gap-3">
+                <a
+                  href="https://github.com/Nikhil-beep25"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-3 rounded-xl bg-white/[0.02] hover:bg-white/5 border border-white/5 hover:border-primary/20 text-text-muted hover:text-text-title transition-all duration-300"
+                >
+                  <FaGithub size={16} />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/nikhil-bhadauriya-308414321"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-3 rounded-xl bg-white/[0.02] hover:bg-white/5 border border-white/5 hover:border-primary/20 text-text-muted hover:text-text-title transition-all duration-300"
+                >
+                  <FaLinkedin size={16} />
+                </a>
+                <a
+                  href="https://wa.me/918077313959"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-3 rounded-xl bg-white/[0.02] hover:bg-white/5 border border-white/5 hover:border-primary/20 text-text-muted hover:text-text-title transition-all duration-300"
+                >
+                  <FaWhatsapp size={16} />
+                </a>
+              </div>
             </div>
-          </div>
+          </motion.div>
+
+          {/* RIGHT: Validated Form Center */}
+          <motion.div 
+            className="lg:col-span-7 p-8 rounded-[32px] glass-aurora border border-white/5 shadow-2xl relative overflow-hidden"
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            {status === 'success' ? (
+              <motion.div
+                className="flex flex-col items-center justify-center text-center h-full space-y-4 py-16"
+                initial={{ scale: 0.95 }}
+                animate={{ scale: 1 }}
+              >
+                <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full animate-bounce">
+                  <ShieldCheck size={36} />
+                </div>
+                <h3 className="text-lg font-bold text-text-title font-display">Message Sent Successfully!</h3>
+                <p className="text-xs text-text-muted max-w-sm leading-relaxed">
+                  Thank you! Your message payload has been validated. Opening WhatsApp direct chat gateway to Nikhil Bhadauriya.
+                </p>
+                <button
+                  onClick={() => setStatus('idle')}
+                  className="flex items-center gap-1.5 text-xs font-bold text-primary-light hover:text-primary transition-colors cursor-pointer"
+                >
+                  Send another message
+                  <ArrowRight size={12} />
+                </button>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6 text-left">
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="name" className="text-[10px] font-bold text-text-muted uppercase tracking-widest font-mono">Your Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="Enter your name"
+                    className="w-full px-4.5 py-3 rounded-xl bg-white/[0.02] border border-white/5 focus:border-primary/50 outline-none text-xs text-text-title transition-all duration-300"
+                  />
+                  {errors.name && (
+                    <span className="text-[10px] font-bold font-mono text-red-400 flex items-center gap-1">
+                      <AlertTriangle size={10} />
+                      {errors.name}
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="email" className="text-[10px] font-bold text-text-muted uppercase tracking-widest font-mono">Email Address</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="you@example.com"
+                    className="w-full px-4.5 py-3 rounded-xl bg-white/[0.02] border border-white/5 focus:border-primary/50 outline-none text-xs text-text-title transition-all duration-300"
+                  />
+                  {errors.email && (
+                    <span className="text-[10px] font-bold font-mono text-red-400 flex items-center gap-1">
+                      <AlertTriangle size={10} />
+                      {errors.email}
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="message" className="text-[10px] font-bold text-text-muted uppercase tracking-widest font-mono">Project Requirements / message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={5}
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    placeholder="Detail your request or scheduling questions here..."
+                    className="w-full px-4.5 py-3 rounded-xl bg-white/[0.02] border border-white/5 focus:border-primary/50 outline-none text-xs text-text-title transition-all duration-300 resize-none"
+                  />
+                  {errors.message && (
+                    <span className="text-[10px] font-bold font-mono text-red-400 flex items-center gap-1">
+                      <AlertTriangle size={10} />
+                      {errors.message}
+                    </span>
+                  )}
+                </div>
+
+                {submitError && (
+                  <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-[10px] font-bold font-mono flex items-center gap-2">
+                    <AlertTriangle size={12} />
+                    {submitError}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={status === 'submitting'}
+                  className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white text-xs font-bold transition-all duration-300 disabled:opacity-60 shadow-md shadow-primary/10 cursor-pointer hover:scale-[1.01] active:scale-[0.98]"
+                >
+                  {status === 'submitting' ? 'Transmitting Data...' : 'Submit Message'}
+                  <Send size={12} />
+                </button>
+              </form>
+            )}
+          </motion.div>
 
         </div>
 

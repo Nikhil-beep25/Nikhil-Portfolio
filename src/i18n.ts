@@ -44,7 +44,16 @@ const resources = {
         focusBackend: "Backend Architecture",
         focusBackendDesc: "Designing structured relational & non-relational database schemas using PostgreSQL, MongoDB, MySQL, and Prisma ORM with optimized query indexing.",
         focusDevOps: "Cloud & DevOps",
-        focusDevOpsDesc: "Deploying production apps using Docker, Linux, and cloud provider solutions like Vercel, Render, and AWS, maintaining reliable CI/CD pipelines."
+        focusDevOpsDesc: "Deploying production apps using Docker, Linux, and cloud provider solutions like Vercel, Render, and AWS, maintaining reliable CI/CD pipelines.",
+        storyBadge: "My Story",
+        storyTitle: "Personal Story & Learning Journey",
+        storyContent: "I started my coding journey out of a fascination with how web platforms process and render complex information. Over time, this curiosity grew into a structured learning path focused on the MERN stack and Python backend architectures. I spent months building school ERP systems and local database prototypes, learning the nuances of query optimization, API security, and state management.",
+        goalsBadge: "Focus & Goals",
+        goalsTitle: "Current Goals & Technical Focus",
+        goalsContent: "Currently, I am deeply focused on mastering relational database scaling, containerized microservice deployments, and integrating LLM-based API workflows into SaaS structures. I aim to write highly-optimized code that loads fast and handles workloads efficiently.",
+        eduBadge: "Education",
+        eduTitle: "Academic Foundation",
+        eduContent: "Pursuing self-directed full-stack development studies, computer science principles, and practical backend engineering methodologies."
       },
       skills: {
         badge: "My Tech Stack",
@@ -81,7 +90,16 @@ const resources = {
       journey: {
         badge: "Evolution",
         title: "Development Journey",
-        description: "A chronological timeline detailing my path from writing the first line of code to launching live web products."
+        description: "A chronological timeline detailing my path from writing the first line of code to launching live web products.",
+        milestoneERP: "VidyaSanchar ERP — First Full-Stack Application",
+        milestoneERPSub: "Full-Stack Learning Project • React + Node.js + PostgreSQL",
+        milestoneERPDesc: "Designed and built a full-stack school management system from scratch. Implemented role-based access control, attendance tracking, and a fee ledger — my deepest dive into building a real multi-layer application.",
+        milestoneWeb: "Deep Dive into React & TypeScript",
+        milestoneWebSub: "Frontend Engineering • Component Architecture",
+        milestoneWebDesc: "Committed to mastering React with TypeScript, focusing on typed component design, state management patterns, and building production-quality UI with Tailwind CSS.",
+        milestoneCS: "CS Fundamentals & Self-Directed Study",
+        milestoneCSSub: "Algorithms • Data Structures • SQL",
+        milestoneCSDesc: "Started structured learning of computer science fundamentals — data structures, Big O complexity, algorithms, OOP design patterns, and normalized relational database design with PostgreSQL."
       },
       contact: {
         badge: "Connection",
@@ -185,6 +203,21 @@ const resources = {
           startedVS: "Started VidyaSanchar ERP",
           learningSaaS: "Learning SaaS Architecture"
         },
+        certifications: {
+          badge: "Credentials",
+          title: "Professional Certifications",
+          verify: "Verify Certificate",
+          python: "Advanced Python Development",
+          fullstack: "MERN Full Stack Engineering",
+          database: "PostgreSQL Database Administration",
+        },
+        github: {
+          badge: "Activity",
+          title: "GitHub Contribution Graph",
+          commits: "Contributions in 2026",
+          stars: "Starred Repositories",
+          tech: "Dominant Technology Stack",
+        },
         cta: {
           title: "Let's Build Something Amazing Together",
           subtitle: "Looking for a full-stack developer or micro-SaaS builder? Feel free to reach out, download my resume, or check my complete code repository.",
@@ -242,6 +275,15 @@ const resources = {
         focusBackendDesc: "अनुकूलित क्वेरी इंडेक्सिंग के साथ पोस्टग्रेएसक्यूएल, मोंगोडीबी, माईएसक्यूएल और प्रिज्मा ओआरएम का उपयोग करके संरचित रिलेशनल और नॉन-रिलेशनल डेटाबेस स्कीमा डिजाइन करना।",
         focusDevOps: "क्लाउड और डेवऑप्स",
         focusDevOpsDesc: "डॉक कंटेनर, लिनक्स और वर्सेल, रेंडर और एडब्ल्यूएस जैसे क्लाउड प्रदाता समाधानों का उपयोग करके उत्पादन ऐप्स को तैनात करना, विश्वसनीय सीआई/सीडी पाइपलाइन बनाए रखना।",
+        storyBadge: "मेरी कहानी",
+        storyTitle: "व्यक्तिगत कहानी और सीखने की यात्रा",
+        storyContent: "मैंने जटिल सूचनाओं को संसाधित और प्रस्तुत करने वाले वेब प्लेटफ़ॉर्म को समझने की जिज्ञासा से अपनी कोडिंग यात्रा शुरू की। समय के साथ, यह जिज्ञासा MERN स्टैक और पायथन बैकएंड आर्किटेक्चर पर केंद्रित एक संरचित सीखने के मार्ग में बदल गई। मैंने क्वेरी ऑप्टिमाइज़ेशन, एपीआई सुरक्षा और स्टेट मैनेजमेंट सीखकर स्कूल ईआरपी सिस्टम और डेटाबेस प्रोटोटाइप बनाने में समय लगाया।",
+        goalsBadge: "लक्ष्य और फोकस",
+        goalsTitle: "वर्तमान लक्ष्य और तकनीकी फोकस",
+        goalsContent: "वर्तमान में, मेरा पूरा ध्यान रिलेशनल डेटाबेस स्केलिंग, कंटेनराइज्ड माइक्रोसर्विसेज और SaaS आर्किटेक्चर में LLM-आधारित वर्कफ़्लोज़ को एकीकृत करने पर है। मेरा लक्ष्य अत्यधिक अनुकूलित कोड लिखना है जो तेज़ लोड हो।",
+        eduBadge: "शिक्षा",
+        eduTitle: "अकादमिक आधार",
+        eduContent: "स्व-निर्देशित फुल-स्टैक डेवलपमेंट स्टडीज, कंप्यूटर विज्ञान के सिद्धांत और व्यावहारिक बैकएंड इंजीनियरिंग का अध्ययन कर रहा हूँ।"
       },
       skills: {
         badge: "मेरी टेक स्टैक",
@@ -278,7 +320,16 @@ const resources = {
       journey: {
         badge: "विकास",
         title: "विकास यात्रा",
-        description: "कोड की पहली पंक्ति लिखने से लेकर लाइव वेब उत्पादों को लॉन्च करने तक के मेरे मार्ग का विवरण देने वाली एक कालानुक्रमिक समयरेखा।"
+        description: "कोड की पहली पंक्ति लिखने से लेकर लाइव वेब उत्पादों को लॉन्च करने तक के मेरे मार्ग का विवरण देने वाली एक कालानुक्रमिक समयरेखा।",
+        milestoneERP: "विद्यासंचार ERP — पहला फुल-स्टैक एप्लिकेशन",
+        milestoneERPSub: "फुल-स्टैक लर्निंग प्रोजेक्ट • React + Node.js + PostgreSQL",
+        milestoneERPDesc: "स्क्रैच से एक फुल-स्टैक स्कूल प्रबंधन सिस्टम डिज़ाइन और बनाया। भूमिका-आधारित पहुँच नियंत्रण, उपस्थिति ट्रैकिंग और शुल्क बही लागू की — एक वास्तविक बहु-स्तरीय एप्लिकेशन बनाने में मेरा सबसे गहरा अनुभव।",
+        milestoneWeb: "React और TypeScript में गहरी खोज",
+        milestoneWebSub: "फ्रंटएंड इंजीनियरिंग • कम्पोनेंट आर्किटेक्चर",
+        milestoneWebDesc: "TypeScript के साथ React में महारत हासिल करने के लिए प्रतिबद्ध, टाइप्ड कम्पोनेंट डिज़ाइन, स्टेट मैनेजमेंट पैटर्न और Tailwind CSS के साथ प्रोडक्शन-क्वालिटी UI बनाने पर ध्यान केंद्रित किया।",
+        milestoneCS: "CS मूल बातें और स्व-निर्देशित अध्ययन",
+        milestoneCSSub: "एल्गोरिदम • डेटा संरचनाएं • SQL",
+        milestoneCSDesc: "कंप्यूटर साइंस की मूल बातें — डेटा संरचनाएं, Big O जटिलता, एल्गोरिदम, OOP डिज़ाइन पैटर्न और PostgreSQL के साथ नॉर्मलाइज़्ड रिलेशनल डेटाबेस डिज़ाइन का संरचित अध्ययन शुरू किया।"
       },
       contact: {
         badge: "कनेक्शन",
@@ -381,6 +432,21 @@ const resources = {
           builtPortfolio: "व्यक्तिगत पोर्टफोलियो बनाया",
           startedVS: "विद्यासंचार ईआरपी शुरू किया",
           learningSaaS: "SaaS आर्किटेक्चर सीखना शुरू किया"
+        },
+        certifications: {
+          badge: "प्रमाण पत्र",
+          title: "पेशेवर प्रमाणपत्र",
+          verify: "प्रमाणपत्र सत्यापित करें",
+          python: "उन्नत पायथन विकास",
+          fullstack: "MERN फुल स्टैक इंजीनियरिंग",
+          database: "PostgreSQL डेटाबेस प्रशासन",
+        },
+        github: {
+          badge: "गतिविधि",
+          title: "गिटहब योगदान ग्राफ़",
+          commits: "2026 में योगदान",
+          stars: "तारांकित रिपॉजिटरी",
+          tech: "मुख्य प्रौद्योगिकी स्टैक",
         },
         cta: {
           title: "आइए मिलकर कुछ अद्भुत बनाएं",

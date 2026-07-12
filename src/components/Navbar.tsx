@@ -1,48 +1,138 @@
-import { useState, useEffect } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sun, Moon, Languages } from 'lucide-react';
+import { Menu, X, Sun, Moon, Languages, Settings, Monitor, Check } from 'lucide-react';
+import Avatar from './Avatar';
 
 const navLinks = [
-  { nameKey: 'navbar.home', href: '/' },
-  { nameKey: 'navbar.about', href: '/about' },
-  { nameKey: 'navbar.skills', href: '/skills' },
-  { nameKey: 'navbar.projects', href: '/projects' },
-  { nameKey: 'navbar.journey', href: '/journey' },
-  { nameKey: 'navbar.contact', href: '/contact' },
+  { nameKey: 'navbar.home', path: '/' },
+  { nameKey: 'navbar.about', path: '/about' },
+  { nameKey: 'navbar.skills', path: '/skills' },
+  { nameKey: 'navbar.projects', path: '/projects' },
+  { nameKey: 'navbar.journey', path: '/journey' },
+  { nameKey: 'navbar.contact', path: '/contact' },
+];
+
+const colorThemes = [
+  { name: 'purple', class: 'bg-[#8B5CF6]', label: 'Purple' },
+  { name: 'blue', class: 'bg-[#3B82F6]', label: 'Blue' },
+  { name: 'emerald', class: 'bg-[#10B981]', label: 'Emerald' },
+  { name: 'orange', class: 'bg-[#F97316]', label: 'Orange' },
+  { name: 'cyan', class: 'bg-[#06B6D4]', label: 'Cyan' },
+  { name: 'rose', class: 'bg-[#F43F5E]', label: 'Rose' },
+  { name: 'slate', class: 'bg-[#64748B]', label: 'Slate' },
 ];
 
 export default function Navbar() {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  
-  // Theme state initialized from localStorage or defaulting to dark
-  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    return (localStorage.getItem('theme') as 'dark' | 'light') || 'dark';
+  const [customizerOpen, setCustomizerOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Sticky navbar hide-on-scroll-down states
+  const [visible, setVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  // Theme customizer states
+  const [themeMode, setThemeMode] = useState<'light' | 'dark' | 'system'>(() => {
+    return (localStorage.getItem('theme-mode') as 'light' | 'dark' | 'system') || 'dark';
   });
 
+  const [themeColor, setThemeColor] = useState<string>(() => {
+    return localStorage.getItem('theme-color') || 'purple';
+  });
+
+  // Track scroll position for hide-on-scroll-down behavior
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+    const controlNavbar = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > 150) {
+        if (currentScrollY > lastScrollY) {
+          setVisible(false);
+        } else {
+          setVisible(true);
+        }
+      } else {
+        setVisible(true);
+      }
+      setLastScrollY(currentScrollY);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', controlNavbar);
+    return () => window.removeEventListener('scroll', controlNavbar);
+  }, [lastScrollY]);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setCustomizerOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Update theme class on HTML element
+  // Handle Mode changes (Light, Dark, System)
   useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    const applyMode = (mode: 'light' | 'dark' | 'system') => {
+      let isDark = mode === 'dark';
+      if (mode === 'system') {
+        isDark = systemPrefersDark;
+      }
+      
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    };
+
+    applyMode(themeMode);
+    localStorage.setItem('theme-mode', themeMode);
+
+    if (themeMode === 'system') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleChange = () => applyMode('system');
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
     }
-    localStorage.setItem('theme', theme);
-  }, [theme]);
+  }, [themeMode]);
+
+  // Handle Color accent changes
+  useEffect(() => {
+    const themes = {
+      purple: { primary: '#8B5CF6', primaryHover: '#7C3AED', primaryLight: '#A78BFA', secondary: '#EC4899', secondaryHover: '#DB2777', secondaryLight: '#F472B6' },
+      blue: { primary: '#3B82F6', primaryHover: '#2563EB', primaryLight: '#60A5FA', secondary: '#06B6D4', secondaryHover: '#0891B2', secondaryLight: '#67E8F9' },
+      emerald: { primary: '#10B981', primaryHover: '#059669', primaryLight: '#34D399', secondary: '#3B82F6', secondaryHover: '#2563EB', secondaryLight: '#60A5FA' },
+      orange: { primary: '#F97316', primaryHover: '#EA580C', primaryLight: '#FB923C', secondary: '#EF4444', secondaryHover: '#DC2626', secondaryLight: '#F87171' },
+      cyan: { primary: '#06B6D4', primaryHover: '#0891B2', primaryLight: '#67E8F9', secondary: '#8B5CF6', secondaryHover: '#7C3AED', secondaryLight: '#A78BFA' },
+      rose: { primary: '#F43F5E', primaryHover: '#E11D48', primaryLight: '#FB7185', secondary: '#8B5CF6', secondaryHover: '#7C3AED', secondaryLight: '#A78BFA' },
+      slate: { primary: '#64748B', primaryHover: '#475569', primaryLight: '#94A3B8', secondary: '#334155', secondaryHover: '#1E293B', secondaryLight: '#64748B' },
+    };
+    
+    const activeObj = themes[themeColor as keyof typeof themes] || themes.purple;
+    const root = document.documentElement;
+    root.style.setProperty('--color-primary', activeObj.primary);
+    root.style.setProperty('--color-primary-hover', activeObj.primaryHover);
+    root.style.setProperty('--color-primary-light', activeObj.primaryLight);
+    root.style.setProperty('--color-secondary', activeObj.secondary);
+    root.style.setProperty('--color-secondary-hover', activeObj.secondaryHover);
+    root.style.setProperty('--color-secondary-light', activeObj.secondaryLight);
+
+    localStorage.setItem('theme-color', themeColor);
+  }, [themeColor]);
 
   const toggleTheme = () => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+    setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
   const toggleLanguage = () => {
@@ -51,66 +141,78 @@ export default function Navbar() {
     localStorage.setItem('i18nextLng', nextLang);
   };
 
+  const isActive = (path: string) => {
+    if (path === '/') return location.pathname === '/';
+    return location.pathname.startsWith(path);
+  };
+
   return (
     <motion.header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled 
-          ? 'py-4 bg-bg-darkest/75 backdrop-blur-md border-b border-border-dark/60 shadow-lg shadow-black/5' 
-          : 'py-6 bg-transparent border-b border-transparent'
-      }`}
+      className="fixed left-0 right-0 z-50 mx-auto w-[min(92%,1280px)] h-[72px] rounded-2xl glass-navbar px-6 top-4 flex items-center"
       initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
+      animate={{ y: visible ? 0 : -120 }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <div className="flex items-center justify-between w-full">
         
         {/* Logo Branding */}
         <Link 
-          to="/" 
-          className="flex items-center gap-3 group text-text-title relative"
+          to="/"
+          className="flex items-center gap-2.5 group text-text-title relative"
+          onClick={() => setIsOpen(false)}
         >
-          <img
-            src="/images/profile.jpg"
-            alt="Nikhil Bhadauriya"
-            className="w-10 h-10 lg:w-12 lg:h-12 rounded-full object-cover flex-shrink-0 border-2 border-white/15 shadow-md shadow-primary/10 transition-all duration-400 ease-out group-hover:scale-108 group-hover:rotate-2 group-hover:shadow-lg group-hover:shadow-primary/25"
-            onError={(e) => {
-              e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2306B6D4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E";
-            }}
-          />
-          <span className="relative flex flex-col items-start py-1">
-            <span className="font-bold text-2xl leading-none tracking-tight transition-all duration-300 ease-out group-hover:text-primary group-hover:tracking-[1px] group-hover:scale-[1.03] origin-left">
-              Nikhil
+          <div className="relative shrink-0 select-none">
+            <Avatar size="sm" className="border-2 border-primary/20 group-hover:border-primary transition-all duration-300" />
+            {/* Pulsating online status badge */}
+            <span className="absolute bottom-0 right-0 flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
             </span>
-            <span className="absolute bottom-0 left-0 h-[2px] bg-primary w-0 transition-all duration-300 ease-out group-hover:w-full" />
+          </div>
+          <span className="relative flex flex-col items-start py-0.5">
+            <span className="font-extrabold text-sm sm:text-base leading-none tracking-tight font-display bg-gradient-to-r from-primary via-primary-light to-secondary bg-clip-text text-transparent group-hover:from-secondary group-hover:to-primary transition-all duration-300">
+              Nikhil Bhadauriya
+            </span>
+            <span className="text-[8px] font-mono text-emerald-400 font-bold tracking-wider mt-0.5 select-none uppercase">AVAILABLE FOR HIRE</span>
           </span>
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1 bg-bg-card/40 border border-border-dark/60 rounded-full p-1">
+        <nav className="hidden lg:flex items-center gap-1.5 h-9">
           {navLinks.map((link) => (
-            <NavLink
-              key={link.nameKey}
-              to={link.href}
-              className={({ isActive }) => 
-                `px-4 py-2 text-xs font-bold rounded-full transition-all duration-300 border border-transparent ${
-                  isActive 
-                    ? 'bg-primary text-white shadow-lg shadow-primary/25' 
-                    : 'text-text-muted hover:text-text-title hover:bg-primary/10 hover:shadow-[0_0_15px_rgba(6,182,212,0.15)] hover:border-primary/20'
-                }`
-              }
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`relative px-4 h-full flex items-center justify-center text-[13px] font-semibold rounded-full transition-all duration-300 group select-none ${
+                isActive(link.path)
+                  ? 'text-text-title font-bold' 
+                  : 'text-text-muted hover:text-text-title'
+              }`}
             >
+              {isActive(link.path) && (
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 rounded-full -z-10 shadow-[0_0_15px_rgba(139,92,246,0.05)]"
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                />
+              )}
               {t(link.nameKey)}
-            </NavLink>
+              {/* Sliding hover underline */}
+              {!isActive(link.path) && (
+                <span className="absolute bottom-1.5 left-4 right-4 h-[1.5px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+              )}
+            </Link>
           ))}
         </nav>
 
-        {/* Desktop Utilities (Theme, Lang, Button) */}
-        <div className="hidden lg:flex items-center gap-3">
+        {/* Desktop Utilities */}
+        <div className="hidden lg:flex items-center gap-3 relative" ref={dropdownRef}>
           
           {/* Language Switcher */}
           <button
             onClick={toggleLanguage}
-            className="p-2.5 rounded-full bg-bg-card border border-border-dark hover:border-primary/40 hover:bg-bg-card-hover text-text-muted hover:text-text-title transition-all duration-300 flex items-center gap-1.5 cursor-pointer text-xs font-bold font-mono"
+            className="p-2 rounded-xl bg-white/[0.03] border border-white/5 hover:border-primary/30 hover:bg-white/5 text-text-muted hover:text-text-title transition-all duration-300 flex items-center gap-1.5 cursor-pointer text-xs font-bold font-mono"
             title="Toggle Language / भाषा बदलें"
           >
             <Languages size={14} className="text-primary-light" />
@@ -120,52 +222,124 @@ export default function Navbar() {
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2.5 rounded-full bg-bg-card border border-border-dark hover:border-primary/40 hover:bg-bg-card-hover text-text-muted hover:text-text-title transition-all duration-300 cursor-pointer"
-            title={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
-            aria-label="Toggle Theme"
+            className="p-1.5 rounded-xl bg-white/[0.03] border border-white/5 hover:border-primary/30 hover:bg-white/5 text-text-muted hover:text-text-title transition-all duration-300 cursor-pointer"
+            aria-label="Toggle Theme Mode"
           >
             <motion.div
               initial={false}
-              animate={{ rotate: theme === 'dark' ? 180 : 0 }}
+              animate={{ rotate: themeMode === 'dark' ? 180 : 0 }}
               transition={{ duration: 0.5, ease: 'easeOut' }}
             >
-              {theme === 'dark' ? <Sun size={14} className="text-yellow-400" /> : <Moon size={14} className="text-primary" />}
+              {themeMode === 'dark' ? <Sun size={14} className="text-yellow-400" /> : <Moon size={14} className="text-primary" />}
             </motion.div>
           </button>
 
-          <Link
-            to="/contact"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary hover:bg-primary-hover text-white text-xs font-bold shadow-md shadow-primary/25 hover:scale-105 active:scale-95 transition-all duration-300"
+          {/* Settings Customizer toggle */}
+          <button
+            onClick={() => setCustomizerOpen(!customizerOpen)}
+            className={`p-1.5 rounded-xl bg-white/[0.03] border transition-all duration-300 cursor-pointer text-text-muted hover:text-text-title ${
+              customizerOpen ? 'border-primary/50 bg-white/5' : 'border-white/5 hover:border-primary/30'
+            }`}
+            title="Theme Settings"
+          >
+            <Settings size={14} className="animate-spin-slow" />
+          </button>
+
+          {/* Dropdown Customizer Content */}
+          <AnimatePresence>
+            {customizerOpen && (
+              <motion.div
+                className="absolute right-0 top-full mt-3 w-64 p-4 rounded-2xl bg-bg-darkest/95 backdrop-blur-xl border border-white/10 shadow-2xl z-50 text-left"
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+              >
+                {/* Theme Mode Segment */}
+                <div className="mb-4">
+                  <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">Theme Mode</span>
+                  <div className="grid grid-cols-3 gap-1 bg-white/[0.02] border border-white/5 rounded-lg p-0.5">
+                    {(['light', 'dark', 'system'] as const).map((m) => (
+                      <button
+                        key={m}
+                        onClick={() => setThemeMode(m)}
+                        className={`py-1.5 px-2 rounded-md text-[10px] font-bold capitalize flex items-center justify-center gap-1 transition-all duration-200 cursor-pointer ${
+                          themeMode === m 
+                            ? 'bg-primary/20 border border-primary/30 text-text-title'
+                            : 'text-text-muted hover:text-text-title hover:bg-white/5'
+                        }`}
+                      >
+                        {m === 'light' && <Sun size={10} />}
+                        {m === 'dark' && <Moon size={10} />}
+                        {m === 'system' && <Monitor size={10} />}
+                        {m}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Accent Colors Segment */}
+                <div>
+                  <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">Accent Colors</span>
+                  <div className="grid grid-cols-4 gap-2">
+                    {colorThemes.map((c) => (
+                      <button
+                        key={c.name}
+                        onClick={() => setThemeColor(c.name)}
+                        className={`flex flex-col items-center gap-1 p-1.5 rounded-lg border text-[9px] font-bold font-mono transition-all duration-200 cursor-pointer ${
+                          themeColor === c.name 
+                            ? 'border-primary/50 bg-white/[0.03] text-text-title' 
+                            : 'border-transparent text-text-muted hover:text-text-title hover:bg-white/[0.01]'
+                        }`}
+                      >
+                        <div className={`w-5 h-5 rounded-full ${c.class} shadow-sm relative flex items-center justify-center`}>
+                          {themeColor === c.name && <Check size={10} className="text-white font-bold" />}
+                        </div>
+                        <span>{c.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+
+
+          <button
+            onClick={() => navigate('/contact')}
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white text-xs font-bold shadow-md hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
           >
             {t('navbar.hireMe')}
-          </Link>
+          </button>
         </div>
 
-        {/* Mobile Navbar Controls (Theme, Lang, Menu) */}
+        {/* Mobile Navbar Controls */}
         <div className="flex items-center gap-2 lg:hidden">
           
-          {/* Mobile Language Switcher */}
+          {/* Mobile Settings Button */}
+          <button
+            onClick={() => setCustomizerOpen(!customizerOpen)}
+            className={`p-2 rounded-lg bg-white/[0.03] border text-text-muted cursor-pointer ${
+              customizerOpen ? 'border-primary/50' : 'border-white/5'
+            }`}
+          >
+            <Settings size={14} />
+          </button>
+
+          {/* Mobile Language Selector */}
           <button
             onClick={toggleLanguage}
-            className="p-2 rounded-lg bg-bg-card border border-border-dark text-text-muted flex items-center gap-1 text-[11px] font-bold font-mono"
+            className="p-2 rounded-lg bg-white/[0.03] border border-white/5 text-text-muted flex items-center gap-1 text-[11px] font-bold font-mono cursor-pointer"
           >
             <Languages size={12} className="text-primary-light" />
             {i18n.language === 'en' ? 'EN' : 'HI'}
           </button>
 
-          {/* Mobile Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-lg bg-bg-card border border-border-dark text-text-muted"
-            aria-label="Toggle Theme"
-          >
-            {theme === 'dark' ? <Sun size={14} className="text-yellow-400" /> : <Moon size={14} className="text-primary" />}
-          </button>
-
           {/* Hamburger Menu */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-2 rounded-lg text-text-muted hover:text-text-title hover:bg-bg-card border border-border-dark transition-colors focus:outline-none"
+            className="p-2 rounded-lg text-text-muted hover:text-text-title hover:bg-white/5 border border-white/5 transition-colors focus:outline-none cursor-pointer"
             aria-label="Toggle menu"
           >
             {isOpen ? <X size={20} /> : <Menu size={20} />}
@@ -174,49 +348,108 @@ export default function Navbar() {
 
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Floating Settings Customizer panel for Mobile view */}
+      <AnimatePresence>
+        {customizerOpen && (
+          <div className="lg:hidden" ref={dropdownRef}>
+            <motion.div
+              className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-[92%] p-5 rounded-2xl bg-bg-darkest/95 backdrop-blur-xl border border-white/10 shadow-2xl z-50 text-left"
+              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            >
+              <div className="mb-4">
+                <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">Theme Mode</span>
+                <div className="grid grid-cols-3 gap-1 bg-white/[0.02] border border-white/5 rounded-lg p-0.5">
+                  {(['light', 'dark', 'system'] as const).map((m) => (
+                    <button
+                      key={m}
+                      onClick={() => setThemeMode(m)}
+                      className={`py-2 px-2 rounded-md text-[10px] font-bold capitalize flex items-center justify-center gap-1 transition-all duration-200 cursor-pointer ${
+                        themeMode === m 
+                          ? 'bg-primary/20 border border-primary/30 text-text-title'
+                          : 'text-text-muted hover:text-text-title'
+                      }`}
+                    >
+                      {m === 'light' && <Sun size={10} />}
+                      {m === 'dark' && <Moon size={10} />}
+                      {m === 'system' && <Monitor size={10} />}
+                      {m}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">Accent Colors</span>
+                <div className="grid grid-cols-4 gap-2">
+                  {colorThemes.map((c) => (
+                    <button
+                      key={c.name}
+                      onClick={() => setThemeColor(c.name)}
+                      className={`flex flex-col items-center gap-1 p-2 rounded-lg border text-[9px] font-bold font-mono cursor-pointer ${
+                        themeColor === c.name 
+                          ? 'border-primary/50 bg-white/[0.03] text-text-title' 
+                          : 'border-transparent text-text-muted'
+                      }`}
+                    >
+                      <div className={`w-5 h-5 rounded-full ${c.class} shadow-sm relative flex items-center justify-center`}>
+                        {themeColor === c.name && <Check size={10} className="text-white font-bold" />}
+                      </div>
+                      <span>{c.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Menu Dropdown Drawer */}
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Click Outside Overlay */}
-            <div 
-              className="fixed inset-0 z-30 bg-black/10 dark:bg-black/40 backdrop-blur-xs lg:hidden"
+            <motion.div 
+              className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm lg:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
             />
             
-            {/* Dedicated Mobile Dropdown */}
             <motion.div
-              className="absolute top-full left-0 w-full bg-white dark:bg-bg-card border-b border-black/8 dark:border-white/8 shadow-lg dark:shadow-black/40 z-40 p-4 flex flex-col gap-4 lg:hidden"
+              className="absolute top-full left-0 w-full bg-bg-darkest/95 backdrop-blur-xl border-b border-white/5 shadow-2xl z-40 p-5 flex flex-col gap-4 lg:hidden rounded-b-2xl"
               initial={{ opacity: 0, y: -15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
             >
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
                 {navLinks.map((link) => (
-                  <NavLink
-                    key={link.nameKey}
-                    to={link.href}
+                  <Link
+                    key={link.path}
+                    to={link.path}
                     onClick={() => setIsOpen(false)}
-                    className={({ isActive }) => 
-                      `text-sm font-bold py-2.5 px-4 rounded-xl transition-all duration-300 text-left ${
-                        isActive 
-                          ? 'bg-primary text-white shadow-md shadow-primary/25' 
-                          : 'text-text-muted hover:text-text-title hover:bg-primary/10'
-                      }`
-                    }
+                    className={`text-sm font-bold py-3 px-4 rounded-xl transition-all duration-300 text-left cursor-pointer ${
+                      isActive(link.path)
+                        ? 'bg-gradient-to-r from-primary/20 to-secondary/20 text-text-title border border-primary/25 shadow-sm' 
+                        : 'text-text-muted hover:text-text-title hover:bg-white/5 border border-transparent'
+                    }`}
                   >
                     {t(link.nameKey)}
-                  </NavLink>
+                  </Link>
                 ))}
               </div>
-              <Link
-                to="/contact"
-                onClick={() => setIsOpen(false)}
-                className="w-full py-3.5 text-center rounded-xl bg-primary hover:bg-primary-hover text-white font-bold flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.98] transition-all duration-300"
+              <button
+                onClick={() => {
+                  setIsOpen(false);
+                  navigate('/contact');
+                }}
+                className="w-full py-3.5 text-center rounded-xl bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white font-bold flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.98] transition-all duration-300 cursor-pointer"
               >
                 {t('navbar.getInTouch')}
-              </Link>
+              </button>
             </motion.div>
           </>
         )}

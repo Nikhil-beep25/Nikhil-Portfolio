@@ -13,15 +13,15 @@ import JourneyPage from './pages/JourneyPage';
 import ContactPage from './pages/ContactPage';
 
 // Scroll to top helper on route change
-function ScrollToTop() {
+function RouteScrollManager() {
   const { pathname } = useLocation();
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'instant' as any });
   }, [pathname]);
   return null;
 }
 
-// Inner App to access router hooks
+// Inner App to access mouse coordinates
 function AppContent() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -34,15 +34,15 @@ function AppContent() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-bg-darkest text-text-main selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col justify-between">
+    <div className="relative min-h-screen bg-bg-darkest text-text-main selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col justify-between overflow-hidden">
       {/* Dynamic SEO Tag & JSON-LD Manager */}
       <SEO />
       
-      {/* Cursor Glow Overlay */}
+      {/* Cursor Glow Overlay - Aurora Palette */}
       <div 
         className="pointer-events-none fixed inset-0 z-30 transition duration-200 opacity-60 hidden md:block"
         style={{
-          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(6, 182, 212, 0.12), rgba(56, 189, 248, 0.05), transparent 80%)`
+          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(139, 92, 246, 0.12) 0%, rgba(6, 182, 212, 0.06) 35%, rgba(236, 72, 153, 0.02) 65%, transparent 80%)`
         }}
       />
 
@@ -51,7 +51,7 @@ function AppContent() {
       
       {/* Page Routing */}
       <div className="flex-grow">
-        <ScrollToTop />
+        <RouteScrollManager />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutPage />} />
@@ -59,6 +59,7 @@ function AppContent() {
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/journey" element={<JourneyPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="*" element={<Home />} />
         </Routes>
       </div>
 
@@ -69,14 +70,41 @@ function AppContent() {
 }
 
 export default function App() {
-  // Sync the theme variable directly on load
+  // Sync the theme variable and accent colors directly on load
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    if (savedTheme === 'dark') {
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const savedMode = localStorage.getItem('theme-mode') || 'dark';
+    
+    let isDark = savedMode === 'dark';
+    if (savedMode === 'system') {
+      isDark = systemPrefersDark;
+    }
+    
+    if (isDark) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
+    
+    // Set accent colors
+    const savedColor = localStorage.getItem('theme-color') || 'purple';
+    const themes = {
+      purple: { primary: '#8B5CF6', primaryHover: '#7C3AED', primaryLight: '#A78BFA', secondary: '#EC4899', secondaryHover: '#DB2777', secondaryLight: '#F472B6' },
+      blue: { primary: '#3B82F6', primaryHover: '#2563EB', primaryLight: '#60A5FA', secondary: '#06B6D4', secondaryHover: '#0891B2', secondaryLight: '#67E8F9' },
+      emerald: { primary: '#10B981', primaryHover: '#059669', primaryLight: '#34D399', secondary: '#3B82F6', secondaryHover: '#2563EB', secondaryLight: '#60A5FA' },
+      orange: { primary: '#F97316', primaryHover: '#EA580C', primaryLight: '#FB923C', secondary: '#EF4444', secondaryHover: '#DC2626', secondaryLight: '#F87171' },
+      cyan: { primary: '#06B6D4', primaryHover: '#0891B2', primaryLight: '#67E8F9', secondary: '#8B5CF6', secondaryHover: '#7C3AED', secondaryLight: '#A78BFA' },
+      rose: { primary: '#F43F5E', primaryHover: '#E11D48', primaryLight: '#FB7185', secondary: '#8B5CF6', secondaryHover: '#7C3AED', secondaryLight: '#A78BFA' },
+      slate: { primary: '#64748B', primaryHover: '#475569', primaryLight: '#94A3B8', secondary: '#334155', secondaryHover: '#1E293B', secondaryLight: '#64748B' },
+    };
+    const activeObj = themes[savedColor as keyof typeof themes] || themes.purple;
+    const root = document.documentElement;
+    root.style.setProperty('--color-primary', activeObj.primary);
+    root.style.setProperty('--color-primary-hover', activeObj.primaryHover);
+    root.style.setProperty('--color-primary-light', activeObj.primaryLight);
+    root.style.setProperty('--color-secondary', activeObj.secondary);
+    root.style.setProperty('--color-secondary-hover', activeObj.secondaryHover);
+    root.style.setProperty('--color-secondary-light', activeObj.secondaryLight);
   }, []);
 
   return (
