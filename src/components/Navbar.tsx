@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sun, Moon, Languages, Settings, Monitor, Check } from 'lucide-react';
+import { Menu, X, Sun, Moon, Settings, Monitor, Check } from 'lucide-react';
 import Avatar from './Avatar';
 
 const navLinks = [
@@ -25,7 +25,7 @@ const colorThemes = [
 ];
 
 export default function Navbar() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
@@ -127,12 +127,6 @@ export default function Navbar() {
     setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
-  const toggleLanguage = () => {
-    const nextLang = i18n.language === 'en' ? 'hi' : 'en';
-    i18n.changeLanguage(nextLang);
-    localStorage.setItem('i18nextLng', nextLang);
-  };
-
   const isActive = (path: string) => {
     if (path === '/') return location.pathname === '/';
     return location.pathname.startsWith(path);
@@ -201,16 +195,6 @@ export default function Navbar() {
         {/* Desktop Utilities */}
         <div className="hidden lg:flex items-center gap-3 relative" ref={dropdownRef}>
           
-          {/* Language Switcher */}
-          <button
-            onClick={toggleLanguage}
-            className="p-2 rounded-xl bg-white/[0.03] border border-white/5 hover:border-primary/30 hover:bg-white/5 text-text-muted hover:text-text-title transition-all duration-300 flex items-center gap-1.5 cursor-pointer text-xs font-bold font-mono"
-            title="Toggle Language / भाषा बदलें"
-          >
-            <Languages size={14} className="text-primary-light" />
-            {i18n.language === 'en' ? 'EN' : 'HI'}
-          </button>
-
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
@@ -317,15 +301,6 @@ export default function Navbar() {
             }`}
           >
             <Settings size={14} />
-          </button>
-
-          {/* Mobile Language Selector */}
-          <button
-            onClick={toggleLanguage}
-            className="p-2 rounded-lg bg-white/[0.03] border border-white/5 text-text-muted flex items-center gap-1 text-[11px] font-bold font-mono cursor-pointer"
-          >
-            <Languages size={12} className="text-primary-light" />
-            {i18n.language === 'en' ? 'EN' : 'HI'}
           </button>
 
           {/* Hamburger Menu */}
