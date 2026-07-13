@@ -4,8 +4,14 @@ interface AnimatedRoleProps {
   className?: string;
 }
 
+const ROLES = [
+  "Full Stack Developer",
+  "Python Backend Developer",
+  "React & TypeScript Developer",
+  "Building Modern Digital Experiences"
+];
+
 export default function AnimatedRole({ className = "" }: AnimatedRoleProps) {
-  const roles = ["Python Developer", "Full Stack Developer"];
   const [displayText, setDisplayText] = useState("");
   const [roleIndex, setRoleIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -37,7 +43,7 @@ export default function AnimatedRole({ className = "" }: AnimatedRoleProps) {
   // Typewriter core animation loop
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
-    const currentFullText = roles[roleIndex];
+    const currentFullText = ROLES[roleIndex];
 
     if (!isDeleting) {
       // Type letter-by-letter (70ms speed)
@@ -60,7 +66,7 @@ export default function AnimatedRole({ className = "" }: AnimatedRoleProps) {
       } else {
         // Switch to the next role
         setIsDeleting(false);
-        setRoleIndex((prev) => (prev + 1) % roles.length);
+        setRoleIndex((prev) => (prev + 1) % ROLES.length);
       }
     }
 

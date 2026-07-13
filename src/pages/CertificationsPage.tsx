@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
 import { ExternalLink, Calendar, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { FaCertificate } from 'react-icons/fa';
 
@@ -12,8 +11,6 @@ interface Certification {
 }
 
 export default function CertificationsPage() {
-  const { t } = useTranslation();
-
   const certifications: Certification[] = [
     {
       title: "Python Software Engineering",
@@ -61,7 +58,7 @@ export default function CertificationsPage() {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono font-bold text-primary-light uppercase tracking-wider">
-            {t('certifications.badge') || "My Credentials"}
+            My Credentials
           </span>
           <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
             Professional Certifications

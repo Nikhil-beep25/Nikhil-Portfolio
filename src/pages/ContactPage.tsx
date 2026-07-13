@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
 import { 
   Mail, MapPin, Phone, Send, 
   AlertTriangle, ArrowRight, ShieldCheck 
@@ -8,8 +7,6 @@ import {
 import { FaGithub, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 
 export default function ContactPage() {
-  const { t } = useTranslation();
-
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState<Partial<typeof formData>>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -17,13 +14,13 @@ export default function ContactPage() {
 
   const validate = () => {
     const tempErrors: Partial<typeof formData> = {};
-    if (!formData.name.trim()) tempErrors.name = t('contact.validation.name') || "Name is required";
+    if (!formData.name.trim()) tempErrors.name = "Name is required";
     if (!formData.email.trim()) {
-      tempErrors.email = t('contact.validation.emailRequired') || "Email is required";
+      tempErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      tempErrors.email = t('contact.validation.emailInvalid') || "Invalid email format";
+      tempErrors.email = "Invalid email format";
     }
-    if (!formData.message.trim()) tempErrors.message = t('contact.validation.message') || "Message cannot be empty";
+    if (!formData.message.trim()) tempErrors.message = "Message is required";
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
@@ -60,15 +57,15 @@ export default function ContactPage() {
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
     } catch (err: any) {
-      setSubmitError(err.message || t('contact.validation.submitFailed') || "Failed to submit. Please try again.");
+      setSubmitError(err.message || "Failed to submit. Please try again.");
       setStatus('idle');
     }
   };
 
   const contactInfo = [
-    { icon: <Mail size={16} className="text-primary-light" />, label: t('contact.info.email') || "Email Address", value: "nikhilbhadauriya2500@gmail.com", href: "mailto:nikhilbhadauriya2500@gmail.com" },
-    { icon: <Phone size={16} className="text-secondary-light" />, label: t('contact.info.whatsapp') || "WhatsApp Direct", value: "+91 80773 13959", href: "https://wa.me/918077313959" },
-    { icon: <MapPin size={16} className="text-emerald-400" />, label: t('contact.info.location') || "Current Location", value: t('about.focus.locationValue') || "Agra, Uttar Pradesh, India", href: "https://maps.google.com/?q=Agra" }
+    { icon: <Mail size={16} className="text-primary-light" />, label: "Direct Email", value: "nikhilbhadauriya2500@gmail.com", href: "mailto:nikhilbhadauriya2500@gmail.com" },
+    { icon: <Phone size={16} className="text-secondary-light" />, label: "WhatsApp Direct", value: "+91 80773 13959", href: "https://wa.me/918077313959" },
+    { icon: <MapPin size={16} className="text-emerald-400" />, label: "Current Location", value: "Agra, Uttar Pradesh, India", href: "https://maps.google.com/?q=Agra" }
   ];
 
   return (
@@ -87,13 +84,13 @@ export default function ContactPage() {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono font-bold text-primary-light uppercase tracking-wider">
-            {t('contact.badge') || "Get In Touch"}
+            Connection
           </span>
           <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
-            {t('contact.title') || "Contact Center"}
+            Get In Touch
           </h2>
           <p className="text-text-muted mt-4 max-w-lg mx-auto text-xs md:text-sm leading-relaxed">
-            {t('contact.subtitle') || "Have an application design, a Python API pipeline task, or a database engineering project to build? Let's connect."}
+            Have a project in mind, want to build a SaaS, or looking to hire a full-stack developer? Shoot me a message.
           </p>
         </div>
 
@@ -117,16 +114,16 @@ export default function ContactPage() {
                   <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-[#111827] font-display">{t('contact.discuss') || "Freelance Availability Status"}</h4>
+                  <h4 className="text-xs font-bold text-[#111827] font-display">Freelance Availability Status</h4>
                   <p className="text-[10px] text-[#374151] mt-1 leading-normal font-medium">
-                    {t('contact.discussDesc') || "Currently accepting client contracts, backend integration tasks, and full stack SaaS setups."}
+                    Currently accepting client contracts, backend integration tasks, and full stack SaaS setups.
                   </p>
                 </div>
               </div>
 
               {/* Grid lists */}
               <div className="space-y-6">
-                <h5 className="text-[10px] font-bold text-[#374151] uppercase tracking-widest font-mono">{t('contact.channels') || "Direct Channels"}</h5>
+                <h5 className="text-[10px] font-bold text-[#374151] uppercase tracking-widest font-mono">Direct Channels</h5>
                 
                 <div className="space-y-4">
                   {contactInfo.map((info, idx) => (
@@ -152,7 +149,7 @@ export default function ContactPage() {
 
             {/* Social channels card */}
             <div className="border-t border-black/5 pt-8 mt-8 text-left space-y-4">
-              <span className="text-[10px] font-bold text-[#374151] uppercase tracking-widest font-mono block">{t('contact.socialHandles') || "Dev Handles"}</span>
+              <span className="text-[10px] font-bold text-[#374151] uppercase tracking-widest font-mono block">Dev Handles</span>
               <div className="flex items-center gap-3">
                 <a
                   href="https://github.com/Nikhil-beep25"
@@ -200,9 +197,9 @@ export default function ContactPage() {
                 <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full animate-bounce">
                   <ShieldCheck size={36} />
                 </div>
-                <h3 className="text-lg font-bold text-[#111827] font-display">{t('contact.successTitle')}</h3>
+                <h3 className="text-lg font-bold text-[#111827] font-display">Message Sent Successfully!</h3>
                 <p className="text-xs text-[#374151] max-w-sm leading-relaxed font-semibold">
-                  {t('contact.successDesc')}
+                  Thank you for reaching out, Nikhil. I have received your message and will respond to you shortly.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 pt-2">
                   <a
@@ -212,13 +209,13 @@ export default function ContactPage() {
                     className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold transition-all duration-300 shadow-md cursor-pointer hover:scale-[1.02] justify-center"
                   >
                     <FaWhatsapp size={14} />
-                    {t('contact.whatsappLabel')}
+                    WhatsApp Direct
                   </a>
                   <button
                     onClick={() => setStatus('idle')}
                     className="flex items-center justify-center gap-1.5 text-xs font-bold text-primary hover:text-primary-hover transition-colors cursor-pointer px-5 py-2.5 rounded-xl border border-primary/20 hover:bg-primary/5"
                   >
-                    {t('contact.sendAnother')}
+                    Send another message
                     <ArrowRight size={12} />
                   </button>
                 </div>
@@ -226,14 +223,14 @@ export default function ContactPage() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6 text-left">
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="name" className="text-[10px] font-semibold text-[#374151] uppercase tracking-[0.08em] font-mono">{t('contact.formName')}</label>
+                  <label htmlFor="name" className="text-[10px] font-semibold text-[#374151] uppercase tracking-[0.08em] font-mono">Full Name</label>
                   <input
                     type="text"
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    placeholder={t('contact.namePlaceholder')}
+                    placeholder="Enter your name"
                     className="w-full px-4.5 py-3 rounded-2xl bg-white/75 backdrop-blur-[10px] border-[1.5px] border-[rgba(125,125,125,0.18)] focus:border-primary focus:shadow-[0_0_15px_rgba(139,92,246,0.25)] focus:scale-[1.01] transition-all duration-200 outline-none text-xs text-[#111827] font-medium placeholder:text-[#6B7280] placeholder:opacity-100 placeholder:font-medium"
                   />
                   {errors.name && (
@@ -245,14 +242,14 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="email" className="text-[10px] font-semibold text-[#374151] uppercase tracking-[0.08em] font-mono">{t('contact.formEmail')}</label>
+                  <label htmlFor="email" className="text-[10px] font-semibold text-[#374151] uppercase tracking-[0.08em] font-mono">Email Address</label>
                   <input
                     type="email"
                     id="email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    placeholder={t('contact.emailPlaceholder')}
+                    placeholder="you@example.com"
                     className="w-full px-4.5 py-3 rounded-2xl bg-white/75 backdrop-blur-[10px] border-[1.5px] border-[rgba(125,125,125,0.18)] focus:border-primary focus:shadow-[0_0_15px_rgba(139,92,246,0.25)] focus:scale-[1.01] transition-all duration-200 outline-none text-xs text-[#111827] font-medium placeholder:text-[#6B7280] placeholder:opacity-100 placeholder:font-medium"
                   />
                   {errors.email && (
@@ -264,13 +261,13 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="message" className="text-[10px] font-semibold text-[#374151] uppercase tracking-[0.08em] font-mono">{t('contact.formMessage')}</label>
+                  <label htmlFor="message" className="text-[10px] font-semibold text-[#374151] uppercase tracking-[0.08em] font-mono">Your Message</label>
                   <textarea
                     id="message"
                     name="message"
                     value={formData.message}
                     onChange={handleInputChange}
-                    placeholder={t('contact.messagePlaceholder')}
+                    placeholder="Detail your request..."
                     className="w-full px-4.5 py-3 rounded-2xl bg-white/75 backdrop-blur-[10px] border-[1.5px] border-[rgba(125,125,125,0.18)] focus:border-primary focus:shadow-[0_0_15px_rgba(139,92,246,0.25)] focus:scale-[1.01] transition-all duration-200 outline-none text-xs text-[#111827] font-medium placeholder:text-[#6B7280] placeholder:opacity-100 placeholder:font-medium resize-none min-h-[180px]"
                   />
                   {errors.message && (
@@ -293,7 +290,7 @@ export default function ContactPage() {
                   disabled={status === 'submitting'}
                   className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white text-xs font-bold transition-all duration-300 disabled:opacity-60 shadow-md shadow-primary/10 cursor-pointer hover:scale-[1.01] active:scale-[0.98]"
                 >
-                  {status === 'submitting' ? t('contact.sending') : t('contact.send')}
+                  {status === 'submitting' ? "Sending Message..." : "Send Message"}
                   <Send size={12} />
                 </button>
               </form>

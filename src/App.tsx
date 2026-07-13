@@ -30,7 +30,7 @@ function AppContent() {
     try {
       const hasShown = sessionStorage.getItem('portfolioIntroShown');
       return hasShown !== 'true';
-    } catch (e) {
+    } catch {
       return false;
     }
   });

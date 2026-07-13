@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
 import { FaPython, FaReact, FaNodeJs, FaDocker, FaGithub } from 'react-icons/fa';
 import { 
   SiDjango, SiTypescript, SiTailwindcss, SiExpress, SiPostgresql, SiPrisma 
@@ -21,11 +20,10 @@ interface SkillCategory {
 }
 
 export default function SkillsPage() {
-  const { t } = useTranslation();
 
   const categories: SkillCategory[] = [
     {
-      title: t('skills.frontend'),
+      title: "Frontend Stack",
       icon: <Globe size={20} className="text-blue-500" />,
       bgColor: "bg-blue-500/5",
       glowColor: "group-hover:border-blue-500/20",
@@ -38,7 +36,7 @@ export default function SkillsPage() {
       ]
     },
     {
-      title: t('skills.backend'),
+      title: "Backend Core",
       icon: <Server size={20} className="text-green-500" />,
       bgColor: "bg-green-500/5",
       glowColor: "group-hover:border-green-500/20",
@@ -50,7 +48,7 @@ export default function SkillsPage() {
       ]
     },
     {
-      title: t('skills.database'),
+      title: "Databases & ORMs",
       icon: <Database size={20} className="text-[#4169E1]" />,
       bgColor: "bg-blue-600/5",
       glowColor: "group-hover:border-blue-600/20",
@@ -60,7 +58,7 @@ export default function SkillsPage() {
       ]
     },
     {
-      title: t('skills.devops'),
+      title: "DevOps & Cloud",
       icon: <Cpu size={20} className="text-teal-500" />,
       bgColor: "bg-teal-500/5",
       glowColor: "group-hover:border-teal-500/20",
@@ -71,7 +69,7 @@ export default function SkillsPage() {
       ]
     },
     {
-      title: t('skills.ai'),
+      title: "AI Integrations",
       icon: <Sparkles size={20} className="text-emerald-400" />,
       bgColor: "bg-emerald-500/5",
       glowColor: "group-hover:border-emerald-500/20",
@@ -83,10 +81,10 @@ export default function SkillsPage() {
   ];
 
   const projectUsage = [
-    { tech: "React & TypeScript", project: "VidyaSanchar ERP", usageKey: "skills.usage.reactTs" },
-    { tech: "React & Tailwind CSS", project: "Personal Portfolio", usageKey: "skills.usage.reactTailwind" },
-    { tech: "PostgreSQL & Prisma", project: "VidyaSanchar ERP", usageKey: "skills.usage.postgresPrisma" },
-    { tech: "Docker Containerization", project: "VidyaSanchar ERP", usageKey: "skills.usage.docker" }
+    { tech: "React & TypeScript", project: "VidyaSanchar ERP", usage: "Engineered client dashboards, state management, and role-based route guard structures." },
+    { tech: "React & Tailwind CSS", project: "Personal Portfolio", usage: "Created dynamic theme customizer, high-contrast grid layouts, and interactive orb orbits." },
+    { tech: "PostgreSQL & Prisma", project: "VidyaSanchar ERP", usage: "Modeled normalized transaction ledgers, attendance tables, and created efficient query indexes." },
+    { tech: "Docker Containerization", project: "VidyaSanchar ERP", usage: "Containerized local environment database schemas to ensure seamless test replication." }
   ];
 
   return (
@@ -104,13 +102,13 @@ export default function SkillsPage() {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono font-bold text-primary-light uppercase tracking-wider">
-            {t('skills.badge')}
+            My Tech Stack
           </span>
           <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
-            {t('skills.title')}
+            Full-Stack Tooling & Expertise
           </h2>
           <p className="text-text-muted mt-4 max-w-lg mx-auto text-xs md:text-sm leading-relaxed">
-            {t('skills.description')}
+            A curated list of languages, frameworks, databases, and deployment platforms I use to build scalable products.
           </p>
         </div>
 
@@ -166,7 +164,7 @@ export default function SkillsPage() {
               {/* Footer Badge - Pushed to bottom */}
               <div className="mt-auto pt-4 border-t border-white/5">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-[9px] font-mono font-bold text-primary-light uppercase tracking-wider">
-                  ✓ {t('skills.verifiedStack')}
+                  ✓ Verified Stack
                 </span>
               </div>
             </motion.div>
@@ -179,10 +177,10 @@ export default function SkillsPage() {
             <div className="text-center max-w-xl mx-auto">
               <h3 className="text-xl font-bold font-display text-text-title flex items-center justify-center gap-2">
                 <AlertCircle className="text-primary-light" size={20} />
-                {t('skills.realWorldTitle')}
+                Real-World Project Integrations
               </h3>
               <p className="text-xs text-text-muted mt-2">
-                {t('skills.realWorldSubtitle')}
+                How these specific technologies have been deployed to solve production challenges in my work.
               </p>
             </div>
 
@@ -203,7 +201,7 @@ export default function SkillsPage() {
                     <span className="text-[10px] text-primary-light font-mono font-bold">{item.project}</span>
                   </div>
                   <p className="text-xs text-text-muted leading-relaxed">
-                    {t(item.usageKey)}
+                    {item.usage}
                   </p>
                 </motion.div>
               ))}

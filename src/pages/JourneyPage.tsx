@@ -1,67 +1,64 @@
 import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
 import { FaGithub } from 'react-icons/fa';
 
 interface TimelineStep {
-  stepKey: string;
-  titleKey: string;
-  subtitleKey: string;
-  descKey: string;
+  step: string;
+  title: string;
+  subtitle: string;
+  desc: string;
   tech?: string[];
-  bulletsKeys?: string[];
-  badgeKey?: string;
+  bullets?: string[];
+  badge?: string;
   highlight?: boolean;
 }
 
 export default function JourneyPage() {
-  const { t } = useTranslation();
-
   const journeySteps: TimelineStep[] = [
     {
-      stepKey: "journey.step1.step",
-      titleKey: "journey.step1.title",
-      subtitleKey: "journey.step1.subtitle",
-      descKey: "journey.step1.desc",
+      step: "STEP 1",
+      title: "Computer Science Fundamentals",
+      subtitle: "Fundamentals & Basics",
+      desc: "Started learning web development fundamentals and computer science basics.",
       tech: ["HTML", "CSS", "JavaScript", "Git", "Problem Solving"]
     },
     {
-      stepKey: "journey.step2.step",
-      titleKey: "journey.step2.title",
-      subtitleKey: "journey.step2.subtitle",
-      descKey: "journey.step2.desc",
+      step: "STEP 2",
+      title: "Frontend Development",
+      subtitle: "UI Engineering",
+      desc: "Focused on modern frontend development and UI engineering.",
       tech: ["React", "TypeScript", "Tailwind CSS", "Responsive Design", "Component Architecture"]
     },
     {
-      stepKey: "journey.step3.step",
-      titleKey: "journey.step3.title",
-      subtitleKey: "journey.step3.subtitle",
-      descKey: "journey.step3.desc",
+      step: "STEP 3",
+      title: "Backend Development",
+      subtitle: "Server & REST APIs",
+      desc: "Expanded into backend development and server-side architecture.",
       tech: ["Node.js", "Express.js", "REST APIs", "Authentication", "Database Design"]
     },
     {
-      stepKey: "journey.step4.step",
-      titleKey: "journey.step4.title",
-      subtitleKey: "journey.step4.subtitle",
-      descKey: "journey.step4.desc",
+      step: "STEP 4",
+      title: "Database & DevOps",
+      subtitle: "Infrastructure & Scaling",
+      desc: "Built scalable applications with proper database structures.",
       tech: ["PostgreSQL", "Prisma ORM", "GitHub", "Deployment", "Docker Basics"]
     },
     {
-      stepKey: "journey.step5.step",
-      titleKey: "journey.step5.title",
-      subtitleKey: "journey.step5.subtitle",
-      descKey: "journey.step5.desc",
+      step: "STEP 5",
+      title: "VidyaSanchar ERP",
+      subtitle: "🔥 CURRENT PROJECT",
+      desc: "Building a full-stack school ERP with authentication, student management, attendance, fee management, and PostgreSQL integration.",
       tech: ["React", "Node.js", "Express", "PostgreSQL", "Prisma"],
-      badgeKey: "journey.step5.badge",
+      badge: "🔥 CURRENT PROJECT",
       highlight: true
     },
     {
-      stepKey: "journey.step6.step",
-      titleKey: "journey.step6.title",
-      subtitleKey: "journey.step6.subtitle",
-      descKey: "journey.step6.desc",
-      bulletsKeys: ["journey.step6.bullet1", "journey.step6.bullet2", "journey.step6.bullet3", "journey.step6.bullet4"],
+      step: "STEP 6",
+      title: "Future Goals",
+      subtitle: "🚀 NEXT PHASE",
+      desc: "",
+      bullets: ["SaaS Products", "AI Integrations", "Open Source Contributions", "Production Scale Applications"],
       tech: [],
-      badgeKey: "journey.step6.badge"
+      badge: "🚀 NEXT PHASE"
     }
   ];
 
@@ -81,13 +78,13 @@ export default function JourneyPage() {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono font-bold text-primary-light uppercase tracking-wider">
-            {t('journey.badgeTitle') || "Full Stack Developer Journey"}
+            Full Stack Developer Journey
           </span>
           <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
-            {t('journey.mainTitle') || "2026 — Full Stack Development Journey"}
+            2026 — Full Stack Development Journey
           </h2>
           <p className="text-text-muted mt-4 max-w-lg mx-auto text-xs md:text-sm leading-relaxed">
-            {t('journey.mainDesc') || "A vertical roadmap showing the progression from web basics, frontend styling, backend systems, database management, and flagship ERP deployment."}
+            A vertical roadmap showing the progression from web basics, frontend styling, backend systems, database management, and flagship ERP deployment.
           </p>
         </div>
 
@@ -124,35 +121,35 @@ export default function JourneyPage() {
                   >
                      <div className="flex flex-wrap items-center gap-2.5 mb-2">
                       <span className="text-[9px] font-mono font-extrabold text-primary bg-primary/10 border border-primary/25 px-2 py-0.5 rounded">
-                        {t(step.stepKey)}
+                        {step.step}
                       </span>
-                      {step.badgeKey && (
+                      {step.badge && (
                         <span className="text-[9px] font-mono font-extrabold text-emerald-400 bg-emerald-400/10 border border-emerald-400/25 px-2 py-0.5 rounded">
-                          {t(step.badgeKey)}
+                          {step.badge}
                         </span>
                       )}
                     </div>
                     
                     <h3 className="text-base font-bold text-text-title font-display mb-1">
-                      {t(step.titleKey)}
+                      {step.title}
                     </h3>
-                    {step.subtitleKey && !step.badgeKey && (
+                    {step.subtitle && !step.badge && (
                       <h4 className="text-[10px] font-bold text-secondary-light font-mono mb-2 uppercase tracking-wide">
-                        {t(step.subtitleKey)}
+                        {step.subtitle}
                       </h4>
                     )}
                     
-                    {step.descKey && t(step.descKey) !== "" && (
+                    {step.desc && step.desc !== "" && (
                       <p className="text-xs text-text-muted leading-relaxed mb-3">
-                        {t(step.descKey)}
+                        {step.desc}
                       </p>
                     )}
 
                     {/* Display bullets if any */}
-                    {step.bulletsKeys && (
+                    {step.bullets && (
                       <ul className="list-disc list-inside text-xs text-text-muted space-y-1 mb-3 pl-1 font-mono">
-                        {step.bulletsKeys.map((bKey) => (
-                          <li key={bKey}>{t(bKey)}</li>
+                        {step.bullets.map((bullet) => (
+                          <li key={bullet}>{bullet}</li>
                         ))}
                       </ul>
                     )}
@@ -189,7 +186,7 @@ export default function JourneyPage() {
                   <div>
                     <span className="text-sm font-bold text-text-title block font-display">@Nikhil-beep25</span>
                     <span className="text-[10px] text-text-muted font-mono block mt-0.5">github.com/Nikhil-beep25</span>
-                    <span className="text-[10px] text-emerald-400 font-mono block mt-1 font-bold">{t('journey.githubText')}</span>
+                    <span className="text-[10px] text-emerald-400 font-mono block mt-1 font-bold">View real repositories and contributions on GitHub ↗</span>
                   </div>
                 </div>
                 <a
@@ -199,7 +196,7 @@ export default function JourneyPage() {
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold shadow-md hover:scale-105 active:scale-95 transition-all duration-300 flex-shrink-0"
                 >
                   <FaGithub size={14} />
-                  {t('journey.githubButton')}
+                  View GitHub Profile
                 </a>
               </div>
             </motion.div>

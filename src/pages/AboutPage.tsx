@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
 import { 
   FaReact, FaNodeJs, FaPython, FaDocker 
 } from 'react-icons/fa';
@@ -11,17 +10,13 @@ import { MapPin, Mail } from 'lucide-react';
 import AnimatedRole from '../components/AnimatedRole';
 
 export default function AboutPage() {
-  const { t } = useTranslation();
-
-
-
   // Typewriter effect
   const typewriterTexts = useMemo(() => [
-    t('about.typewriter.webApp'),
-    t('about.typewriter.backend'),
-    t('about.typewriter.database'),
-    t('about.typewriter.saas')
-  ], [t]);
+    "Web App Development",
+    "REST API Architectures",
+    "Database Schemas & Rules",
+    "Full-Stack SaaS Blueprints"
+  ], []);
   const [typewriterText, setTypewriterText] = useState("");
   const [textIndex, setTextIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -52,35 +47,31 @@ export default function AboutPage() {
 
     const timer = setTimeout(handleType, typingSpeed);
     return () => clearTimeout(timer);
-  }, [typewriterText, isDeleting, textIndex, typingSpeed]);
+  }, [typewriterText, isDeleting, textIndex, typingSpeed, typewriterTexts]);
 
   // 4 True recruiter-friendly developer cards
   const infoCards = [
     {
-      titleKey: "about.focus.current",
+      title: "Current Focus",
       desc: "VidyaSanchar ERP",
-      isStaticDesc: true,
       icon: "🚀",
       color: "hover:border-primary-light/35 hover:shadow-[0_0_30px_rgba(139,92,246,0.15)]"
     },
     {
-      titleKey: "about.focus.learning",
-      descKey: "about.focus.learningValue",
-      isStaticDesc: false,
+      title: "Deep Dive Learning",
+      desc: "AI Agents & Vector Search",
       icon: "🌱",
       color: "hover:border-secondary-light/35 hover:shadow-[0_0_30px_rgba(236,72,153,0.15)]"
     },
     {
-      titleKey: "about.focus.projects",
-      descKey: "about.focus.projectsValue",
-      isStaticDesc: false,
+      title: "Recent Activity",
+      desc: "React & TypeScript Blueprints",
       icon: "💻",
       color: "hover:border-emerald-500/35 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]"
     },
     {
-      titleKey: "about.focus.location",
-      descKey: "about.focus.locationValue",
-      isStaticDesc: false,
+      title: "Location",
+      desc: "Agra, Uttar Pradesh, India",
       icon: "📍",
       color: "hover:border-secondary/35 hover:shadow-[0_0_30px_rgba(139,92,246,0.15)]"
     }
@@ -125,7 +116,7 @@ export default function AboutPage() {
           >
             <div className="w-fit">
               <span className="px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono font-bold text-primary-light uppercase tracking-wider">
-                {t('about.badge') || "About the Developer"}
+                About the Developer
               </span>
             </div>
             
@@ -165,7 +156,7 @@ export default function AboutPage() {
             {/* Authentic Copy Block */}
             <div className="space-y-4 text-sm md:text-base text-text-muted leading-relaxed">
               <p>
-                {t('about.p1')} {t('about.p2')} {t('about.p3')}
+                I am a full stack software developer focusing on modern web applications and robust backend services. I specialize in TypeScript, React, Node.js, Express, and relational database modeling (PostgreSQL/Prisma). My approach is grounded in writing clean code, designing scalable schemas, and building responsive user interfaces.
               </p>
             </div>
 
@@ -173,7 +164,7 @@ export default function AboutPage() {
             <div className="flex flex-wrap gap-4 pt-2 text-xs font-mono text-text-muted">
               <div className="flex items-center gap-2 bg-white/[0.02] border border-white/5 px-3.5 py-2 rounded-xl">
                 <MapPin size={14} className="text-secondary" />
-                <span>{t('about.focus.locationValue') || "Agra, Uttar Pradesh, India"}</span>
+                <span>Agra, Uttar Pradesh, India</span>
               </div>
               <div className="flex items-center gap-2 bg-white/[0.02] border border-white/5 px-3.5 py-2 rounded-xl">
                 <Mail size={14} className="text-primary" />
@@ -191,14 +182,14 @@ export default function AboutPage() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white text-xs font-bold shadow-md hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
               >
-                📄 {t('about.viewResume')}
+                📄 View Resume
               </a>
               <a
                 href="/resume/Nikhil_Bhadauriya_Resume.pdf"
                 download="Nikhil_Bhadauriya_Resume.pdf"
                 className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/[0.03] hover:bg-white/5 text-text-title border border-white/5 hover:border-primary/20 text-xs font-bold active:scale-95 transition-all duration-300 cursor-pointer hover:shadow-[0_0_15px_rgba(139,92,246,0.15)]"
               >
-                📥 {t('about.downloadResume')}
+                📥 Download Resume
               </a>
             </div>
 
@@ -268,17 +259,17 @@ export default function AboutPage() {
         <div className="border-t border-white/5 pt-16 space-y-8">
           <div className="text-center max-w-xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold font-display text-text-title tracking-tight">
-              {t('about.statsTitle')}
+              Developer Overview
             </h2>
             <p className="text-xs text-text-muted mt-2">
-              {t('about.statsSubtitle')}
+              Real metrics and status details describing my technical focus.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {infoCards.map((card, idx) => (
               <motion.div
-                key={card.titleKey}
+                key={card.title}
                 className={`p-6 rounded-2xl glass-aurora border border-white/5 text-left flex flex-col justify-between h-40 transition-all duration-300 ${card.color}`}
                 initial={{ opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -288,12 +279,12 @@ export default function AboutPage() {
               >
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-text-muted font-mono uppercase tracking-wider">
-                    {t(card.titleKey)}
+                    {card.title}
                   </span>
                   <span className="text-xl select-none">{card.icon}</span>
                 </div>
                 <div className="text-base font-extrabold text-text-title font-display mt-4">
-                  {card.isStaticDesc ? card.desc : t(card.descKey || "")}
+                  {card.desc}
                 </div>
               </motion.div>
             ))}
@@ -303,27 +294,27 @@ export default function AboutPage() {
         {/* Section 3: Tech Stack Grid */}
         <div className="border-t border-white/5 pt-16 space-y-8">
           <div className="text-center max-w-xl mx-auto">
-            <span className="text-xs font-mono font-bold text-primary uppercase tracking-widest">{t('about.toolingTitle')}</span>
+            <span className="text-xs font-mono font-bold text-primary uppercase tracking-widest">TECH STACK</span>
             <h2 className="text-2xl md:text-3xl font-bold font-display text-text-title tracking-tight mt-2">
-              {t('about.toolingSubtitle')}
+              Primary Development Tools
             </h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
             {[
-              { name: "React", icon: <FaReact className="text-[#61DAFB]" />, descKey: "about.tech.react" },
-              { name: "TypeScript", icon: <SiTypescript className="text-[#3178C6]" />, descKey: "about.tech.typescript" },
-              { name: "Node.js", icon: <FaNodeJs className="text-[#339933]" />, descKey: "about.tech.nodejs" },
-              { name: "PostgreSQL", icon: <SiPostgresql className="text-[#4169E1]" />, descKey: "about.tech.postgresql" },
-              { name: "Prisma", icon: <SiPrisma className="text-white" />, descKey: "about.tech.prisma" },
-              { name: "Docker", icon: <FaDocker className="text-[#2496ED]" />, descKey: "about.tech.docker" },
-              { name: "Tailwind CSS", icon: <SiTailwindcss className="text-[#38BDF8]" />, descKey: "about.tech.tailwindcss" },
-              { name: "Python", icon: <FaPython className="text-[#3776AB]" />, descKey: "about.tech.python" }
+              { name: "React", icon: <FaReact className="text-[#61DAFB]" />, desc: "Dynamic UI & state patterns" },
+              { name: "TypeScript", icon: <SiTypescript className="text-[#3178C6]" />, desc: "Type-safe development" },
+              { name: "Node.js", icon: <FaNodeJs className="text-[#339933]" />, desc: "Event-driven server services" },
+              { name: "PostgreSQL", icon: <SiPostgresql className="text-[#4169E1]" />, desc: "Relational database schemas" },
+              { name: "Prisma", icon: <SiPrisma className="text-white" />, desc: "Type-safe database ORM query" },
+              { name: "Docker", icon: <FaDocker className="text-[#2496ED]" />, desc: "Containerized setups" },
+              { name: "Tailwind CSS", icon: <SiTailwindcss className="text-[#38BDF8]" />, desc: "Responsive utility styles" },
+              { name: "Python", icon: <FaPython className="text-[#3776AB]" />, desc: "Scripts, scripting & algorithms" }
             ].map((tech) => (
               <div key={tech.name} className="p-4 rounded-xl bg-white/[0.02] border border-white/5 flex items-center gap-3 hover:border-primary/30 transition-all duration-300 text-left">
                 <span className="text-2xl shrink-0">{tech.icon}</span>
                 <div>
                   <h4 className="text-xs font-bold text-text-title">{tech.name}</h4>
-                  <p className="text-[9px] text-text-muted">{t(tech.descKey)}</p>
+                  <p className="text-[9px] text-text-muted">{tech.desc}</p>
                 </div>
               </div>
             ))}
@@ -333,18 +324,18 @@ export default function AboutPage() {
         {/* Section 4: Animated Learning Timeline */}
         <div className="border-t border-white/5 pt-16 pb-12 space-y-8">
           <div className="text-center max-w-xl mx-auto">
-            <span className="text-xs font-mono font-bold text-secondary uppercase tracking-widest">{t('about.roadmapTitle')}</span>
+            <span className="text-xs font-mono font-bold text-secondary uppercase tracking-widest">TIMELINE</span>
             <h2 className="text-2xl md:text-3xl font-bold font-display text-text-title tracking-tight mt-2">
-              {t('about.roadmapSubtitle')}
+              My Developer Journey
             </h2>
           </div>
           <div className="relative max-w-2xl mx-auto py-8">
             <div className="absolute left-[15px] top-2 bottom-2 w-0.5 bg-gradient-to-b from-primary via-secondary to-transparent" />
             <div className="space-y-8 text-left">
               {[
-                { year: "2024", titleKey: "about.milestone2024", descKey: "about.milestone2024Desc" },
-                { year: "2025", titleKey: "about.milestone2025", descKey: "about.milestone2025Desc" },
-                { year: "2026", titleKey: "about.milestone2026", descKey: "about.milestone2026Desc" }
+                { year: "2024", title: "Transitioning to Full Stack", desc: "Learned Javascript foundations, building mock UI templates, and mastering CSS grids." },
+                { year: "2025", title: "Mastering Core Web Frameworks", desc: "Building full stack prototypes using React, Express, PostgreSQL, and TypeScript." },
+                { year: "2026", title: "Scaling and Cloud Blueprints", desc: "Integrating Docker setups, exploring vector databases, and refining API routing structures." }
               ].map((step, sidx) => (
                 <div key={sidx} className="relative pl-10">
                   <div className="absolute left-0 top-1.5 w-8 h-8 rounded-full bg-bg-darkest border border-white/10 flex items-center justify-center text-[10px] font-bold text-text-title shadow-lg z-10">
@@ -354,9 +345,9 @@ export default function AboutPage() {
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] font-mono font-bold text-primary-light uppercase tracking-wider">{step.year}</span>
                       <span className="text-text-muted">•</span>
-                      <h4 className="text-xs font-bold text-text-title font-display">{t(step.titleKey)}</h4>
+                      <h4 className="text-xs font-bold text-text-title font-display">{step.title}</h4>
                     </div>
-                    <p className="text-xs text-text-muted mt-2 leading-relaxed">{t(step.descKey)}</p>
+                    <p className="text-xs text-text-muted mt-2 leading-relaxed">{step.desc}</p>
                   </div>
                 </div>
               ))}

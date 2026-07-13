@@ -9,7 +9,6 @@ Check out the live portfolio: [https://nikhilbhadauriya-portfolio.vercel.app](ht
 ## 🛠️ Tech Stack
 
 - **Frontend**: React (TypeScript), Vite, Tailwind CSS, Framer Motion, Lucide Icons, React Icons
-- **Internationalization**: i18next (English & Hindi support)
 - **Backend**: Express, Node.js, Resend (for handling contact form inquiries)
 - **Deployment**: Vercel (Frontend), Render (Backend)
 

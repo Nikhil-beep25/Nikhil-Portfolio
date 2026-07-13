@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { 
   Code2, Server, Database, Sparkles, Cpu, 
@@ -15,7 +14,6 @@ interface ServiceItem {
 }
 
 export default function ServicesPage() {
-  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const services: ServiceItem[] = [
@@ -79,7 +77,7 @@ export default function ServicesPage() {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono font-bold text-primary-light uppercase tracking-wider">
-            {t('services.badge') || "What I Do"}
+            What I Do
           </span>
           <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
             Core Engineering Services

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
 import { 
   Users, CheckSquare, BarChart3, 
   ExternalLink, Layers, Server, Database, Zap, Cloud, Search, Globe, Award, CheckCircle2
@@ -12,42 +11,41 @@ import profileAsset from '../assets/profile.jpg';
 const projectsList = [
   {
     title: "VidyaSanchar ERP",
-    taglineKey: "projects.vidyasanchar.tagline",
-    descKey: "projects.vidyasanchar.desc",
+    tagline: "School Management ERP Prototype",
+    desc: "VidyaSanchar is a full-stack educational management portal built as an active learning project. It simulates institutional automation with role-based access control, attendance logging, student dashboards, and a fee ledger — built from scratch using React, Node.js, PostgreSQL, and Prisma.",
     tech: ["React", "Node.js", "PostgreSQL", "Prisma ORM", "Express"],
     categories: ["Full Stack"],
     github: "https://github.com/Nikhil-beep25/Nikhil-Portfolio",
     demo: "https://github.com/Nikhil-beep25",
-    featuresKeys: [
-      "projects.vidyasanchar.feat1",
-      "projects.vidyasanchar.feat2",
-      "projects.vidyasanchar.feat3",
-      "projects.vidyasanchar.feat4"
+    features: [
+      "Role-Based Dashboards",
+      "Attendance Tracking",
+      "Fee Ledger Prototype",
+      "Student Record Management"
     ],
-    statusKey: "projects.vidyasanchar.status",
+    status: "Prototype Under Active Development",
     isFlagship: true
   },
   {
     title: "Personal Portfolio",
-    taglineKey: "projects.portfolio.tagline",
-    descKey: "projects.portfolio.desc",
-    tech: ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Vite", "i18next"],
+    tagline: "Full-Stack Developer Portfolio",
+    desc: "A developer portfolio built with React, TypeScript, Tailwind CSS, and Framer Motion. Features a dynamic theme customizer with 7 color palettes, dark/light/system modes, glassmorphism design, and a contact form powered by Resend.",
+    tech: ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Vite"],
     categories: ["Full Stack"],
     github: "https://github.com/Nikhil-beep25/Nikhil-Portfolio",
     demo: "https://github.com/Nikhil-beep25/Nikhil-Portfolio",
-    featuresKeys: [
-      "projects.portfolio.feat1",
-      "projects.portfolio.feat2",
-      "projects.portfolio.feat3",
-      "projects.portfolio.feat4"
+    features: [
+      "Dynamic Theme Customizer",
+      "7-Palette Color System",
+      "English Support",
+      "Scroll-Aware Navigation"
     ],
-    statusKey: "projects.portfolio.status",
+    status: "Production Ready",
     isFlagship: false
   }
 ];
 
 export default function ProjectsPage() {
-  const { t } = useTranslation();
   const [activeProjectFilter, setActiveProjectFilter] = useState<'All' | 'Full Stack'>('All');
   const [searchQuery, setSearchQuery] = useState('');
   
@@ -60,8 +58,8 @@ export default function ProjectsPage() {
     
     const matchesCategory = activeProjectFilter === 'All' || project.categories.includes(activeProjectFilter);
     const matchesSearch = project.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          t(project.taglineKey).toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          t(project.descKey).toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          project.tagline.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          project.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           project.tech.some(tVal => tVal.toLowerCase().includes(searchQuery.toLowerCase()));
     
     return matchesCategory && matchesSearch;
@@ -70,10 +68,10 @@ export default function ProjectsPage() {
   const flagship = projectsList.find(p => p.isFlagship)!;
 
   const flagshipFeatures = [
-    { icon: <Users size={16} className="text-primary-light" />, titleKey: "projects.featDashboards", descKey: "projects.featDashboardsDesc" },
-    { icon: <CheckSquare size={16} className="text-secondary-light" />, titleKey: "projects.featAttendance", descKey: "projects.featAttendanceDesc" },
-    { icon: <Award size={16} className="text-emerald-400" />, titleKey: "projects.featFees", descKey: "projects.featFeesDesc" },
-    { icon: <BarChart3 size={16} className="text-yellow-400" />, titleKey: "projects.featReports", descKey: "projects.featReportsDesc" }
+    { icon: <Users size={16} className="text-primary-light" />, title: "Role-Based Dashboards", desc: "Simulated dashboards tailored for School Admins, Teachers, Students, and Parents." },
+    { icon: <CheckSquare size={16} className="text-secondary-light" />, title: "Attendance Tracking", desc: "Attendance logging prototype with student records and dashboard visualization." },
+    { icon: <Award size={16} className="text-emerald-400" />, title: "Fee Management", desc: "Mock payment log and fee records dashboard with automated PDF receipt generation." },
+    { icon: <BarChart3 size={16} className="text-yellow-400" />, title: "Reports & Analytics", desc: "Sample charts representing grade curves, demo attendance trends, and financial sheets." }
   ];
 
   return (
@@ -91,13 +89,13 @@ export default function ProjectsPage() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono font-bold text-primary-light uppercase tracking-wider">
-            {t('projects.badge') || "Featured Project"}
+            Featured Project
           </span>
           <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
-            {t('projects.sectionTitle') || "Engineering Projects Case Studies"}
+            Engineering Projects Case Studies
           </h2>
           <p className="text-text-muted mt-4 max-w-2xl mx-auto text-xs md:text-sm leading-relaxed">
-            {t('projects.sectionDescription') || "Projects I have built from scratch — each with a real codebase, verifiable tech stack, and a GitHub repository."}
+            Projects I have built from scratch — each with a real codebase, verifiable tech stack, and a GitHub repository.
           </p>
         </div>
 
@@ -106,7 +104,7 @@ export default function ProjectsPage() {
         {/* ======================================================== */}
         <div className="space-y-10 max-w-6xl mx-auto">
           <div className="text-left border-l-4 border-primary pl-4">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-primary">{t('projects.flagshipSpotlight') || "Flagship Application Spotlight"}</span>
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-primary">Flagship Project Spotlight</span>
             <h3 className="text-2xl md:text-3xl font-bold font-display text-text-title mt-1">{flagship.title}</h3>
           </div>
 
@@ -122,7 +120,7 @@ export default function ProjectsPage() {
                   ))}
                 </div>
                 <p className="text-xs sm:text-sm text-text-muted leading-relaxed">
-                  {t(flagship.descKey)}
+                  {flagship.desc}
                 </p>
               </div>
 
@@ -134,8 +132,8 @@ export default function ProjectsPage() {
                       {feat.icon}
                     </div>
                     <div>
-                      <h5 className="text-[11px] font-bold text-text-title mb-1 font-display leading-tight">{t(feat.titleKey)}</h5>
-                      <p className="text-[9px] text-text-muted leading-normal">{t(feat.descKey)}</p>
+                      <h5 className="text-[11px] font-bold text-text-title mb-1 font-display leading-tight">{feat.title}</h5>
+                      <p className="text-[9px] text-text-muted leading-normal">{feat.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -149,7 +147,7 @@ export default function ProjectsPage() {
                   rel="noreferrer"
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold shadow-md shadow-primary/20 hover:scale-105 active:scale-95 transition-all duration-300"
                 >
-                  {t('projects.exploreDemo')}
+                  Explore Live Demo
                   <ExternalLink size={12} />
                 </a>
                 <a
@@ -159,7 +157,7 @@ export default function ProjectsPage() {
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.02] hover:bg-white/5 text-text-title text-xs font-bold border border-white/5 hover:scale-105 active:scale-95 transition-all duration-300"
                 >
                   <FaGithub size={12} />
-                  {t('projects.codeRepo') || "Code Repository"}
+                  Code Repository
                 </a>
               </div>
             </div>
@@ -169,10 +167,10 @@ export default function ProjectsPage() {
               {/* Tab Selector */}
               <div className="flex flex-wrap items-center gap-1.5 mb-5 border-b border-white/5 pb-2">
                 {[
-                  { id: 'preview', label: t('projects.tabs.preview') || 'Dashboard UI', icon: <Layers size={12} /> },
-                  { id: 'architecture', label: t('projects.tabs.architecture') || 'System Flow', icon: <Database size={12} /> },
-                  { id: 'features', label: t('projects.tabs.challenges') || 'Challenges Solved', icon: <CheckSquare size={12} /> },
-                  { id: 'roadmap', label: t('projects.tabs.roadmap') || 'Development Roadmap', icon: <Cloud size={12} /> },
+                  { id: 'preview', label: 'Dashboard UI', icon: <Layers size={12} /> },
+                  { id: 'architecture', label: 'System Flow', icon: <Database size={12} /> },
+                  { id: 'features', label: 'Challenges Solved', icon: <CheckSquare size={12} /> },
+                  { id: 'roadmap', label: 'Development Roadmap', icon: <Cloud size={12} /> },
                 ].map((tab) => (
                   <button
                     key={tab.id}
@@ -224,10 +222,10 @@ export default function ProjectsPage() {
                             <span className="text-[9px] font-extrabold text-slate-700">VS ERP</span>
                           </div>
                           {[
-                            { label: t('projects.mockup.overview') || "Overview", active: true },
-                            { label: t('projects.mockup.students') || "Students", active: false },
-                            { label: t('projects.mockup.attendance') || "Attendance", active: false },
-                            { label: t('projects.mockup.fees') || "Fee Sheets", active: false }
+                            { label: "Overview", active: true },
+                            { label: "Students", active: false },
+                            { label: "Attendance", active: false },
+                            { label: "Fee Sheets", active: false }
                           ].map((item) => (
                             <div 
                               key={item.label} 
@@ -246,15 +244,15 @@ export default function ProjectsPage() {
                         <div className="flex-1 flex flex-col gap-4">
                           <div className="grid grid-cols-3 gap-3">
                             <div className="p-2.5 rounded-xl bg-white border border-slate-100 shadow-[0_2px_4px_rgba(0,0,0,0.02)]">
-                              <span className="text-[8px] font-semibold text-slate-400 uppercase tracking-wider block">{t('projects.mockup.attendance') || "Attendance"}</span>
+                              <span className="text-[8px] font-semibold text-slate-400 uppercase tracking-wider block">Attendance</span>
                               <span className="text-sm font-extrabold text-indigo-600 block mt-0.5">98.4%</span>
                             </div>
                             <div className="p-2.5 rounded-xl bg-white border border-slate-100 shadow-[0_2px_4px_rgba(0,0,0,0.02)]">
-                              <span className="text-[8px] font-semibold text-slate-400 uppercase tracking-wider block">{t('projects.mockup.students') || "Total Students"}</span>
+                              <span className="text-[8px] font-semibold text-slate-400 uppercase tracking-wider block">Total Students</span>
                               <span className="text-sm font-extrabold text-slate-800 block mt-0.5">1,240</span>
                             </div>
                             <div className="p-2.5 rounded-xl bg-white border border-slate-100 shadow-[0_2px_4px_rgba(0,0,0,0.02)]">
-                              <span className="text-[8px] font-semibold text-slate-400 uppercase tracking-wider block">{t('projects.mockup.fees') || "Fee Collected"}</span>
+                              <span className="text-[8px] font-semibold text-slate-400 uppercase tracking-wider block">Fee Collected</span>
                               <span className="text-sm font-extrabold text-purple-600 block mt-0.5">92.5%</span>
                             </div>
                           </div>
@@ -262,22 +260,22 @@ export default function ProjectsPage() {
                           <div className="grid grid-cols-12 gap-3 flex-grow">
                             {/* Left: Student registry table */}
                             <div className="col-span-12 lg:col-span-7 p-3 rounded-xl bg-white border border-slate-100 shadow-[0_2px_4px_rgba(0,0,0,0.02)] flex flex-col">
-                              <span className="text-[9px] font-extrabold text-slate-700 mb-2">{t('projects.mockup.registry') || "Student Registry"}</span>
+                              <span className="text-[9px] font-extrabold text-slate-700 mb-2">Student Registry</span>
                               <div className="flex-grow overflow-hidden">
                                 <table className="w-full text-left border-collapse">
                                   <thead>
                                     <tr className="border-b border-slate-100">
-                                      <th className="pb-1 text-[7px] font-extrabold text-slate-400 uppercase">{t('projects.mockup.student') || "Student"}</th>
-                                      <th className="pb-1 text-[7px] font-extrabold text-slate-400 uppercase">{t('projects.mockup.grade') || "Grade"}</th>
-                                      <th className="pb-1 text-[7px] font-extrabold text-slate-400 uppercase">{t('projects.mockup.attendance') || "Attendance"}</th>
-                                      <th className="pb-1 text-[7px] font-extrabold text-slate-400 uppercase">{t('projects.mockup.status') || "Status"}</th>
+                                      <th className="pb-1 text-[7px] font-extrabold text-slate-400 uppercase">Student</th>
+                                      <th className="pb-1 text-[7px] font-extrabold text-slate-400 uppercase">Grade</th>
+                                      <th className="pb-1 text-[7px] font-extrabold text-slate-400 uppercase">Attendance</th>
+                                      <th className="pb-1 text-[7px] font-extrabold text-slate-400 uppercase">Status</th>
                                     </tr>
                                   </thead>
                                   <tbody>
                                     {[
-                                      { name: "Aarav Sharma", grade: "X-A", rate: "98%", status: t('projects.mockup.present') || "Present", color: "text-emerald-600 bg-emerald-50" },
-                                      { name: "Neha Patel", grade: "XII-B", rate: "95%", status: t('projects.mockup.present') || "Present", color: "text-emerald-600 bg-emerald-50" },
-                                      { name: "Rohan Das", grade: "XI-C", rate: "62%", status: t('projects.mockup.absent') || "Absent", color: "text-rose-600 bg-rose-50" }
+                                      { name: "Aarav Sharma", grade: "X-A", rate: "98%", status: "Present", color: "text-emerald-600 bg-emerald-50" },
+                                      { name: "Neha Patel", grade: "XII-B", rate: "95%", status: "Present", color: "text-emerald-600 bg-emerald-50" },
+                                      { name: "Rohan Das", grade: "XI-C", rate: "62%", status: "Absent", color: "text-rose-600 bg-rose-50" }
                                     ].map((row, index) => (
                                       <tr key={index} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50">
                                         <td className="py-1 text-[8px] font-bold text-slate-700">{row.name}</td>
@@ -297,7 +295,7 @@ export default function ProjectsPage() {
                             
                             {/* Right: Monthly Trends analytics widget */}
                             <div className="col-span-12 lg:col-span-5 p-3 rounded-xl bg-white border border-slate-100 shadow-[0_2px_4px_rgba(0,0,0,0.02)] flex flex-col justify-between">
-                              <span className="text-[9px] font-extrabold text-slate-700 mb-1">{t('projects.mockup.trends') || "Monthly Trends"}</span>
+                              <span className="text-[9px] font-extrabold text-slate-700 mb-1">Monthly Trends</span>
                               <div className="flex items-end justify-between h-[55px] pt-2 px-1 flex-grow">
                                 {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'].map((bar, i) => (
                                   <div key={i} className="flex flex-col items-center gap-1 w-[13%]">
@@ -331,17 +329,17 @@ export default function ProjectsPage() {
                         <div>
                           <h5 className="text-sm font-bold text-text-title mb-1 flex items-center gap-2 font-display">
                             <Layers size={14} className="text-primary-light" />
-                            {t('projects.arch.title') || "Multi-Tier Client-Server Architecture"}
+                            Multi-Tier Client-Server Architecture
                           </h5>
                           <p className="text-[11px] text-text-muted">
-                            {t('projects.arch.desc') || "Decoupling the frontend user screens from the REST routing modules and PostgreSQL database pool."}
+                            Decoupling the frontend user screens from the REST routing modules and PostgreSQL database pool.
                           </p>
                         </div>
                         
                         <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-4 w-full relative pt-2">
                           <div className="p-4 rounded-xl bg-white/[0.01] border border-white/5 flex flex-col items-center w-32 text-center shadow-sm">
                             <Layers className="text-blue-500 mb-2" size={20} />
-                            <span className="text-[10px] font-bold text-text-title">{t('projects.arch.client') || "React Client"}</span>
+                            <span className="text-[10px] font-bold text-text-title">React Client</span>
                           </div>
 
                           <div className="flex flex-col items-center text-text-muted font-mono text-[8px]">
@@ -352,7 +350,7 @@ export default function ProjectsPage() {
 
                           <div className="p-4 rounded-xl bg-white/[0.01] border border-white/5 flex flex-col items-center w-32 text-center shadow-sm">
                             <Server className="text-sky-400 mb-2" size={20} />
-                            <span className="text-[10px] font-bold text-text-title">{t('projects.arch.api') || "Express API"}</span>
+                            <span className="text-[10px] font-bold text-text-title">Express API</span>
                           </div>
 
                           <div className="flex flex-col items-center text-text-muted font-mono text-[8px]">
@@ -363,7 +361,7 @@ export default function ProjectsPage() {
 
                           <div className="p-4 rounded-xl bg-white/[0.01] border border-white/5 flex flex-col items-center w-32 text-center shadow-sm">
                             <Database className="text-emerald-500 mb-2" size={20} />
-                            <span className="text-[10px] font-bold text-text-title">{t('projects.arch.db') || "Postgres DB"}</span>
+                            <span className="text-[10px] font-bold text-text-title">Postgres DB</span>
                           </div>
                         </div>
                       </div>
@@ -380,23 +378,23 @@ export default function ProjectsPage() {
                       className="p-6 text-left space-y-6"
                     >
                       <h5 className="text-sm font-bold text-text-title uppercase tracking-widest border-b border-white/5 pb-2">
-                        {t('projects.challenges.title') || "Engineering Resolutions"}
+                        Engineering Resolutions
                       </h5>
                       <div className="space-y-4">
                         <div className="space-y-1">
-                          <span className="text-[11px] font-bold text-primary-light block">{t('projects.challenges.c1')}</span>
+                          <span className="text-[11px] font-bold text-primary-light block">Concurrency & Read Speeds</span>
                           <p className="text-[11px] text-text-muted leading-relaxed">
-                            {t('projects.challenges.d1')}
+                            Optimized student lookups by creating index structures on relational columns.
                           </p>
-                          <span className="text-[10px] font-mono font-bold text-emerald-400 block">{t('projects.challenges.r1')}</span>
+                          <span className="text-[10px] font-mono font-bold text-emerald-400 block">Relational Indexes</span>
                         </div>
                         
                         <div className="space-y-1 pt-2 border-t border-white/5">
-                          <span className="text-[11px] font-bold text-primary-light block">{t('projects.challenges.c2')}</span>
+                          <span className="text-[11px] font-bold text-primary-light block">Granular Role Enforcements</span>
                           <p className="text-[11px] text-text-muted leading-relaxed">
-                            {t('projects.challenges.d2')}
+                            Implemented robust auth middleware checks via JWT claims on every endpoint.
                           </p>
-                          <span className="text-[10px] font-mono font-bold text-emerald-400 block">{t('projects.challenges.r2')}</span>
+                          <span className="text-[10px] font-mono font-bold text-emerald-400 block">JWT Middleware</span>
                         </div>
                       </div>
                     </motion.div>
@@ -413,13 +411,13 @@ export default function ProjectsPage() {
                     >
                       <h5 className="text-sm font-bold text-text-title mb-1.5 flex items-center gap-2">
                         <Cloud size={14} className="text-primary-light" />
-                        {t('projects.roadmap.title') || "Next Project Phases"}
+                        Next Project Phases
                       </h5>
                       <div className="relative border-l border-white/5 pl-6 space-y-4 text-left">
                         {[
-                          { title: t('projects.roadmap.t1'), desc: t('projects.roadmap.d1') },
-                          { title: t('projects.roadmap.t2'), desc: t('projects.roadmap.d2') },
-                          { title: t('projects.roadmap.t3'), desc: t('projects.roadmap.d3') }
+                          { title: "Phase 1: DB Schema & Mock Data", desc: "Normalized fee ledger structures, attendance records, and simulated core tables." },
+                          { title: "Phase 2: Express Rest API endpoints", desc: "Exposed JWT routes, transaction endpoints, and student lookups." },
+                          { title: "Phase 3: React Dashboards", desc: "Built role-based dashboard screens for Admins, Teachers, and Students." }
                         ].map((item, index) => (
                           <div key={index} className="relative">
                             <span className="absolute -left-[30px] top-1.5 w-2 h-2 rounded-full bg-cyan-400 border border-bg-card" />
@@ -448,8 +446,8 @@ export default function ProjectsPage() {
             {/* Filter Tabs */}
             <div className="flex flex-wrap items-center gap-2">
               {[
-                { id: 'All', key: 'projects.filter.all' },
-                { id: 'Full Stack', key: 'projects.filter.fullstack' }
+                { id: 'All', label: 'All' },
+                { id: 'Full Stack', label: 'Full Stack' }
               ].map((filter) => (
                 <button
                   key={filter.id}
@@ -460,7 +458,7 @@ export default function ProjectsPage() {
                       : 'border-white/5 text-text-muted hover:text-text-title hover:bg-white/5'
                   }`}
                 >
-                  {t(filter.key)}
+                  {filter.label}
                 </button>
               ))}
             </div>
@@ -474,7 +472,7 @@ export default function ProjectsPage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={t('projects.searchPlaceholder') || "Search projects, stack, terms..."}
+                placeholder="Search projects by technology, name, or keywords..."
                 className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white/[0.02] border border-white/5 focus:border-primary/50 outline-none text-xs text-text-title transition-all duration-300 shadow-inner"
               />
             </div>
@@ -628,7 +626,7 @@ export default function ProjectsPage() {
                       <div className="p-6 min-h-[90px] bg-[#070b1e]/90 flex flex-col justify-center items-center relative overflow-hidden">
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
                         <span className="text-[10px] font-bold text-text-title font-display relative z-10">{project.title}</span>
-                        <span className="text-[8px] text-text-muted block mt-0.5 relative z-10">{t(project.taglineKey)}</span>
+                        <span className="text-[8px] text-text-muted block mt-0.5 relative z-10">{project.tagline}</span>
                       </div>
                     )}
                   </div>
@@ -648,15 +646,15 @@ export default function ProjectsPage() {
                         {project.title}
                       </h4>
                       <p className="text-[11px] text-text-muted mt-2 leading-relaxed">
-                        {t(project.descKey)}
+                        {project.desc}
                       </p>
                     </div>
 
                     <div className="space-y-1.5 border-t border-white/5 pt-3">
-                      {project.featuresKeys.slice(0, 2).map((fKey, fidx) => (
+                      {project.features.slice(0, 2).map((feat, fidx) => (
                         <div key={fidx} className="flex items-center gap-1.5 text-[9px] text-text-muted font-bold font-mono">
                           <CheckCircle2 size={10} className="text-emerald-400" />
-                          <span className="truncate">{t(fKey)}</span>
+                          <span className="truncate">{feat}</span>
                         </div>
                       ))}
                     </div>
@@ -666,15 +664,15 @@ export default function ProjectsPage() {
                   <div className="flex items-center justify-between border-t border-white/5 pt-4 mt-5 text-[9px] font-bold font-mono">
                     <div className="flex gap-2">
                       <a href={project.demo} target="_blank" rel="noreferrer" className="text-primary-light hover:text-primary transition-colors flex items-center gap-1">
-                        {t('projects.exploreDemo')}
+                        Explore Live Demo
                         <ExternalLink size={10} />
                       </a>
                       <a href={project.github} target="_blank" rel="noreferrer" className="text-text-muted hover:text-text-title transition-colors flex items-center gap-1">
-                        {t('projects.repo')}
+                        Repository
                         <FaGithub size={10} />
                       </a>
                     </div>
-                    <span className="text-text-muted">{t('projects.stable') || "STABLE"}</span>
+                    <span className="text-text-muted">{project.status}</span>
                   </div>
 
                 </motion.div>
@@ -683,8 +681,8 @@ export default function ProjectsPage() {
               {filteredProjects.length === 0 && (
                 <div className="col-span-full py-16 text-center text-text-muted space-y-2">
                   <Globe className="mx-auto text-text-muted/40" size={36} />
-                  <p className="text-sm font-bold text-text-title">{t('projects.noResults') || "No projects match search criteria"}</p>
-                  <p className="text-xs">{t('projects.noResultsDesc') || "Try clearing filters or search query terms."}</p>
+                  <p className="text-sm font-bold text-text-title">No Projects Found</p>
+                  <p className="text-xs">Try searching with another term or keyword.</p>
                 </div>
               )}
             </AnimatePresence>

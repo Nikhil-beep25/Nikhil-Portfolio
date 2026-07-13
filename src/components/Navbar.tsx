@@ -1,17 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Sun, Moon, Settings, Monitor, Check } from 'lucide-react';
 import Avatar from './Avatar';
 
 const navLinks = [
-  { nameKey: 'navbar.home', path: '/' },
-  { nameKey: 'navbar.about', path: '/about' },
-  { nameKey: 'navbar.skills', path: '/skills' },
-  { nameKey: 'navbar.projects', path: '/projects' },
-  { nameKey: 'navbar.journey', path: '/journey' },
-  { nameKey: 'navbar.contact', path: '/contact' },
+  { name: 'Home', path: '/' },
+  { name: 'About', path: '/about' },
+  { name: 'Skills', path: '/skills' },
+  { name: 'Projects', path: '/projects' },
+  { name: 'Journey', path: '/journey' },
+  { name: 'Contact', path: '/contact' },
 ];
 
 const colorThemes = [
@@ -25,7 +24,6 @@ const colorThemes = [
 ];
 
 export default function Navbar() {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
@@ -160,7 +158,7 @@ export default function Navbar() {
             <span className="font-extrabold text-sm sm:text-base leading-none tracking-tight font-display bg-gradient-to-r from-primary via-primary-light to-secondary bg-clip-text text-transparent group-hover:from-secondary group-hover:to-primary transition-all duration-300">
               Nikhil Bhadauriya
             </span>
-            <span className="text-[8px] font-mono text-emerald-400 font-bold tracking-wider mt-0.5 select-none uppercase">{t('navbar.statusBadge')}</span>
+            <span className="text-[8px] font-mono text-emerald-400 font-bold tracking-wider mt-0.5 select-none uppercase">AVAILABLE FOR HIRE</span>
           </span>
         </Link>
 
@@ -183,7 +181,7 @@ export default function Navbar() {
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
-              {t(link.nameKey)}
+              {link.name}
               {/* Sliding hover underline */}
               {!isActive(link.path) && (
                 <span className="absolute bottom-1.5 left-4 right-4 h-[1.5px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
@@ -233,7 +231,7 @@ export default function Navbar() {
               >
                 {/* Theme Mode Segment */}
                 <div className="mb-4">
-                  <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">{t('navbar.themeMode')}</span>
+                  <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">Theme Mode</span>
                   <div className="grid grid-cols-3 gap-1 bg-white/[0.02] border border-white/5 rounded-lg p-0.5">
                     {(['light', 'dark', 'system'] as const).map((m) => (
                       <button
@@ -256,7 +254,7 @@ export default function Navbar() {
 
                 {/* Accent Colors Segment */}
                 <div>
-                  <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">{t('navbar.accentColors')}</span>
+                  <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">Accent Colors</span>
                   <div className="grid grid-cols-4 gap-2">
                     {colorThemes.map((c) => (
                       <button
@@ -286,7 +284,7 @@ export default function Navbar() {
             onClick={() => navigate('/contact')}
             className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white text-xs font-bold shadow-md hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
           >
-            {t('navbar.hireMe')}
+            Hire Me
           </button>
         </div>
 
@@ -326,7 +324,7 @@ export default function Navbar() {
               exit={{ opacity: 0, y: 10, scale: 0.95 }}
             >
               <div className="mb-4">
-                <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">{t('navbar.themeMode')}</span>
+                <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">Theme Mode</span>
                 <div className="grid grid-cols-3 gap-1 bg-white/[0.02] border border-white/5 rounded-lg p-0.5">
                   {(['light', 'dark', 'system'] as const).map((m) => (
                     <button
@@ -348,7 +346,7 @@ export default function Navbar() {
               </div>
 
               <div>
-                <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">{t('navbar.accentColors')}</span>
+                <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">Accent Colors</span>
                 <div className="grid grid-cols-4 gap-2">
                   {colorThemes.map((c) => (
                     <button
@@ -404,7 +402,7 @@ export default function Navbar() {
                         : 'text-text-muted hover:text-text-title hover:bg-white/5 border border-transparent'
                     }`}
                   >
-                    {t(link.nameKey)}
+                    {link.name}
                   </Link>
                 ))}
               </div>
@@ -415,7 +413,7 @@ export default function Navbar() {
                 }}
                 className="w-full py-3.5 text-center rounded-xl bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white font-bold flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.98] transition-all duration-300 cursor-pointer"
               >
-                {t('navbar.getInTouch')}
+                Get In Touch
               </button>
             </motion.div>
           </>
