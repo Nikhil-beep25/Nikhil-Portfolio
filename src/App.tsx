@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import SEO from './components/SEO';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import SplashScreen from './components/SplashScreen';
 
 // Page Imports
 import Home from './pages/Home';
@@ -24,6 +26,14 @@ function RouteScrollManager() {
 // Inner App to access mouse coordinates
 function AppContent() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [showSplash, setShowSplash] = useState(() => {
+    try {
+      const hasShown = sessionStorage.getItem('portfolioIntroShown');
+      return hasShown !== 'true';
+    } catch (e) {
+      return false;
+    }
+  });
 
   useEffect(() => {
     const updateMouse = (e: MouseEvent) => {
@@ -34,38 +44,53 @@ function AppContent() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-bg-darkest text-text-main selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col justify-between overflow-hidden">
-      {/* Dynamic SEO Tag & JSON-LD Manager */}
-      <SEO />
-      
-      {/* Cursor Glow Overlay - Aurora Palette */}
-      <div 
-        className="pointer-events-none fixed inset-0 z-30 transition duration-200 opacity-60 hidden md:block"
-        style={{
-          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(139, 92, 246, 0.12) 0%, rgba(6, 182, 212, 0.06) 35%, rgba(236, 72, 153, 0.02) 65%, transparent 80%)`
-        }}
-      />
+    <AnimatePresence mode="wait">
+      {showSplash ? (
+        <SplashScreen key="splash" onComplete={() => {
+          sessionStorage.setItem('portfolioIntroShown', 'true');
+          setShowSplash(false);
+        }} />
+      ) : (
+        <motion.div
+          key="main-layout"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="relative min-h-screen bg-bg-darkest text-text-main selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col justify-between overflow-hidden"
+        >
+          {/* Dynamic SEO Tag & JSON-LD Manager */}
+          <SEO />
+          
+          {/* Cursor Glow Overlay - Aurora Palette */}
+          <div 
+            className="pointer-events-none fixed inset-0 z-30 transition duration-200 opacity-60 hidden md:block"
+            style={{
+              background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(139, 92, 246, 0.12) 0%, rgba(6, 182, 212, 0.06) 35%, rgba(236, 72, 153, 0.02) 65%, transparent 80%)`
+            }}
+          />
 
-      {/* Main Navigation */}
-      <Navbar />
-      
-      {/* Page Routing */}
-      <div className="flex-grow">
-        <RouteScrollManager />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/skills" element={<SkillsPage />} />
-          <Route path="/projects" element={<ProjectsPage />} />
-          <Route path="/journey" element={<JourneyPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="*" element={<Home />} />
-        </Routes>
-      </div>
+          {/* Main Navigation */}
+          <Navbar />
+          
+          {/* Page Routing */}
+          <div className="flex-grow">
+            <RouteScrollManager />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/skills" element={<SkillsPage />} />
+              <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/journey" element={<JourneyPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="*" element={<Home />} />
+            </Routes>
+          </div>
 
-      {/* Footer Branding */}
-      <Footer />
-    </div>
+          {/* Footer Branding */}
+          <Footer />
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 

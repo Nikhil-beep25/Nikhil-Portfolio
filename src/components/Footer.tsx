@@ -2,8 +2,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { Mail, MapPin } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const socialLinks = [
@@ -14,12 +16,12 @@ export default function Footer() {
   ];
 
   const quickLinks = [
-    { label: "Home", path: "/" },
-    { label: "About", path: "/about" },
-    { label: "Skills", path: "/skills" },
-    { label: "Projects", path: "/projects" },
-    { label: "Journey", path: "/journey" },
-    { label: "Contact", path: "/contact" }
+    { labelKey: "navbar.home", path: "/" },
+    { labelKey: "navbar.about", path: "/about" },
+    { labelKey: "navbar.skills", path: "/skills" },
+    { labelKey: "navbar.projects", path: "/projects" },
+    { labelKey: "navbar.journey", path: "/journey" },
+    { labelKey: "navbar.contact", path: "/contact" }
   ];
 
   const techStack = [
@@ -52,10 +54,10 @@ export default function Footer() {
           <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 pointer-events-none animate-pulse duration-[6000ms]" />
           <div className="text-left space-y-3 relative z-10 max-w-xl">
             <h3 className="text-2xl md:text-3.5xl font-black font-display text-text-title tracking-tight leading-tight">
-              Let's Build Something Amazing Together
+              {t('footer.ctaTitle')}
             </h3>
             <p className="text-xs md:text-sm text-text-muted leading-relaxed">
-              Open to freelance work, SaaS products, collaborations, and full-stack development opportunities.
+              {t('footer.ctaSubtitle')}
             </p>
           </div>
           <div className="flex flex-wrap gap-4 relative z-10 shrink-0">
@@ -63,7 +65,7 @@ export default function Footer() {
               onClick={() => navigate('/contact')}
               className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white text-xs font-bold shadow-md hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
             >
-              Contact Me
+              {t('home.cta.contactMe')}
             </button>
             <a
               href="/resume/Nikhil_Bhadauriya_Resume.pdf"
@@ -71,7 +73,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/[0.03] hover:bg-white/5 text-text-title border border-white/5 hover:border-primary/25 text-xs font-bold active:scale-95 transition-all duration-300 cursor-pointer hover:shadow-[0_0_15px_rgba(139,92,246,0.15)]"
             >
-              📄 View Resume
+              📄 {t('about.viewResume')}
             </a>
           </div>
         </div>
@@ -92,7 +94,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-xs text-text-muted leading-relaxed max-w-sm">
-              Building modern web applications, scalable SaaS platforms and AI-powered solutions.
+              {t('footer.tagline')}
             </p>
             {/* Social Links with lift, glow, scale */}
             <div className="flex items-center gap-3 pt-2">
@@ -115,16 +117,16 @@ export default function Footer() {
           {/* Column 2: Navigation */}
           <div className="lg:col-span-3 space-y-4">
             <h5 className="text-[10px] font-bold text-text-muted uppercase tracking-widest font-mono">
-              Navigation
+              {t('navbar.navigation') || "Navigation"}
             </h5>
             <div className="grid grid-cols-2 gap-y-2.5 gap-x-4">
               {quickLinks.map((link) => (
                 <Link
-                  key={link.label}
+                  key={link.labelKey}
                   to={link.path}
                   className="text-xs text-text-muted hover:text-text-title transition-colors duration-200 block w-fit relative group py-0.5"
                 >
-                  {link.label}
+                  {t(link.labelKey)}
                   {/* Animated underline */}
                   <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-gradient-to-r from-primary to-secondary group-hover:w-full transition-all duration-300" />
                 </Link>
@@ -135,7 +137,7 @@ export default function Footer() {
           {/* Column 3: Tech Stack */}
           <div className="lg:col-span-2 space-y-4">
             <h5 className="text-[10px] font-bold text-text-muted uppercase tracking-widest font-mono">
-              Tech Stack
+              {t('skills.badge')}
             </h5>
             <div className="flex flex-col gap-2">
               {techStack.map((tech) => (
@@ -152,12 +154,12 @@ export default function Footer() {
           {/* Column 4: Contact */}
           <div className="lg:col-span-3 space-y-4">
             <h5 className="text-[10px] font-bold text-text-muted uppercase tracking-widest font-mono">
-              Contact Details
+              {t('navbar.contact') || "Contact Details"}
             </h5>
             <div className="space-y-3.5 text-xs text-text-muted">
               <div className="flex items-start gap-2.5">
                 <MapPin size={14} className="text-secondary shrink-0 mt-0.5" />
-                <span>Agra, Uttar Pradesh, India</span>
+                <span>{t('contact.locationLabel') === "Current Location" ? "Agra, Uttar Pradesh, India" : t('contact.locationLabel')}</span>
               </div>
               <div className="flex items-start gap-2.5">
                 <Mail size={14} className="text-primary shrink-0 mt-0.5" />
@@ -178,7 +180,7 @@ export default function Footer() {
             © 2026 Nikhil Bhadauriya
           </div>
           <div className="flex items-center gap-1.5 text-text-muted/65">
-            <span>Built with</span>
+            <span>{t('footer.crafted')}</span>
             <span className="text-text-title">React</span>
             <span>•</span>
             <span className="text-text-title">TypeScript</span>

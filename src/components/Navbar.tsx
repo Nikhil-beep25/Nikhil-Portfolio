@@ -166,7 +166,7 @@ export default function Navbar() {
             <span className="font-extrabold text-sm sm:text-base leading-none tracking-tight font-display bg-gradient-to-r from-primary via-primary-light to-secondary bg-clip-text text-transparent group-hover:from-secondary group-hover:to-primary transition-all duration-300">
               Nikhil Bhadauriya
             </span>
-            <span className="text-[8px] font-mono text-emerald-400 font-bold tracking-wider mt-0.5 select-none uppercase">AVAILABLE FOR HIRE</span>
+            <span className="text-[8px] font-mono text-emerald-400 font-bold tracking-wider mt-0.5 select-none uppercase">{t('navbar.statusBadge')}</span>
           </span>
         </Link>
 
@@ -249,7 +249,7 @@ export default function Navbar() {
               >
                 {/* Theme Mode Segment */}
                 <div className="mb-4">
-                  <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">Theme Mode</span>
+                  <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">{t('navbar.themeMode')}</span>
                   <div className="grid grid-cols-3 gap-1 bg-white/[0.02] border border-white/5 rounded-lg p-0.5">
                     {(['light', 'dark', 'system'] as const).map((m) => (
                       <button
@@ -272,7 +272,7 @@ export default function Navbar() {
 
                 {/* Accent Colors Segment */}
                 <div>
-                  <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">Accent Colors</span>
+                  <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">{t('navbar.accentColors')}</span>
                   <div className="grid grid-cols-4 gap-2">
                     {colorThemes.map((c) => (
                       <button
@@ -351,7 +351,7 @@ export default function Navbar() {
               exit={{ opacity: 0, y: 10, scale: 0.95 }}
             >
               <div className="mb-4">
-                <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">Theme Mode</span>
+                <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">{t('navbar.themeMode')}</span>
                 <div className="grid grid-cols-3 gap-1 bg-white/[0.02] border border-white/5 rounded-lg p-0.5">
                   {(['light', 'dark', 'system'] as const).map((m) => (
                     <button
@@ -373,7 +373,7 @@ export default function Navbar() {
               </div>
 
               <div>
-                <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">Accent Colors</span>
+                <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">{t('navbar.accentColors')}</span>
                 <div className="grid grid-cols-4 gap-2">
                   {colorThemes.map((c) => (
                     <button

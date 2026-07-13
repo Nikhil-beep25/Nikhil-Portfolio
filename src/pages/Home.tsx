@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { 
@@ -153,16 +153,24 @@ export default function Home() {
   const { t } = useTranslation();
 
   // Typewriter effect
-  const typewriterTexts = [
-    "Building Modern Web Applications",
-    "Developing Python Backend Systems",
-    "Creating Scalable SaaS Products",
-    "Building AI-Powered Solutions"
-  ];
+  const typewriterTexts = useMemo(() => [
+    t('home.typewriter.webApp'),
+    t('home.typewriter.backend'),
+    t('home.typewriter.saas'),
+    t('home.typewriter.ai')
+  ], [t]);
+
   const [typewriterText, setTypewriterText] = useState("");
   const [textIndex, setTextIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(100);
+
+  // Reset typewriter when language changes
+  useEffect(() => {
+    setTypewriterText("");
+    setIsDeleting(false);
+    setTypingSpeed(100);
+  }, [t]);
 
   useEffect(() => {
     const handleType = () => {
@@ -261,7 +269,7 @@ export default function Home() {
   // Skills Categories
   const skillsCategories = [
     {
-      title: "Frontend Stack",
+      titleKey: "skills.frontend",
       icon: <Smartphone size={20} className="text-primary-light" />,
       skills: [
         { name: "React", icon: <FaReact className="text-[#61DAFB]" /> },
@@ -273,7 +281,7 @@ export default function Home() {
       glowClass: "hover:border-primary-light/35"
     },
     {
-      title: "Backend Core",
+      titleKey: "skills.backend",
       icon: <Server size={20} className="text-secondary-light" />,
       skills: [
         { name: "Node.js", icon: <FaNodeJs className="text-[#339933]" /> },
@@ -284,7 +292,7 @@ export default function Home() {
       glowClass: "hover:border-secondary-light/35"
     },
     {
-      title: "Databases & ORMs",
+      titleKey: "skills.database",
       icon: <Database size={20} className="text-secondary" />,
       skills: [
         { name: "PostgreSQL", icon: <SiPostgresql className="text-[#4169E1]" /> },
@@ -293,7 +301,7 @@ export default function Home() {
       glowClass: "hover:border-secondary/35"
     },
     {
-      title: "DevOps & Cloud",
+      titleKey: "skills.devops",
       icon: <Cpu size={20} className="text-primary" />,
       skills: [
         { name: "Docker", icon: <FaDocker className="text-[#2496ED]" /> },
@@ -303,7 +311,7 @@ export default function Home() {
       glowClass: "hover:border-primary/35"
     },
     {
-      title: "AI Integrations",
+      titleKey: "skills.ai",
       icon: <Sparkles size={20} className="text-emerald-400" />,
       skills: [
         { name: "Gemini API", icon: <Sparkles className="text-emerald-400" /> },
@@ -317,27 +325,37 @@ export default function Home() {
   const projectsList = [
     {
       title: "VidyaSanchar ERP",
-      tagline: "School Management ERP Prototype",
-      desc: "VidyaSanchar is a full-stack educational management portal built as an active learning project. It simulates institutional automation with role-based access control, attendance logging, student dashboards, and a fee ledger — built from scratch using React, Node.js, PostgreSQL, and Prisma.",
+      taglineKey: "projects.vidyasanchar.tagline",
+      descKey: "projects.vidyasanchar.desc",
       tech: ["React", "Node.js", "PostgreSQL", "Prisma", "Tailwind CSS"],
       categories: ["Full Stack", "ERP", "React"],
       link: "https://github.com/Nikhil-beep25",
       repo: "https://github.com/Nikhil-beep25/Nikhil-Portfolio",
-      status: "Prototype Under Active Development",
+      statusKey: "projects.vidyasanchar.status",
       isSpotlight: true,
-      features: ["Role-Based Dashboards", "Attendance Tracking", "Fee Ledger Prototype", "Student Record Management"]
+      featuresKeys: [
+        "projects.vidyasanchar.feat1",
+        "projects.vidyasanchar.feat2",
+        "projects.vidyasanchar.feat3",
+        "projects.vidyasanchar.feat4"
+      ]
     },
     {
       title: "Personal Portfolio",
-      tagline: "Full-Stack Developer Portfolio",
-      desc: "A bilingual (English / Hindi) developer portfolio built with React, TypeScript, Tailwind CSS, and Framer Motion. Features a dynamic theme customizer with 7 color palettes, dark/light/system modes, glassmorphism design, and a contact form powered by Resend.",
+      taglineKey: "projects.portfolio.tagline",
+      descKey: "projects.portfolio.desc",
       tech: ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Vite", "i18next"],
       categories: ["Full Stack", "React", "SaaS", "Portfolio"],
       link: "https://github.com/Nikhil-beep25/Nikhil-Portfolio",
       repo: "https://github.com/Nikhil-beep25/Nikhil-Portfolio",
-      status: "Production Ready",
+      statusKey: "projects.portfolio.status",
       isSpotlight: false,
-      features: ["Dynamic Theme Customizer", "7-Palette Color System", "Bilingual i18n Support", "Scroll-Aware Navigation"]
+      featuresKeys: [
+        "projects.portfolio.feat1",
+        "projects.portfolio.feat2",
+        "projects.portfolio.feat3",
+        "projects.portfolio.feat4"
+      ]
     }
   ];
 
@@ -499,7 +517,7 @@ export default function Home() {
                 href="#projects"
                 className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white text-xs font-bold shadow-md hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
               >
-                View Projects
+                {t('hero.viewProjects')}
                 <ArrowRight size={14} />
               </a>
               <a
@@ -508,7 +526,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/[0.03] hover:bg-white/5 text-text-title border border-white/5 hover:border-primary/20 text-xs font-bold active:scale-95 transition-all duration-300 cursor-pointer hover:shadow-[0_0_15px_rgba(139,92,246,0.15)]"
               >
-                📄 View Resume
+                📄 {t('about.viewResume')}
               </a>
             </motion.div>
           </div>
@@ -611,7 +629,7 @@ export default function Home() {
               {t('about.badge')}
             </span>
             <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
-              About & Core Competencies
+              {t('about.badgeTitle') || "About & Core Competencies"}
             </h2>
           </div>
 
@@ -627,7 +645,7 @@ export default function Home() {
               <div className="text-left">
                 <h3 className="text-xl md:text-2xl font-bold font-display text-text-title mb-5 flex items-center gap-2">
                   <Sparkles size={22} className="text-primary animate-pulse" />
-                  Who I Am
+                  {t('about.whoIAm')}
                 </h3>
                 <p className="text-sm md:text-base text-text-muted leading-relaxed mb-6">
                   {t('about.p1')}
@@ -640,16 +658,16 @@ export default function Home() {
               {/* Genuine Information Block */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8 pt-8 border-t border-white/5">
                 <div className="flex flex-col text-left">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-text-muted font-mono mb-2 block">Current Focus</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-text-muted font-mono mb-2 block">{t('about.focus')}</span>
                   <ul className="text-xs text-text-main space-y-1.5 font-bold font-mono">
-                    <li>• Full Stack Development</li>
-                    <li>• Python Development</li>
-                    <li>• SaaS Applications</li>
-                    <li>• AI & Automation Learning</li>
+                    <li>• {t('about.focus1')}</li>
+                    <li>• {t('about.focus2')}</li>
+                    <li>• {t('about.focus3')}</li>
+                    <li>• {t('about.focus4')}</li>
                   </ul>
                 </div>
                 <div className="flex flex-col text-left">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-text-muted font-mono mb-2 block">Core Technologies</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-text-muted font-mono mb-2 block">{t('about.techStack')}</span>
                   <div className="flex flex-wrap gap-1 max-w-xs">
                     {['React', 'TypeScript', 'Node.js', 'Python', 'PostgreSQL', 'Prisma', 'Docker'].map((tech) => (
                       <span key={tech} className="px-2 py-0.5 rounded bg-white/[0.03] border border-white/5 text-[9px] text-text-muted font-mono font-bold">{tech}</span>
@@ -657,8 +675,8 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="flex flex-col text-left">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-text-muted font-mono mb-2 block">Location</span>
-                  <span className="text-xs text-text-main font-bold font-mono">Agra, Uttar Pradesh, India</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-text-muted font-mono mb-2 block">{t('about.location')}</span>
+                  <span className="text-xs text-text-main font-bold font-mono">{t('about.locationValue')}</span>
                 </div>
               </div>
             </motion.div>
@@ -685,19 +703,19 @@ export default function Home() {
               
               <div className="mt-8 p-4 rounded-xl bg-white/[0.01] border border-white/5 flex gap-3 items-center">
                 <BookOpen className="text-primary-light" size={24} />
-                <span className="text-[11px] font-mono text-text-muted font-semibold">Self-Directed CS Fundamentals & Engineering Studies</span>
+                <span className="text-[11px] font-mono text-text-muted font-semibold">{t('about.eduStudy')}</span>
               </div>
             </motion.div>
           </div>
 
           {/* Stats Counters Row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-12">
-            {([
-              { value: 3, suffix: "+", label: "Projects Built", desc: "Projects built using React, TypeScript, Node.js, PostgreSQL, and Python." },
-              { value: 10, suffix: "+", label: "Technologies Explored", desc: "Hands-on learning and practical implementation across modern web technologies." },
-              { text: "Fresher", suffix: "", label: "Developer", desc: "Actively building projects and expanding full-stack development skills." },
-              { text: "Continuous", suffix: " Learner", label: "Skills Improvement", desc: "Focused on improving development skills through projects and real-world practice." }
-            ] as any[]).map((stat, idx) => (
+            {[
+              { value: 3, suffix: "+", label: t('about.stats1.label'), desc: t('about.stats1.desc') },
+              { value: 10, suffix: "+", label: t('about.stats2.label'), desc: t('about.stats2.desc') },
+              { text: t('about.stats3.text'), suffix: "", label: t('about.stats3.label'), desc: t('about.stats3.desc') },
+              { text: t('about.stats4.text'), suffix: t('about.stats4.suffix'), label: t('about.stats4.label'), desc: t('about.stats4.desc') }
+            ].map((stat, idx) => (
               <motion.div
                 key={idx}
                 className="p-6 rounded-2xl bg-white/[0.01] border border-white/5 text-center flex flex-col justify-between shadow-inner h-full min-h-[160px]"
@@ -709,7 +727,7 @@ export default function Home() {
                 <div>
                   <span className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary font-display block">
                     {'value' in stat ? (
-                      <CountUp value={stat.value} suffix={stat.suffix} />
+                      <CountUp value={stat.value!} suffix={stat.suffix} />
                     ) : (
                       <span>{stat.text}{stat.suffix}</span>
                     )}
@@ -729,27 +747,27 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-8">
             {[
               {
-                title: "Frontend Development",
+                title: t('about.cards.frontend.title'),
                 icon: <Code2 className="text-primary-light" size={20} />,
-                desc: "Creating high-fidelity, responsive user interfaces with modular components, dynamic theme states, and smooth layouts.",
+                desc: t('about.cards.frontend.desc'),
                 techs: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"]
               },
               {
-                title: "Backend Development",
+                title: t('about.cards.backend.title'),
                 icon: <Server className="text-secondary-light" size={20} />,
-                desc: "Designing secure, production-ready RESTful APIs with route guards, middleware authentication, and request handling.",
+                desc: t('about.cards.backend.desc'),
                 techs: ["Node.js", "Express", "REST APIs", "Prisma ORM"]
               },
               {
-                title: "Python Development",
+                title: t('about.cards.python.title'),
                 icon: <FaPython className="text-secondary" size={20} />,
-                desc: "Engineering backend services, custom data operations, task scheduling, automation scripts, and server applications.",
+                desc: t('about.cards.python.desc'),
                 techs: ["Python 3", "Django", "Data Analytics", "Automation"]
               },
               {
-                title: "Database Design",
+                title: t('about.cards.db.title'),
                 icon: <Database className="text-primary" size={20} />,
-                desc: "Structuring normalized, efficient relational databases with proper schema models, index optimizations, and pooling.",
+                desc: t('about.cards.db.desc'),
                 techs: ["PostgreSQL", "Prisma ORM", "SQL Schema", "Data Modeling"]
               }
             ].map((card, idx) => (
@@ -817,10 +835,10 @@ export default function Home() {
           
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-transparent bg-gradient-to-r from-secondary to-primary bg-clip-text font-display text-xs font-bold tracking-widest uppercase mb-3 bg-white/[0.02] border border-white/5 px-3.5 py-1.5 rounded-full">
-              What I Do
+              {t('home.whatIDo.badge')}
             </span>
             <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
-              My Core Capabilities
+              {t('home.whatIDo.title')}
             </h2>
           </div>
 
@@ -883,7 +901,7 @@ export default function Home() {
                       {category.icon}
                     </div>
                     <h4 className="text-xs font-bold text-text-title font-display uppercase tracking-wider">
-                      {category.title}
+                      {t(category.titleKey)}
                     </h4>
                   </div>
 
@@ -908,7 +926,7 @@ export default function Home() {
                 {/* Footer Badge - Pushed to bottom */}
                 <div className="mt-auto pt-4 border-t border-white/5">
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-[9px] font-mono font-bold text-primary-light uppercase tracking-wider">
-                    ✓ Verified Stack
+                    {t('skills.verified')}
                   </span>
                 </div>
               </motion.div>
@@ -929,26 +947,33 @@ export default function Home() {
                 {t('projects.badge')}
               </span>
               <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-2">
-                Featured Projects
+                {t('projects.sectionTitle') || "Engineering Projects Case Studies"}
               </h2>
-              <p className="text-sm text-text-muted mt-2 max-w-lg">
-                Real-world builds — from educational ERP systems to full-stack SaaS portfolios.
+              <p className="text-text-muted mt-4 max-w-2xl mx-auto text-xs md:text-sm leading-relaxed">
+                {t('projects.sectionDescription') || "Projects I have built from scratch — each with a real codebase, verifiable tech stack, and a GitHub repository."}
               </p>
             </div>
 
             {/* Filter chips */}
             <div className="flex flex-wrap items-center gap-2">
-              {(['All', 'Full Stack', 'React', 'SaaS', 'ERP', 'Portfolio'] as const).map((filter) => (
+              {[
+                { id: 'All', key: 'projects.filter.all' },
+                { id: 'Full Stack', key: 'projects.filter.fullstack' },
+                { id: 'React', key: 'projects.filter.react' },
+                { id: 'SaaS', key: 'projects.filter.saas' },
+                { id: 'ERP', key: 'projects.filter.erp' },
+                { id: 'Portfolio', key: 'projects.filter.portfolio' }
+              ].map((filter) => (
                 <button
-                  key={filter}
-                  onClick={() => setActiveProjectFilter(filter)}
+                  key={filter.id}
+                  onClick={() => setActiveProjectFilter(filter.id as any)}
                   className={`px-4 py-1.5 text-[11px] font-bold rounded-full transition-all duration-300 border cursor-pointer whitespace-nowrap ${
-                    activeProjectFilter === filter
+                    activeProjectFilter === filter.id
                       ? 'bg-gradient-to-r from-primary/20 to-secondary/20 border-primary/40 text-text-title shadow-sm'
                       : 'border-white/8 text-text-muted hover:text-text-title hover:bg-white/5'
                   }`}
                 >
-                  {filter}
+                  {t(filter.key)}
                 </button>
               ))}
             </div>
@@ -1125,13 +1150,13 @@ export default function Home() {
                             </div>
                             {/* Nav links */}
                             <div className="flex items-center gap-3" style={{ fontSize: 7, fontWeight: 700 }}>
-                              <span className="px-2 py-0.5 rounded-md" style={{ background: 'rgba(99,102,241,0.08)', color: '#6366f1' }}>Home</span>
-                              <span style={{ color: '#64748b' }}>About</span>
-                              <span style={{ color: '#64748b' }}>Skills</span>
-                              <span style={{ color: '#64748b' }}>Projects</span>
+                              <span className="px-2 py-0.5 rounded-md" style={{ background: 'rgba(99,102,241,0.08)', color: '#6366f1' }}>{t('navbar.home')}</span>
+                              <span style={{ color: '#64748b' }}>{t('navbar.about')}</span>
+                              <span style={{ color: '#64748b' }}>{t('navbar.skills')}</span>
+                              <span style={{ color: '#64748b' }}>{t('navbar.projects')}</span>
                             </div>
                             {/* Hire CTA */}
-                            <div className="px-2.5 py-1 rounded-full" style={{ background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', fontSize: 6.5, fontWeight: 800, color: '#fff', boxShadow: '0 2px 10px rgba(99,102,241,0.40)' }}>Hire Me ↗</div>
+                            <div className="px-2.5 py-1 rounded-full" style={{ background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', fontSize: 6.5, fontWeight: 800, color: '#fff', boxShadow: '0 2px 10px rgba(99,102,241,0.40)' }}>{t('navbar.hireMe')} ↗</div>
                           </div>
 
                           {/* ── Hero body ── */}
@@ -1141,7 +1166,7 @@ export default function Home() {
                               {/* Available badge */}
                               <div className="inline-flex items-center gap-1.5 w-fit rounded-full px-2.5 py-1" style={{ background: '#f0fdf4', border: '1px solid #86efac', boxShadow: '0 1px 6px rgba(34,197,94,0.12)' }}>
                                 <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#22c55e', boxShadow: '0 0 5px #22c55e' }} />
-                                <span style={{ fontSize: 6.5, fontWeight: 800, color: '#15803d' }}>Available for Projects</span>
+                                <span style={{ fontSize: 6.5, fontWeight: 800, color: '#15803d' }}>{t('home.mockup.available')}</span>
                               </div>
 
                               {/* Hero name */}
@@ -1154,16 +1179,16 @@ export default function Home() {
 
                               {/* Description micro */}
                               <div style={{ fontSize: 6.5, color: '#94a3b8', fontWeight: 600, lineHeight: 1.4 }}>
-                                Building scalable web apps<br />with React, Node.js &amp; TypeScript
+                                {t('home.mockup.description')}
                               </div>
 
                               {/* CTA row */}
                               <div className="flex items-center gap-2 mt-1">
                                 <div className="px-3 py-1.5 rounded-xl" style={{ background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', fontSize: 7, fontWeight: 800, color: '#fff', boxShadow: '0 4px 14px rgba(99,102,241,0.45)', whiteSpace: 'nowrap' }}>
-                                  View Work →
+                                  {t('projects.exploreDemo')} →
                                 </div>
                                 <div className="px-2.5 py-1.5 rounded-xl" style={{ background: 'rgba(99,102,241,0.07)', border: '1px solid rgba(99,102,241,0.20)', fontSize: 7, fontWeight: 700, color: '#6366f1', whiteSpace: 'nowrap' }}>
-                                  Resume
+                                  {t('about.viewResume')}
                                 </div>
                               </div>
 
@@ -1251,20 +1276,20 @@ export default function Home() {
                       </h3>
                       <p className="text-xs font-bold text-primary font-mono uppercase tracking-widest flex items-center gap-1.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
-                        {project.status}
+                        {t(project.statusKey)}
                       </p>
                     </div>
 
                     <p className="text-sm text-text-muted leading-relaxed line-clamp-3">
-                      {project.desc}
+                      {t(project.descKey)}
                     </p>
 
                     {/* Feature checklist */}
                     <div className="grid grid-cols-2 gap-2">
-                      {project.features.map((feat, fidx) => (
+                      {project.featuresKeys.map((fKey, fidx) => (
                         <div key={fidx} className="flex items-center gap-2 text-xs text-text-muted font-bold font-mono">
                           <CheckCircle2 size={13} className="text-emerald-400 shrink-0" />
-                          {feat}
+                          {t(fKey)}
                         </div>
                       ))}
                     </div>
@@ -1277,7 +1302,7 @@ export default function Home() {
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold shadow-md hover:scale-105 active:scale-95 transition-all duration-300"
                       >
-                        Live Demo <ArrowRight size={13} />
+                        {t('projects.exploreDemo')} <ArrowRight size={13} />
                       </a>
                       <a
                         href={project.repo}
@@ -1285,7 +1310,7 @@ export default function Home() {
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.02] hover:bg-white/5 text-text-title border border-white/5 hover:border-primary/20 text-xs font-bold active:scale-95 transition-all duration-300"
                       >
-                        <FaGithub size={13} /> GitHub
+                        <FaGithub size={13} /> {t('projects.repo')}
                       </a>
                     </div>
                   </div>
@@ -1402,7 +1427,7 @@ export default function Home() {
               {t('home.github.badge')}
             </span>
             <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
-              Open Source Presence
+              {t('journey.githubPresence') || "Open Source Presence"}
             </h2>
           </div>
 
@@ -1416,9 +1441,9 @@ export default function Home() {
             >
               <div className="flex-grow">
                 <span className="text-xs font-bold text-primary font-mono block mb-2">github.com/Nikhil-beep25</span>
-                <h3 className="text-2xl font-bold text-text-title font-display mb-3">Exploring Open Source Repositories</h3>
+                <h3 className="text-2xl font-bold text-text-title font-display mb-3">{t('journey.githubExplore') || "Exploring Open Source Repositories"}</h3>
                 <p className="text-xs md:text-sm text-text-muted leading-relaxed max-w-xl">
-                  I host active codebases, prototype integrations, and portfolio blueprints on GitHub. Inspect commit logs, read through code structures, and star repositories to follow my journey.
+                  {t('journey.githubDesc') || "I host active codebases, prototype integrations, and portfolio blueprints on GitHub. Inspect commit logs, read through code structures, and star repositories to follow my journey."}
                 </p>
 
                 <div className="flex gap-4 mt-6">
@@ -1430,7 +1455,7 @@ export default function Home() {
                       rel="noopener noreferrer" 
                       className="text-xs text-primary-light hover:text-white transition-colors font-bold font-mono"
                     >
-                      Inspect Source
+                      {t('projects.caseStudy')}
                     </a>
                   </div>
                   <div className="w-px bg-white/5" />
@@ -1442,7 +1467,7 @@ export default function Home() {
                       rel="noopener noreferrer" 
                       className="text-xs text-primary-light hover:text-white transition-colors font-bold font-mono"
                     >
-                      Inspect Source
+                      {t('projects.caseStudy')}
                     </a>
                   </div>
                 </div>
@@ -1454,7 +1479,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold shadow-md hover:scale-105 active:scale-95 transition-all duration-300 w-full md:w-auto text-center"
               >
-                <span>Visit GitHub Profile</span>
+                <span>{t('journey.githubButton')}</span>
                 <FaGithub size={14} />
               </a>
             </motion.div>
@@ -1534,7 +1559,7 @@ export default function Home() {
                           required
                           value={formState.name}
                           onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                          placeholder="Enter your name"
+                          placeholder={t('contact.namePlaceholder')}
                           className="w-full px-4.5 py-3 rounded-2xl bg-white/75 backdrop-blur-[10px] border-[1.5px] border-[rgba(125,125,125,0.18)] focus:border-primary focus:shadow-[0_0_15px_rgba(139,92,246,0.25)] focus:scale-[1.01] transition-all duration-200 outline-none text-xs text-[#111827] font-medium placeholder:text-[#6B7280] placeholder:opacity-100 placeholder:font-medium"
                         />
                       </div>
@@ -1563,7 +1588,7 @@ export default function Home() {
                           required
                           value={formState.message}
                           onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                          placeholder="Detail your request..."
+                          placeholder={t('contact.messagePlaceholder')}
                           className="w-full px-4.5 py-3 rounded-2xl bg-white/75 backdrop-blur-[10px] border-[1.5px] border-[rgba(125,125,125,0.18)] focus:border-primary focus:shadow-[0_0_15px_rgba(139,92,246,0.25)] focus:scale-[1.01] transition-all duration-200 outline-none text-xs text-[#111827] font-medium placeholder:text-[#6B7280] placeholder:opacity-100 placeholder:font-medium resize-none min-h-[180px]"
                         />
                       </div>
@@ -1602,10 +1627,10 @@ export default function Home() {
                         <CheckCircle2 size={36} className="animate-bounce" />
                       </div>
                       <h4 className="text-xl font-bold text-[#111827] mb-2">
-                        Message Sent Successfully!
+                        {t('contact.successTitle')}
                       </h4>
                       <p className="text-xs text-[#374151] max-w-sm font-semibold mb-4">
-                        Your message has been delivered successfully. I will get back to you soon.
+                        {t('contact.successDesc')}
                       </p>
                       <div className="flex flex-col sm:flex-row gap-3 pt-2 w-full justify-center">
                         <a
@@ -1615,13 +1640,13 @@ export default function Home() {
                           className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold transition-all duration-300 shadow-md cursor-pointer hover:scale-[1.02] justify-center"
                         >
                           <FaWhatsapp size={14} />
-                          Contact on WhatsApp
+                          {t('contact.whatsappLabel')}
                         </a>
                         <button
                           onClick={() => setSubmitSuccess(false)}
                           className="flex items-center justify-center gap-1.5 text-xs font-bold text-primary hover:text-primary-hover transition-colors cursor-pointer px-5 py-2.5 rounded-xl border border-primary/20 hover:bg-primary/5"
                         >
-                          Send another message
+                          {t('contact.sendAnother')}
                           <ArrowRight size={12} />
                         </button>
                       </div>

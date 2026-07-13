@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { 
@@ -11,17 +11,17 @@ import { MapPin, Mail } from 'lucide-react';
 import AnimatedRole from '../components/AnimatedRole';
 
 export default function AboutPage() {
-  useTranslation();
+  const { t } = useTranslation();
 
 
 
   // Typewriter effect
-  const typewriterTexts = [
-    "React + TypeScript Developer",
-    "Python Backend Engineer",
-    "PostgreSQL Database Designer",
-    "SaaS Application Builder"
-  ];
+  const typewriterTexts = useMemo(() => [
+    t('about.typewriter.webApp'),
+    t('about.typewriter.backend'),
+    t('about.typewriter.database'),
+    t('about.typewriter.saas')
+  ], [t]);
   const [typewriterText, setTypewriterText] = useState("");
   const [textIndex, setTextIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -57,26 +57,30 @@ export default function AboutPage() {
   // 4 True recruiter-friendly developer cards
   const infoCards = [
     {
-      title: "Current Focus",
+      titleKey: "about.focus.current",
       desc: "VidyaSanchar ERP",
+      isStaticDesc: true,
       icon: "🚀",
       color: "hover:border-primary-light/35 hover:shadow-[0_0_30px_rgba(139,92,246,0.15)]"
     },
     {
-      title: "Continuous Learning",
-      desc: "Full Stack Development",
+      titleKey: "about.focus.learning",
+      descKey: "about.focus.learningValue",
+      isStaticDesc: false,
       icon: "🌱",
       color: "hover:border-secondary-light/35 hover:shadow-[0_0_30px_rgba(236,72,153,0.15)]"
     },
     {
-      title: "Real-World Projects",
-      desc: "2 Live Deployments",
+      titleKey: "about.focus.projects",
+      descKey: "about.focus.projectsValue",
+      isStaticDesc: false,
       icon: "💻",
       color: "hover:border-emerald-500/35 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]"
     },
     {
-      title: "Location",
-      desc: "Agra, Uttar Pradesh, India",
+      titleKey: "about.focus.location",
+      descKey: "about.focus.locationValue",
+      isStaticDesc: false,
       icon: "📍",
       color: "hover:border-secondary/35 hover:shadow-[0_0_30px_rgba(139,92,246,0.15)]"
     }
@@ -121,7 +125,7 @@ export default function AboutPage() {
           >
             <div className="w-fit">
               <span className="px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono font-bold text-primary-light uppercase tracking-wider">
-                About the Developer
+                {t('about.badge') || "About the Developer"}
               </span>
             </div>
             
@@ -161,7 +165,7 @@ export default function AboutPage() {
             {/* Authentic Copy Block */}
             <div className="space-y-4 text-sm md:text-base text-text-muted leading-relaxed">
               <p>
-                Passionate full-stack developer focused on building scalable web applications, SaaS products and modern user experiences. Building projects with React, TypeScript, Node.js and PostgreSQL. Currently developing personal projects and continuously learning advanced software engineering concepts.
+                {t('about.p1')} {t('about.p2')} {t('about.p3')}
               </p>
             </div>
 
@@ -169,7 +173,7 @@ export default function AboutPage() {
             <div className="flex flex-wrap gap-4 pt-2 text-xs font-mono text-text-muted">
               <div className="flex items-center gap-2 bg-white/[0.02] border border-white/5 px-3.5 py-2 rounded-xl">
                 <MapPin size={14} className="text-secondary" />
-                <span>Agra, Uttar Pradesh, India</span>
+                <span>{t('about.focus.locationValue') || "Agra, Uttar Pradesh, India"}</span>
               </div>
               <div className="flex items-center gap-2 bg-white/[0.02] border border-white/5 px-3.5 py-2 rounded-xl">
                 <Mail size={14} className="text-primary" />
@@ -187,14 +191,14 @@ export default function AboutPage() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white text-xs font-bold shadow-md hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
               >
-                📄 View Resume
+                📄 {t('about.viewResume')}
               </a>
               <a
                 href="/resume/Nikhil_Bhadauriya_Resume.pdf"
                 download="Nikhil_Bhadauriya_Resume.pdf"
                 className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/[0.03] hover:bg-white/5 text-text-title border border-white/5 hover:border-primary/20 text-xs font-bold active:scale-95 transition-all duration-300 cursor-pointer hover:shadow-[0_0_15px_rgba(139,92,246,0.15)]"
               >
-                📥 Download Resume
+                📥 {t('about.downloadResume')}
               </a>
             </div>
 
@@ -264,17 +268,17 @@ export default function AboutPage() {
         <div className="border-t border-white/5 pt-16 space-y-8">
           <div className="text-center max-w-xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold font-display text-text-title tracking-tight">
-              Developer Profile & Current Focus
+              {t('about.statsTitle')}
             </h2>
             <p className="text-xs text-text-muted mt-2">
-              Genuine milestones and live operations defining my day-to-day coding activities.
+              {t('about.statsSubtitle')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {infoCards.map((card, idx) => (
               <motion.div
-                key={card.title}
+                key={card.titleKey}
                 className={`p-6 rounded-2xl glass-aurora border border-white/5 text-left flex flex-col justify-between h-40 transition-all duration-300 ${card.color}`}
                 initial={{ opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -284,12 +288,12 @@ export default function AboutPage() {
               >
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-text-muted font-mono uppercase tracking-wider">
-                    {card.title}
+                    {t(card.titleKey)}
                   </span>
                   <span className="text-xl select-none">{card.icon}</span>
                 </div>
                 <div className="text-base font-extrabold text-text-title font-display mt-4">
-                  {card.desc}
+                  {card.isStaticDesc ? card.desc : t(card.descKey || "")}
                 </div>
               </motion.div>
             ))}
@@ -299,27 +303,27 @@ export default function AboutPage() {
         {/* Section 3: Tech Stack Grid */}
         <div className="border-t border-white/5 pt-16 space-y-8">
           <div className="text-center max-w-xl mx-auto">
-            <span className="text-xs font-mono font-bold text-primary uppercase tracking-widest">Tooling & Skills</span>
+            <span className="text-xs font-mono font-bold text-primary uppercase tracking-widest">{t('about.toolingTitle')}</span>
             <h2 className="text-2xl md:text-3xl font-bold font-display text-text-title tracking-tight mt-2">
-              Full-Stack Core Stack
+              {t('about.toolingSubtitle')}
             </h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
             {[
-              { name: "React", icon: <FaReact className="text-[#61DAFB]" />, desc: "Client Side Framework" },
-              { name: "TypeScript", icon: <SiTypescript className="text-[#3178C6]" />, desc: "Type-safe JavaScript" },
-              { name: "Node.js", icon: <FaNodeJs className="text-[#339933]" />, desc: "Backend Execution" },
-              { name: "PostgreSQL", icon: <SiPostgresql className="text-[#4169E1]" />, desc: "Relational Database" },
-              { name: "Prisma", icon: <SiPrisma className="text-white" />, desc: "Modern ORM client" },
-              { name: "Docker", icon: <FaDocker className="text-[#2496ED]" />, desc: "Containerisation" },
-              { name: "Tailwind CSS", icon: <SiTailwindcss className="text-[#38BDF8]" />, desc: "Utility-first Styling" },
-              { name: "Python", icon: <FaPython className="text-[#3776AB]" />, desc: "General Programming" }
+              { name: "React", icon: <FaReact className="text-[#61DAFB]" />, descKey: "about.tech.react" },
+              { name: "TypeScript", icon: <SiTypescript className="text-[#3178C6]" />, descKey: "about.tech.typescript" },
+              { name: "Node.js", icon: <FaNodeJs className="text-[#339933]" />, descKey: "about.tech.nodejs" },
+              { name: "PostgreSQL", icon: <SiPostgresql className="text-[#4169E1]" />, descKey: "about.tech.postgresql" },
+              { name: "Prisma", icon: <SiPrisma className="text-white" />, descKey: "about.tech.prisma" },
+              { name: "Docker", icon: <FaDocker className="text-[#2496ED]" />, descKey: "about.tech.docker" },
+              { name: "Tailwind CSS", icon: <SiTailwindcss className="text-[#38BDF8]" />, descKey: "about.tech.tailwindcss" },
+              { name: "Python", icon: <FaPython className="text-[#3776AB]" />, descKey: "about.tech.python" }
             ].map((tech) => (
               <div key={tech.name} className="p-4 rounded-xl bg-white/[0.02] border border-white/5 flex items-center gap-3 hover:border-primary/30 transition-all duration-300 text-left">
                 <span className="text-2xl shrink-0">{tech.icon}</span>
                 <div>
                   <h4 className="text-xs font-bold text-text-title">{tech.name}</h4>
-                  <p className="text-[9px] text-text-muted">{tech.desc}</p>
+                  <p className="text-[9px] text-text-muted">{t(tech.descKey)}</p>
                 </div>
               </div>
             ))}
@@ -329,18 +333,18 @@ export default function AboutPage() {
         {/* Section 4: Animated Learning Timeline */}
         <div className="border-t border-white/5 pt-16 pb-12 space-y-8">
           <div className="text-center max-w-xl mx-auto">
-            <span className="text-xs font-mono font-bold text-secondary uppercase tracking-widest">Roadmap Timeline</span>
+            <span className="text-xs font-mono font-bold text-secondary uppercase tracking-widest">{t('about.roadmapTitle')}</span>
             <h2 className="text-2xl md:text-3xl font-bold font-display text-text-title tracking-tight mt-2">
-              Engineering Milestones
+              {t('about.roadmapSubtitle')}
             </h2>
           </div>
           <div className="relative max-w-2xl mx-auto py-8">
             <div className="absolute left-[15px] top-2 bottom-2 w-0.5 bg-gradient-to-b from-primary via-secondary to-transparent" />
             <div className="space-y-8 text-left">
               {[
-                { year: "2024", title: "Computer Science Fundamentals", desc: "Started self-learning programming basics, HTML, CSS, JavaScript, Git, and structural problem-solving." },
-                { year: "2025", title: "Advanced Frontend & Core Backend", desc: "Mastered React, state management, built responsive UIs, and integrated Node.js Express APIs with SQL ledgers." },
-                { year: "2026", title: "VidyaSanchar ERP (Active Phase)", desc: "Developing a production-ready educational administration ERP with PostgreSQL database models." }
+                { year: "2024", titleKey: "about.milestone2024", descKey: "about.milestone2024Desc" },
+                { year: "2025", titleKey: "about.milestone2025", descKey: "about.milestone2025Desc" },
+                { year: "2026", titleKey: "about.milestone2026", descKey: "about.milestone2026Desc" }
               ].map((step, sidx) => (
                 <div key={sidx} className="relative pl-10">
                   <div className="absolute left-0 top-1.5 w-8 h-8 rounded-full bg-bg-darkest border border-white/10 flex items-center justify-center text-[10px] font-bold text-text-title shadow-lg z-10">
@@ -350,9 +354,9 @@ export default function AboutPage() {
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] font-mono font-bold text-primary-light uppercase tracking-wider">{step.year}</span>
                       <span className="text-text-muted">•</span>
-                      <h4 className="text-xs font-bold text-text-title font-display">{step.title}</h4>
+                      <h4 className="text-xs font-bold text-text-title font-display">{t(step.titleKey)}</h4>
                     </div>
-                    <p className="text-xs text-text-muted mt-2 leading-relaxed">{step.desc}</p>
+                    <p className="text-xs text-text-muted mt-2 leading-relaxed">{t(step.descKey)}</p>
                   </div>
                 </div>
               ))}

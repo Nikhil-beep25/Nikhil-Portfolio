@@ -1,16 +1,40 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 
 interface AnimatedRoleProps {
   className?: string;
 }
 
 export default function AnimatedRole({ className = "" }: AnimatedRoleProps) {
-  const roles = ["Full Stack Developer", "Python Developer"];
+  const roles = ["Python Developer", "Full Stack Developer"];
   const [displayText, setDisplayText] = useState("");
   const [roleIndex, setRoleIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // Monitor theme changes to apply appropriate text color fallbacks and text-shadows
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem('theme-mode') || 'dark';
+    if (savedMode === 'system') {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    return savedMode === 'dark';
+  });
+
+  useEffect(() => {
+    const checkTheme = () => {
+      setIsDarkMode(document.documentElement.classList.contains('dark'));
+    };
+    checkTheme();
+
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Typewriter core animation loop
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     const currentFullText = roles[roleIndex];
@@ -43,21 +67,36 @@ export default function AnimatedRole({ className = "" }: AnimatedRoleProps) {
     return () => clearTimeout(timer);
   }, [displayText, isDeleting, roleIndex]);
 
+  const textStyle = {
+    background: "linear-gradient(90deg, #38BDF8 0%, #60A5FA 30%, #8B5CF6 65%, #EC4899 100%)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    backgroundClip: "text",
+    color: isDarkMode ? "#F8FAFC" : "#0F172A",
+    textShadow: isDarkMode 
+      ? "0 0 10px rgba(56, 189, 248, 0.25), 0 0 20px rgba(139, 92, 246, 0.20), 0 0 30px rgba(236, 72, 153, 0.15)" 
+      : "none",
+    fontWeight: 700,
+    letterSpacing: "0.02em",
+    lineHeight: "1.2",
+    opacity: 1,
+  };
+
   return (
-    <div className={`inline-flex items-center text-[#111827] font-bold tracking-normal leading-[1.2] select-none ${className}`}>
-      <motion.span
-        animate={{ opacity: isDeleting ? 0.6 : 1 }}
-        transition={{ duration: 0.15 }}
-      >
+    <div className={`inline-flex items-center select-none ${className}`} style={{ opacity: 1 }}>
+      <span style={textStyle}>
         {displayText}
-      </motion.span>
-      <motion.span
-        animate={{ opacity: [1, 0, 1] }}
-        transition={{ duration: 0.8, repeat: Infinity, ease: "easeInOut" }}
-        className="ml-0.5"
+      </span>
+      <span 
+        className="animate-typewriter-blink ml-1"
+        style={{
+          color: isDarkMode ? "#60A5FA" : "#3B82F6",
+          fontWeight: 400,
+          lineHeight: "1.2",
+        }}
       >
         |
-      </motion.span>
+      </span>
     </div>
   );
 }

@@ -1,65 +1,67 @@
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { FaGithub } from 'react-icons/fa';
 
 interface TimelineStep {
-  step: string;
-  title: string;
-  subtitle: string;
-  desc: string;
+  stepKey: string;
+  titleKey: string;
+  subtitleKey: string;
+  descKey: string;
   tech?: string[];
-  bullets?: string[];
-  badge?: string;
+  bulletsKeys?: string[];
+  badgeKey?: string;
   highlight?: boolean;
 }
 
 export default function JourneyPage() {
+  const { t } = useTranslation();
 
   const journeySteps: TimelineStep[] = [
     {
-      step: "STEP 1",
-      title: "Computer Science Fundamentals",
-      subtitle: "Fundamentals & Basics",
-      desc: "Started learning web development fundamentals and computer science basics.",
+      stepKey: "journey.step1.step",
+      titleKey: "journey.step1.title",
+      subtitleKey: "journey.step1.subtitle",
+      descKey: "journey.step1.desc",
       tech: ["HTML", "CSS", "JavaScript", "Git", "Problem Solving"]
     },
     {
-      step: "STEP 2",
-      title: "Frontend Development",
-      subtitle: "UI Engineering",
-      desc: "Focused on modern frontend development and UI engineering.",
+      stepKey: "journey.step2.step",
+      titleKey: "journey.step2.title",
+      subtitleKey: "journey.step2.subtitle",
+      descKey: "journey.step2.desc",
       tech: ["React", "TypeScript", "Tailwind CSS", "Responsive Design", "Component Architecture"]
     },
     {
-      step: "STEP 3",
-      title: "Backend Development",
-      subtitle: "Server & REST APIs",
-      desc: "Expanded into backend development and server-side architecture.",
+      stepKey: "journey.step3.step",
+      titleKey: "journey.step3.title",
+      subtitleKey: "journey.step3.subtitle",
+      descKey: "journey.step3.desc",
       tech: ["Node.js", "Express.js", "REST APIs", "Authentication", "Database Design"]
     },
     {
-      step: "STEP 4",
-      title: "Database & DevOps",
-      subtitle: "Infrastructure & Scaling",
-      desc: "Built scalable applications with proper database structures.",
+      stepKey: "journey.step4.step",
+      titleKey: "journey.step4.title",
+      subtitleKey: "journey.step4.subtitle",
+      descKey: "journey.step4.desc",
       tech: ["PostgreSQL", "Prisma ORM", "GitHub", "Deployment", "Docker Basics"]
     },
     {
-      step: "STEP 5",
-      title: "VidyaSanchar ERP",
-      subtitle: "🔥 CURRENT PROJECT",
-      desc: "Building a full-stack school ERP with authentication, student management, attendance, fee management, and PostgreSQL integration.",
+      stepKey: "journey.step5.step",
+      titleKey: "journey.step5.title",
+      subtitleKey: "journey.step5.subtitle",
+      descKey: "journey.step5.desc",
       tech: ["React", "Node.js", "Express", "PostgreSQL", "Prisma"],
-      badge: "🔥 CURRENT PROJECT",
+      badgeKey: "journey.step5.badge",
       highlight: true
     },
     {
-      step: "STEP 6",
-      title: "Future Goals",
-      subtitle: "🚀 NEXT PHASE",
-      desc: "",
-      bullets: ["SaaS Products", "AI Integrations", "Open Source Contributions", "Production Scale Applications"],
+      stepKey: "journey.step6.step",
+      titleKey: "journey.step6.title",
+      subtitleKey: "journey.step6.subtitle",
+      descKey: "journey.step6.desc",
+      bulletsKeys: ["journey.step6.bullet1", "journey.step6.bullet2", "journey.step6.bullet3", "journey.step6.bullet4"],
       tech: [],
-      badge: "🚀 NEXT PHASE"
+      badgeKey: "journey.step6.badge"
     }
   ];
 
@@ -79,13 +81,13 @@ export default function JourneyPage() {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono font-bold text-primary-light uppercase tracking-wider">
-            Full Stack Developer Journey
+            {t('journey.badgeTitle') || "Full Stack Developer Journey"}
           </span>
           <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
-            2026 — Full Stack Development Journey
+            {t('journey.mainTitle') || "2026 — Full Stack Development Journey"}
           </h2>
           <p className="text-text-muted mt-4 max-w-lg mx-auto text-xs md:text-sm leading-relaxed">
-            A vertical roadmap showing the progression from web basics, frontend styling, backend systems, database management, and flagship ERP deployment.
+            {t('journey.mainDesc') || "A vertical roadmap showing the progression from web basics, frontend styling, backend systems, database management, and flagship ERP deployment."}
           </p>
         </div>
 
@@ -120,37 +122,37 @@ export default function JourneyPage() {
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.5, delay: idx * 0.05 }}
                   >
-                    <div className="flex flex-wrap items-center gap-2.5 mb-2">
+                     <div className="flex flex-wrap items-center gap-2.5 mb-2">
                       <span className="text-[9px] font-mono font-extrabold text-primary bg-primary/10 border border-primary/25 px-2 py-0.5 rounded">
-                        {step.step}
+                        {t(step.stepKey)}
                       </span>
-                      {step.badge && (
+                      {step.badgeKey && (
                         <span className="text-[9px] font-mono font-extrabold text-emerald-400 bg-emerald-400/10 border border-emerald-400/25 px-2 py-0.5 rounded">
-                          {step.badge}
+                          {t(step.badgeKey)}
                         </span>
                       )}
                     </div>
                     
                     <h3 className="text-base font-bold text-text-title font-display mb-1">
-                      {step.title}
+                      {t(step.titleKey)}
                     </h3>
-                    {step.subtitle && !step.badge && (
+                    {step.subtitleKey && !step.badgeKey && (
                       <h4 className="text-[10px] font-bold text-secondary-light font-mono mb-2 uppercase tracking-wide">
-                        {step.subtitle}
+                        {t(step.subtitleKey)}
                       </h4>
                     )}
                     
-                    {step.desc && (
+                    {step.descKey && t(step.descKey) !== "" && (
                       <p className="text-xs text-text-muted leading-relaxed mb-3">
-                        {step.desc}
+                        {t(step.descKey)}
                       </p>
                     )}
 
                     {/* Display bullets if any */}
-                    {step.bullets && (
+                    {step.bulletsKeys && (
                       <ul className="list-disc list-inside text-xs text-text-muted space-y-1 mb-3 pl-1 font-mono">
-                        {step.bullets.map((b) => (
-                          <li key={b}>{b}</li>
+                        {step.bulletsKeys.map((bKey) => (
+                          <li key={bKey}>{t(bKey)}</li>
                         ))}
                       </ul>
                     )}
@@ -187,7 +189,7 @@ export default function JourneyPage() {
                   <div>
                     <span className="text-sm font-bold text-text-title block font-display">@Nikhil-beep25</span>
                     <span className="text-[10px] text-text-muted font-mono block mt-0.5">github.com/Nikhil-beep25</span>
-                    <span className="text-[10px] text-emerald-400 font-mono block mt-1 font-bold">View real repositories and contributions on GitHub ↗</span>
+                    <span className="text-[10px] text-emerald-400 font-mono block mt-1 font-bold">{t('journey.githubText')}</span>
                   </div>
                 </div>
                 <a
@@ -197,7 +199,7 @@ export default function JourneyPage() {
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold shadow-md hover:scale-105 active:scale-95 transition-all duration-300 flex-shrink-0"
                 >
                   <FaGithub size={14} />
-                  View GitHub Profile
+                  {t('journey.githubButton')}
                 </a>
               </div>
             </motion.div>
