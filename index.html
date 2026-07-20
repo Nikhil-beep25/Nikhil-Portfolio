@@ -29,8 +29,27 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Inline Theme Synchronization Script -->
+    <script>
+      (function() {
+        const savedMode = localStorage.getItem('portfolio-theme');
+        let isDark = false;
+        if (savedMode) {
+          isDark = savedMode === 'dark';
+        } else {
+          const hour = new Date().getHours();
+          isDark = hour < 6 || hour >= 18;
+        }
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
   </head>
-  <body class="bg-bg-darkest text-zinc-100 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+  <body class="bg-bg-darkest text-text-main antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

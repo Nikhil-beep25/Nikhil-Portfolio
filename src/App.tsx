@@ -97,12 +97,14 @@ function AppContent() {
 export default function App() {
   // Sync the theme variable and accent colors directly on load
   useEffect(() => {
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const savedMode = localStorage.getItem('theme-mode') || 'dark';
+    const savedMode = localStorage.getItem('portfolio-theme');
     
-    let isDark = savedMode === 'dark';
-    if (savedMode === 'system') {
-      isDark = systemPrefersDark;
+    let isDark = false;
+    if (savedMode) {
+      isDark = savedMode === 'dark';
+    } else {
+      const hour = new Date().getHours();
+      isDark = hour < 6 || hour >= 18;
     }
     
     if (isDark) {

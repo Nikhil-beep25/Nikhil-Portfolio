@@ -126,6 +126,38 @@ const CountUp = ({ value, duration = 1500, suffix = "" }: { value: number; durat
   );
 };
 
+const ScrollIndicator = ({ roleTyped }: { roleTyped: boolean }) => {
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: -10 }}
+      animate={roleTyped ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
+      transition={{ delay: 0.65, duration: 0.8 }}
+      className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-20 pointer-events-auto"
+      onClick={() => {
+        const aboutSection = document.getElementById('about');
+        if (aboutSection) {
+          aboutSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }}
+    >
+      <span className="text-[9px] font-mono font-bold tracking-[0.2em] text-text-muted uppercase">Scroll Down</span>
+      <div className="w-[24px] h-[38px] rounded-full border border-text-muted/30 flex justify-center p-1.5 hover:border-primary/50 transition-colors">
+        <motion.div 
+          animate={{
+            y: [0, 10, 0],
+          }}
+          transition={{
+            duration: 1.6,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="w-1.5 h-1.5 rounded-full bg-primary"
+        />
+      </div>
+    </motion.div>
+  );
+};
+
 export default function Home() {
 
 
@@ -173,6 +205,8 @@ export default function Home() {
 
   // Typewriter effect
   const typewriterTexts = [
+    "Python Full Stack Developer",
+    "MERN Stack Developer",
     "Modern Web Applications",
     "Robust Backend Architectures",
     "Secure SaaS Products",
@@ -183,16 +217,20 @@ export default function Home() {
   const [textIndex, setTextIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(100);
+  const [roleTyped, setRoleTyped] = useState(false);
 
   useEffect(() => {
     const handleType = () => {
       const currentFullText = typewriterTexts[textIndex];
       if (!isDeleting) {
         setTypewriterText(currentFullText.slice(0, typewriterText.length + 1));
-        setTypingSpeed(60);
+        setTypingSpeed(55);
         
         if (typewriterText === currentFullText) {
-          setTypingSpeed(2000);
+          if (textIndex === 0) {
+            setRoleTyped(true);
+          }
+          setTypingSpeed(3500);
           setIsDeleting(true);
         }
       } else {
@@ -452,19 +490,19 @@ export default function Home() {
           
           {/* LEFT SIDE: Personal Branding Layout */}
           <div className="lg:col-span-6 flex flex-col justify-center text-left py-4 md:py-8">
-            {/* Status Badge */}
+            {/* WELCOME Status Badge */}
             <motion.div 
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="w-fit mb-6"
             >
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-400">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-[10px] font-mono font-bold uppercase tracking-wider text-primary-light">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-light opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                 </span>
-                AVAILABLE FOR PROJECTS
+                WELCOME
               </span>
             </motion.div>
 
@@ -475,7 +513,7 @@ export default function Home() {
               <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
                 whileHover={{ scale: 1.02 }}
                 style={{ fontSize: "clamp(52px, 5vw, 72px)", lineHeight: "1", letterSpacing: "-0.03em" }}
                 className="font-black font-display name-gradient-text relative select-none cursor-default whitespace-nowrap overflow-visible z-10 pb-1"
@@ -488,7 +526,7 @@ export default function Home() {
             <motion.div 
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
               className="mb-5 space-y-1.5 text-left"
             >
               {/* Rotating Title */}
@@ -503,26 +541,53 @@ export default function Home() {
               </p>
             </motion.div>
 
-            {/* Short description */}
+            {/* Short description (Coordinated Reveal) */}
             <motion.div 
               initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
-              className="text-sm md:text-base text-text-muted leading-relaxed max-w-2xl mb-7 space-y-3"
+              animate={roleTyped ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="text-sm md:text-base text-text-muted leading-relaxed max-w-2xl mb-6 space-y-3"
             >
               <p>
-                Building modern web applications, AI-powered products, and scalable SaaS platforms using React, TypeScript, Node.js, PostgreSQL, and modern cloud technologies.
+                Building modern, scalable and AI-powered web applications with React, Node.js, Express, MongoDB and Python.
               </p>
               <p>
                 Focused on creating clean user experiences, building functional systems, and continuously improving through personal and educational projects.
               </p>
             </motion.div>
 
-            {/* Actions */}
+            {/* Social Icons row (Coordinated Reveal) */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={roleTyped ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
+              className="flex items-center gap-3 mb-8"
+            >
+              {[
+                { icon: <Mail size={16} />, url: "mailto:nikhilbhadauriya2500@gmail.com", label: "Email", color: "hover:text-[#06B6D4] hover:border-[#06B6D4]/30" },
+                { icon: <FaGithub size={16} />, url: "https://github.com/Nikhil-beep25", label: "GitHub", color: "hover:text-white hover:border-white/30" },
+                { icon: <FaLinkedin size={16} />, url: "https://www.linkedin.com/in/nikhil-bhadauriya-308414321", label: "LinkedIn", color: "hover:text-[#3B82F6] hover:border-[#3B82F6]/30" },
+                { icon: <FaInstagram size={16} />, url: "https://www.instagram.com/itsnikhilbhadauriya?igsh=MTY0dDJjaHAwOWt1Yg==", label: "Instagram", color: "hover:text-[#EC4899] hover:border-[#EC4899]/30" },
+              ].map((social) => (
+                <motion.a
+                  key={social.label}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`p-2.5 rounded-xl bg-white/[0.02] border border-white/5 text-text-muted transition-all duration-300 flex items-center justify-center cursor-pointer ${social.color}`}
+                  whileHover={{ scale: 1.15, y: -2 }}
+                  title={social.label}
+                >
+                  {social.icon}
+                </motion.a>
+              ))}
+            </motion.div>
+
+            {/* Actions (Coordinated Reveal) */}
             <motion.div 
               initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
+              animate={roleTyped ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
               className="flex flex-wrap gap-4"
             >
               <a
@@ -627,7 +692,11 @@ export default function Home() {
           </motion.div>
           
         </div>
+        
+        {/* Scroll Indicator Reveal */}
+        <ScrollIndicator roleTyped={roleTyped} />
       </section>
+
 
       {/* -------------------- ABOUT SECTION -------------------- */}
       <section id="about" className="py-24 relative border-t border-white/5 bg-bg-dark/15 z-10 scroll-mt-[104px]">
@@ -1599,8 +1668,8 @@ export default function Home() {
                           required
                           value={formState.name}
                           onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                          placeholder="John Doe"
-                          className="w-full px-4.5 py-3 rounded-2xl bg-white/75 backdrop-blur-[10px] border-[1.5px] border-[rgba(125,125,125,0.18)] focus:border-primary focus:shadow-[0_0_15px_rgba(139,92,246,0.25)] focus:scale-[1.01] transition-all duration-200 outline-none text-xs text-[#111827] font-medium placeholder:text-[#6B7280] placeholder:opacity-100 placeholder:font-medium"
+                          placeholder="Enter your full name"
+                          className="w-full px-4.5 py-3 rounded-2xl bg-white/75 backdrop-blur-[10px] border-[1.5px] border-[rgba(125,125,125,0.18)] focus:border-primary focus:shadow-[0_0_15px_rgba(139,92,246,0.25)] focus:scale-[1.01] transition-all duration-200 outline-none text-base text-[#111827] font-medium placeholder:text-[#94A3B8] placeholder:font-medium placeholder:transition-opacity placeholder:duration-200 focus:placeholder:opacity-0"
                         />
                       </div>
 
@@ -1614,8 +1683,8 @@ export default function Home() {
                           required
                           value={formState.email}
                           onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                          placeholder="you@example.com"
-                          className="w-full px-4.5 py-3 rounded-2xl bg-white/75 backdrop-blur-[10px] border-[1.5px] border-[rgba(125,125,125,0.18)] focus:border-primary focus:shadow-[0_0_15px_rgba(139,92,246,0.25)] focus:scale-[1.01] transition-all duration-200 outline-none text-xs text-[#111827] font-medium placeholder:text-[#6B7280] placeholder:opacity-100 placeholder:font-medium"
+                          placeholder="Enter your email address"
+                          className="w-full px-4.5 py-3 rounded-2xl bg-white/75 backdrop-blur-[10px] border-[1.5px] border-[rgba(125,125,125,0.18)] focus:border-primary focus:shadow-[0_0_15px_rgba(139,92,246,0.25)] focus:scale-[1.01] transition-all duration-200 outline-none text-base text-[#111827] font-medium placeholder:text-[#94A3B8] placeholder:font-medium placeholder:transition-opacity placeholder:duration-200 focus:placeholder:opacity-0"
                         />
                       </div>
 
@@ -1628,8 +1697,8 @@ export default function Home() {
                           required
                           value={formState.message}
                           onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                          placeholder="How can I help you?"
-                          className="w-full px-4.5 py-3 rounded-2xl bg-white/75 backdrop-blur-[10px] border-[1.5px] border-[rgba(125,125,125,0.18)] focus:border-primary focus:shadow-[0_0_15px_rgba(139,92,246,0.25)] focus:scale-[1.01] transition-all duration-200 outline-none text-xs text-[#111827] font-medium placeholder:text-[#6B7280] placeholder:opacity-100 placeholder:font-medium resize-none min-h-[180px]"
+                          placeholder="Write your message here..."
+                          className="w-full px-4.5 py-3 rounded-2xl bg-white/75 backdrop-blur-[10px] border-[1.5px] border-[rgba(125,125,125,0.18)] focus:border-primary focus:shadow-[0_0_15px_rgba(139,92,246,0.25)] focus:scale-[1.01] transition-all duration-200 outline-none text-base text-[#111827] font-medium placeholder:text-[#94A3B8] placeholder:font-medium placeholder:transition-opacity placeholder:duration-200 focus:placeholder:opacity-0 resize-none min-h-[180px]"
                         />
                       </div>
 

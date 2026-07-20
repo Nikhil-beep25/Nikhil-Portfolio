@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sun, Moon, Settings, Monitor, Check } from 'lucide-react';
+import { Menu, X, Sun, Moon, Settings, Check } from 'lucide-react';
 import Avatar from './Avatar';
 
 const navLinks = [
@@ -34,8 +34,11 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   // Theme customizer states
-  const [themeMode, setThemeMode] = useState<'light' | 'dark' | 'system'>(() => {
-    return (localStorage.getItem('theme-mode') as 'light' | 'dark' | 'system') || 'dark';
+  const [themeMode, setThemeMode] = useState<'light' | 'dark'>(() => {
+    const saved = localStorage.getItem('portfolio-theme');
+    if (saved) return saved as 'light' | 'dark';
+    const hour = new Date().getHours();
+    return (hour >= 6 && hour < 18) ? 'light' : 'dark';
   });
 
   const [themeColor, setThemeColor] = useState<string>(() => {
@@ -67,34 +70,16 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Handle Mode changes (Light, Dark, System)
+  // Handle Mode changes (Light, Dark)
   useEffect(() => {
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    const applyMode = (mode: 'light' | 'dark' | 'system') => {
-      let isDark = mode === 'dark';
-      if (mode === 'system') {
-        isDark = systemPrefersDark;
-      }
-      
-      if (isDark) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-      
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    };
-
-    applyMode(themeMode);
-    localStorage.setItem('theme-mode', themeMode);
-
-    if (themeMode === 'system') {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      const handleChange = () => applyMode('system');
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
+    const isDark = themeMode === 'dark';
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
+    
+    localStorage.setItem('portfolio-theme', themeMode);
   }, [themeMode]);
 
   // Handle Color accent changes
@@ -131,7 +116,10 @@ export default function Navbar() {
   };
 
   return (
-    <header
+    <motion.header
+      initial={{ y: -72, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed top-0 left-0 w-full h-[72px] z-[9999] transition-all duration-300 flex items-center ${
         isScrolled 
           ? 'bg-bg-darkest/80 backdrop-blur-lg border-b border-border-dark shadow-lg shadow-black/10' 
@@ -232,8 +220,8 @@ export default function Navbar() {
                 {/* Theme Mode Segment */}
                 <div className="mb-4">
                   <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">Theme Mode</span>
-                  <div className="grid grid-cols-3 gap-1 bg-white/[0.02] border border-white/5 rounded-lg p-0.5">
-                    {(['light', 'dark', 'system'] as const).map((m) => (
+                  <div className="grid grid-cols-2 gap-1 bg-white/[0.02] border border-white/5 rounded-lg p-0.5">
+                    {(['light', 'dark'] as const).map((m) => (
                       <button
                         key={m}
                         onClick={() => setThemeMode(m)}
@@ -245,7 +233,6 @@ export default function Navbar() {
                       >
                         {m === 'light' && <Sun size={10} />}
                         {m === 'dark' && <Moon size={10} />}
-                        {m === 'system' && <Monitor size={10} />}
                         {m}
                       </button>
                     ))}
@@ -325,8 +312,8 @@ export default function Navbar() {
             >
               <div className="mb-4">
                 <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold font-mono block mb-2">Theme Mode</span>
-                <div className="grid grid-cols-3 gap-1 bg-white/[0.02] border border-white/5 rounded-lg p-0.5">
-                  {(['light', 'dark', 'system'] as const).map((m) => (
+                <div className="grid grid-cols-2 gap-1 bg-white/[0.02] border border-white/5 rounded-lg p-0.5">
+                  {(['light', 'dark'] as const).map((m) => (
                     <button
                       key={m}
                       onClick={() => setThemeMode(m)}
@@ -338,7 +325,6 @@ export default function Navbar() {
                     >
                       {m === 'light' && <Sun size={10} />}
                       {m === 'dark' && <Moon size={10} />}
-                      {m === 'system' && <Monitor size={10} />}
                       {m}
                     </button>
                   ))}
@@ -419,6 +405,6 @@ export default function Navbar() {
           </>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 }

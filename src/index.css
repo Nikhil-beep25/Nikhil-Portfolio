@@ -393,3 +393,25 @@ body {
 .animate-typewriter-blink {
   animation: typewriter-blink 1.2s infinite;
 }
+
+@keyframes text-gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-text-gradient-purple-blue {
+  background-image: linear-gradient(
+    135deg,
+    #7C3AED 0%,
+    #6366F1 30%,
+    #3B82F6 50%,
+    #6366F1 70%,
+    #7C3AED 100%
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: text-gradient-shift 5s ease infinite;
+}
