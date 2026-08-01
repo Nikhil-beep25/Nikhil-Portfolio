@@ -152,40 +152,6 @@ export default function Navbar() {
     <div>
       <p className="text-[10px] uppercase tracking-widest font-bold font-mono mb-2"
          style={{ color: isDark ? '#94A3B8' : '#64748B' }}>
-        Theme Mode
-      </p>
-      <div className="grid grid-cols-2 gap-1 rounded-xl p-0.5 mb-5"
-           style={{ background: isDark ? '#1E293B' : '#F1F5F9', border: `1px solid ${panelBorder}` }}>
-        {(['light', 'dark'] as const).map((m) => {
-          const sel = themeMode === m;
-          return (
-            <motion.button
-              key={m}
-              onClick={() => setThemeMode(m)}
-              className="relative py-2 px-3 rounded-[10px] text-[11px] font-bold capitalize flex items-center justify-center gap-1.5 cursor-pointer overflow-hidden"
-              style={{ color: sel ? '#ffffff' : (isDark ? '#94A3B8' : '#64748B') }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.15 }}
-            >
-              {sel && (
-                <motion.span
-                  layoutId="themeModeSelected"
-                  className="absolute inset-0 rounded-[10px]"
-                  style={{ background: accent.primary }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                />
-              )}
-              <span className="relative z-10 flex items-center gap-1.5">
-                {m === 'light' ? <Sun size={11} /> : <Moon size={11} />}
-                {m}
-              </span>
-            </motion.button>
-          );
-        })}
-      </div>
-
-      <p className="text-[10px] uppercase tracking-widest font-bold font-mono mb-2"
-         style={{ color: isDark ? '#94A3B8' : '#64748B' }}>
         Accent Color
       </p>
       <div className="grid grid-cols-4 gap-2">
@@ -359,7 +325,7 @@ export default function Navbar() {
           <AnimatePresence>
             {customizerOpen && (
               <motion.div
-                className="absolute right-0 top-full mt-3 w-[272px] p-5 rounded-2xl z-50"
+                className="absolute right-0 top-full mt-3 w-[272px] p-6 rounded-2xl z-50"
                 style={{
                   background: panelBg,
                   border:     `1px solid ${panelBorder}`,
@@ -432,7 +398,7 @@ export default function Navbar() {
       <AnimatePresence>
         {customizerOpen && (
           <motion.div
-            className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-[90%] max-w-sm p-5 rounded-2xl z-50 text-left pointer-events-auto lg:hidden"
+            className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-[90%] max-w-sm p-6 rounded-2xl z-50 text-left pointer-events-auto lg:hidden"
             style={{
               background: panelBg,
               border:     `1px solid ${panelBorder}`,
