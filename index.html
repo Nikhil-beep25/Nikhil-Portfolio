@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nikhil Bhadauriya | Python Full-Stack & MERN Developer | SaaS Builder</title>
+    <meta name="description" content="Nikhil Bhadauriya - Python Full-Stack Developer, MERN Stack Developer, and SaaS Builder. Building scalable web applications, SaaS products, APIs, and automation systems." />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://nikhilbhadauriya-portfolio.vercel.app" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Nikhil Bhadauriya | Python Full-Stack & MERN Developer | SaaS Builder" />
+    <meta property="og:description" content="Nikhil Bhadauriya - Python Full-Stack Developer, MERN Stack Developer, and SaaS Builder. Building scalable web applications, SaaS products, APIs, and automation systems." />
+    <meta property="og:image" content="https://nikhilbhadauriya-portfolio.vercel.app/favicon.svg" />
+    <meta property="og:url" content="https://nikhilbhadauriya-portfolio.vercel.app" />
+    <meta property="og:site_name" content="Nikhil Bhadauriya Portfolio" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Nikhil Bhadauriya | Python Full-Stack & MERN Developer | SaaS Builder" />
+    <meta name="twitter:description" content="Nikhil Bhadauriya - Python Full-Stack Developer, MERN Stack Developer, and SaaS Builder. Building scalable web applications, SaaS products, APIs, and automation systems." />
+    <meta name="twitter:image" content="https://nikhilbhadauriya-portfolio.vercel.app/favicon.svg" />
+    <meta name="twitter:url" content="https://nikhilbhadauriya-portfolio.vercel.app" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Inline Theme Synchronization Script -->
+    <script>
+      (function() {
+        const savedMode = localStorage.getItem('portfolio-theme');
+        let isDark = false;
+        if (savedMode) {
+          isDark = savedMode === 'dark';
+        } else {
+          const hour = new Date().getHours();
+          isDark = hour < 6 || hour >= 18;
+        }
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body class="bg-bg-darkest text-text-main antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
