@@ -4,7 +4,7 @@ import {
   ArrowRight, Mail, Layers, Code2, Server, Database, 
   Sparkles, Cpu, Smartphone, CheckCircle2, Send, Compass, BookOpen, AlertTriangle
 } from 'lucide-react';
-import { FaPython, FaReact, FaNodeJs, FaDocker, FaGithub, FaLinkedin, FaTwitter, FaInstagram, FaWhatsapp } from 'react-icons/fa';
+import { FaPython, FaReact, FaNodeJs, FaDocker, FaGithub, FaLinkedin, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa';
 import { SiPostgresql, SiTailwindcss, SiTypescript, SiDjango, SiExpress, SiPrisma } from 'react-icons/si';
 import AnimatedRole from '../components/AnimatedRole';
 import profileAsset from '../assets/profile.jpg';
@@ -59,9 +59,9 @@ const SocialDock = () => {
   const socials = [
     { icon: <Mail size={18} />, url: "mailto:nikhilbhadauriya2500@gmail.com", label: "Email", color: "hover:text-[#06B6D4]" },
     { icon: <FaGithub size={18} />, url: "https://github.com/Nikhil-beep25", label: "GitHub", color: "hover:text-white" },
-    { icon: <FaLinkedin size={18} />, url: "https://linkedin.com", label: "LinkedIn", color: "hover:text-[#3B82F6]" },
-    { icon: <FaTwitter size={18} />, url: "https://twitter.com", label: "Twitter", color: "hover:text-sky-400" },
-    { icon: <FaInstagram size={18} />, url: "https://instagram.com", label: "Instagram", color: "hover:text-[#EC4899]" },
+    { icon: <FaLinkedin size={18} />, url: "https://www.linkedin.com/in/nikhil-bhadauriya-308414321", label: "LinkedIn", color: "hover:text-[#3B82F6]" },
+    { icon: <FaInstagram size={18} />, url: "https://www.instagram.com/itsnikhil_tech?igsh=ZnZ2Y2Jybmx4OGw2", label: "Instagram", color: "hover:text-[#EC4899]" },
+    { icon: <FaYoutube size={18} />, url: "https://www.youtube.com/@ItsNikhilTech", label: "YouTube", color: "hover:text-[#FF0000]" },
   ];
 
   return (
@@ -567,7 +567,8 @@ export default function Home() {
                 { icon: <Mail size={16} />, url: "mailto:nikhilbhadauriya2500@gmail.com", label: "Email", color: "hover:text-[#06B6D4] hover:border-[#06B6D4]/30" },
                 { icon: <FaGithub size={16} />, url: "https://github.com/Nikhil-beep25", label: "GitHub", color: "hover:text-white hover:border-white/30" },
                 { icon: <FaLinkedin size={16} />, url: "https://www.linkedin.com/in/nikhil-bhadauriya-308414321", label: "LinkedIn", color: "hover:text-[#3B82F6] hover:border-[#3B82F6]/30" },
-                { icon: <FaInstagram size={16} />, url: "https://www.instagram.com/itsnikhilbhadauriya?igsh=MTY0dDJjaHAwOWt1Yg==", label: "Instagram", color: "hover:text-[#EC4899] hover:border-[#EC4899]/30" },
+                { icon: <FaInstagram size={16} />, url: "https://www.instagram.com/itsnikhil_tech?igsh=ZnZ2Y2Jybmx4OGw2", label: "Instagram", color: "hover:text-[#EC4899] hover:border-[#EC4899]/30" },
+                { icon: <FaYoutube size={16} />, url: "https://www.youtube.com/@ItsNikhilTech", label: "YouTube", color: "hover:text-[#FF0000] hover:border-[#FF0000]/30" },
               ].map((social) => (
                 <motion.a
                   key={social.label}

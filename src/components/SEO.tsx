@@ -73,7 +73,8 @@ export default function SEO({
       "sameAs": [
         "https://github.com/Nikhil-beep25",
         "https://www.linkedin.com/in/nikhil-bhadauriya-308414321",
-        "https://www.instagram.com/itsnikhilbhadauriya"
+        "https://www.instagram.com/itsnikhil_tech",
+        "https://www.youtube.com/@ItsNikhilTech"
       ],
       "description": description,
       "knowsAbout": [

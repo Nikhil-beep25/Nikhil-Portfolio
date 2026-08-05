@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaInstagram, FaYoutube } from 'react-icons/fa';
 import { Mail, MapPin } from 'lucide-react';
 
 export default function Footer() {
@@ -9,7 +9,8 @@ export default function Footer() {
   const socialLinks = [
     { icon: <FaGithub size={16} />, url: "https://github.com/Nikhil-beep25", label: "GitHub", color: "hover:text-white hover:shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:border-white/30" },
     { icon: <FaLinkedin size={16} />, url: "https://www.linkedin.com/in/nikhil-bhadauriya-308414321", label: "LinkedIn", color: "hover:text-[#3B82F6] hover:shadow-[0_0_15px_rgba(59,130,246,0.4)] hover:border-[#3B82F6]/30" },
-    { icon: <FaInstagram size={16} />, url: "https://www.instagram.com/itsnikhilbhadauriya?igsh=MTY0dDJjaHAwOWt1Yg==", label: "Instagram", color: "hover:text-[#EC4899] hover:shadow-[0_0_15px_rgba(236,72,153,0.4)] hover:border-[#EC4899]/30" },
+    { icon: <FaInstagram size={16} />, url: "https://www.instagram.com/itsnikhil_tech?igsh=ZnZ2Y2Jybmx4OGw2", label: "Instagram", color: "hover:text-[#EC4899] hover:shadow-[0_0_15px_rgba(236,72,153,0.4)] hover:border-[#EC4899]/30" },
+    { icon: <FaYoutube size={16} />, url: "https://www.youtube.com/@ItsNikhilTech", label: "YouTube", color: "hover:text-[#FF0000] hover:shadow-[0_0_15px_rgba(255,0,0,0.4)] hover:border-[#FF0000]/30" },
     { icon: <Mail size={16} />, url: "mailto:nikhilbhadauriya2500@gmail.com", label: "Email", color: "hover:text-[#06B6D4] hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] hover:border-[#06B6D4]/30" },
   ];
 

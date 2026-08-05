@@ -4,7 +4,7 @@ import {
   Mail, MapPin, Phone, Send, 
   AlertTriangle, ArrowRight, ShieldCheck 
 } from 'lucide-react';
-import { FaGithub, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaWhatsapp, FaInstagram, FaYoutube } from 'react-icons/fa';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -156,6 +156,7 @@ export default function ContactPage() {
                   target="_blank"
                   rel="noreferrer"
                   className="p-3 rounded-xl bg-black/5 hover:bg-black/10 border border-black/10 hover:border-primary/30 text-[#374151] hover:text-primary transition-all duration-300"
+                  title="GitHub"
                 >
                   <FaGithub size={16} />
                 </a>
@@ -164,14 +165,34 @@ export default function ContactPage() {
                   target="_blank"
                   rel="noreferrer"
                   className="p-3 rounded-xl bg-black/5 hover:bg-black/10 border border-black/10 hover:border-primary/30 text-[#374151] hover:text-primary transition-all duration-300"
+                  title="LinkedIn"
                 >
                   <FaLinkedin size={16} />
+                </a>
+                <a
+                  href="https://www.instagram.com/itsnikhil_tech?igsh=ZnZ2Y2Jybmx4OGw2"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-3 rounded-xl bg-black/5 hover:bg-black/10 border border-black/10 hover:border-primary/30 text-[#374151] hover:text-[#EC4899] transition-all duration-300"
+                  title="Instagram"
+                >
+                  <FaInstagram size={16} />
+                </a>
+                <a
+                  href="https://www.youtube.com/@ItsNikhilTech"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-3 rounded-xl bg-black/5 hover:bg-black/10 border border-black/10 hover:border-primary/30 text-[#374151] hover:text-[#FF0000] transition-all duration-300"
+                  title="YouTube"
+                >
+                  <FaYoutube size={16} />
                 </a>
                 <a
                   href="https://wa.me/918077313959"
                   target="_blank"
                   rel="noreferrer"
                   className="p-3 rounded-xl bg-black/5 hover:bg-black/10 border border-black/10 hover:border-primary/30 text-[#374151] hover:text-primary transition-all duration-300"
+                  title="WhatsApp"
                 >
                   <FaWhatsapp size={16} />
                 </a>
