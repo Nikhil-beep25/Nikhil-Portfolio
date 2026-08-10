@@ -46,12 +46,35 @@ export default function ContactPage() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
+      }).catch(err => {
+        throw new Error("Unable to connect to the server.");
       });
 
-      const result = await response.json();
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error("The contact service is currently unavailable.");
+        } else if (response.status === 500) {
+          throw new Error("Server error. Please try again later.");
+        } else if (response.status === 502 || response.status === 504) {
+          throw new Error("Unable to connect to the server. Please ensure the backend is running.");
+        }
+        throw new Error(`HTTP ${response.status}`);
+      }
 
-      if (!response.ok || !result.success) {
-        throw new Error(result.error || 'Failed to send message.');
+      const text = await response.text();
+      if (!text) {
+        throw new Error("Empty response from server.");
+      }
+
+      let result;
+      try {
+        result = JSON.parse(text);
+      } catch (err) {
+        throw new Error("Invalid response format from server.");
+      }
+
+      if (!result.success) {
+        throw new Error(result.error || result.message || 'Failed to send message.');
       }
 
       setStatus('success');
