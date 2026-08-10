@@ -158,6 +158,15 @@ const ScrollIndicator = ({ roleTyped }: { roleTyped: boolean }) => {
   );
 };
 
+const typewriterTexts = [
+  "Python Full Stack Developer",
+  "MERN Stack Developer",
+  "Modern Web Applications",
+  "Robust Backend Architectures",
+  "Secure SaaS Products",
+  "Semantic LLM & AI Integrations"
+];
+
 export default function Home() {
 
 
@@ -204,14 +213,6 @@ export default function Home() {
   };
 
   // Typewriter effect
-  const typewriterTexts = [
-    "Python Full Stack Developer",
-    "MERN Stack Developer",
-    "Modern Web Applications",
-    "Robust Backend Architectures",
-    "Secure SaaS Products",
-    "Semantic LLM & AI Integrations"
-  ];
 
   const [typewriterText, setTypewriterText] = useState("");
   const [textIndex, setTextIndex] = useState(0);
@@ -247,7 +248,7 @@ export default function Home() {
 
     const timer = setTimeout(handleType, typingSpeed);
     return () => clearTimeout(timer);
-  }, [typewriterText, isDeleting, textIndex, typingSpeed, typewriterTexts]);
+  }, [typewriterText, isDeleting, textIndex, typingSpeed]);
 
   const [activeProjectFilter, setActiveProjectFilter] = useState<'All' | 'Full Stack' | 'React' | 'SaaS' | 'ERP' | 'Portfolio'>('All');
   
@@ -283,6 +284,7 @@ export default function Home() {
       setSubmitSuccess(true);
       setFormState({ name: '', email: '', message: '' });
     } catch (err: any) {
+      console.error(err);
       setSubmitError(err.message || "Failed to submit. Please try again.");
       setIsSubmitting(false);
     }

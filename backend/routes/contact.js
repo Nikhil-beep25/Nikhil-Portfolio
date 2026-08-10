@@ -2,8 +2,7 @@ const express = require('express');
 const { Resend } = require('resend');
 
 const router = express.Router();
-// Initialize with a fallback to prevent app crash on startup if ENV is missing
-const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // GET /api/contact
 router.get('/', (req, res) => {

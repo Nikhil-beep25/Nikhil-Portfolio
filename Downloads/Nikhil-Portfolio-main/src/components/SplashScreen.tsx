@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Premium custom geometric SVG monogram combining "N" and "B" as a single continuous path
@@ -78,12 +78,12 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
 
   const hasCompletedRef = useRef(false);
 
-  const triggerComplete = () => {
+  const triggerComplete = useCallback(() => {
     if (!hasCompletedRef.current) {
       hasCompletedRef.current = true;
       onComplete();
     }
-  };
+  }, [onComplete]);
 
   // Sync theme status on mount
   useEffect(() => {
@@ -120,7 +120,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
     return () => {
       timers.forEach(clearTimeout);
     };
-  }, []);
+  }, [triggerComplete]);
 
   // Floating background light particles matching theme properties
   const [particles] = useState(() => 

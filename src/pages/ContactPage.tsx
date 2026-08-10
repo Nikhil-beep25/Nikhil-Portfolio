@@ -46,7 +46,7 @@ export default function ContactPage() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
-      }).catch(err => {
+      }).catch(() => {
         throw new Error("Unable to connect to the server.");
       });
 
@@ -69,7 +69,7 @@ export default function ContactPage() {
       let result;
       try {
         result = JSON.parse(text);
-      } catch (err) {
+      } catch {
         throw new Error("Invalid response format from server.");
       }
 
@@ -80,6 +80,7 @@ export default function ContactPage() {
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
     } catch (err: any) {
+      console.error(err);
       setSubmitError(err.message || "Failed to submit. Please try again.");
       setStatus('idle');
     }

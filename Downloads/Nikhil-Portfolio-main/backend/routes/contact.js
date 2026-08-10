@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
   });
 });
 
-// POST /api/contact
+// POST /api/contact`
 router.post('/', async (req, res) => {
   console.log("RESEND_API_KEY exists:", !!process.env.RESEND_API_KEY);
   try {
