@@ -5,6 +5,7 @@ import {
   AlertTriangle, ArrowRight, ShieldCheck 
 } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaWhatsapp, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { INSTAGRAM_URL } from '../constants';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -194,11 +195,12 @@ export default function ContactPage() {
                   <FaLinkedin size={16} />
                 </a>
                 <a
-                  href="https://www.instagram.com/itsnikhil_tech?igsh=ZnZ2Y2Jybmx4OGw2"
+                  href={INSTAGRAM_URL}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="p-3 rounded-xl bg-black/5 hover:bg-black/10 border border-black/10 hover:border-primary/30 text-[#374151] hover:text-[#EC4899] transition-all duration-300"
                   title="Instagram"
+                  aria-label="Visit Nikhil Bhadauriya's Instagram Profile"
                 >
                   <FaInstagram size={16} />
                 </a>
