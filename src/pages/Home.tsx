@@ -449,6 +449,11 @@ export default function Home() {
       title: "S O Infotech (P) Ltd.",
       subtitle: "Full Stack Developer Trainee (Python & GenAI) — Noida, India",
       desc: "Engineered an E-commerce Website using Python Full Stack architecture integrated with Generative AI capabilities. Designed RESTful APIs, connected secure payment gateways, and optimized database queries for sub-second page performance in a cross-functional engineering team.",
+      bullets: [
+        "Engineered full-stack e-commerce system with Python & Generative AI services.",
+        "Designed RESTful APIs and integrated third-party secure payment gateways.",
+        "Optimized relational PostgreSQL queries, cutting page load latencies."
+      ],
       badge: "🏢 INDUSTRY EXPERIENCE",
       tech: ["Python", "REST APIs", "Generative AI", "Payment Gateways", "PostgreSQL", "Git"]
     },
@@ -457,6 +462,11 @@ export default function Home() {
       title: "DUCAT India",
       subtitle: "Apprenticeship — MERN Full Stack Development",
       desc: "Completed an intensive engineering apprenticeship focused on modern MERN architecture (MongoDB, Express.js, React.js, Node.js). Implemented robust JWT authentication flows, state management with React Context API and hooks, responsive component systems, and production debugging.",
+      bullets: [
+        "Engineered full-stack applications with MongoDB, Express.js, React.js, and Node.js.",
+        "Implemented JWT authentication flows, form validations, and React Context state.",
+        "Built responsive UI component architectures and Git-based collaborative workflows."
+      ],
       badge: "⚡ MERN SPECIALIZATION",
       tech: ["MongoDB", "Express.js", "React.js", "Node.js", "JWT", "Context API"]
     },
@@ -1637,8 +1647,8 @@ export default function Home() {
                       <h3 className="text-base font-bold text-text-title font-display mb-1">
                         {milestone.title}
                       </h3>
-                      {milestone.subtitle && !milestone.badge && (
-                        <h4 className="text-[10px] font-bold text-secondary-light font-mono mb-2 uppercase tracking-wide">
+                      {milestone.subtitle && (
+                        <h4 className="text-[11px] font-bold text-secondary-light font-mono mb-2 uppercase tracking-wide">
                           {milestone.subtitle}
                         </h4>
                       )}
