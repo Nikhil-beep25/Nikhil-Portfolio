@@ -27,6 +27,23 @@ const projectsList = [
     isFlagship: true
   },
   {
+    title: "CarVerse",
+    tagline: "Car Rental Management Platform",
+    desc: "A full-stack car rental management system built with the MERN stack. Features vehicle fleet management, dynamic customer booking engine, JWT authentication, role-based admin dashboard, Razorpay payment workflow, and MongoDB Atlas database.",
+    tech: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS", "JWT"],
+    categories: ["Full Stack"],
+    github: "https://github.com/Nikhil-beep25/CarVerse",
+    demo: "https://carverse-india.vercel.app/",
+    features: [
+      "Fleet & Vehicle Catalog",
+      "Online Booking & Rental Engine",
+      "Admin Fleet & Booking Dashboard",
+      "JWT Auth & Role-Based Access"
+    ],
+    status: "Production Ready",
+    isFlagship: false
+  },
+  {
     title: "Personal Portfolio",
     tagline: "Full-Stack Developer Portfolio",
     desc: "A developer portfolio built with React, TypeScript, Tailwind CSS, and Framer Motion. Features a dynamic theme customizer with 7 color palettes, dark/light/system modes, glassmorphism design, and a contact form powered by Resend.",
@@ -618,6 +635,80 @@ export default function ProjectsPage() {
                             { t: 'Postgres', bg: '#f0f9ff', bc: '#bae6fd', c: '#0369a1' },
                           ].map(sk => (
                             <span key={sk.t} style={{ fontSize: 5.5, fontWeight: 800, color: sk.c, background: sk.bg, border: `1px solid ${sk.bc}`, borderRadius: 3, padding: '0.5px 4px', whiteSpace: 'nowrap' }}>{sk.t}</span>
+                          ))}
+                        </div>
+                      </div>
+                    ) : project.title === "CarVerse" ? (
+                      /* ════════════════════════════════════════════════
+                         CARVERSE COMPACT CARD PREVIEW
+                         ════════════════════════════════════════════════ */
+                      <div className="w-full h-[155px] flex flex-col relative overflow-hidden bg-slate-900 text-slate-100" style={{ background: 'linear-gradient(150deg,#090d16 0%,#0f172a 50%,#0d1527 100%)', fontFamily: 'system-ui,sans-serif' }}>
+                        {/* Ambient glow orbs */}
+                        <div className="absolute pointer-events-none" style={{ top: -30, left: '5%', width: 120, height: 120, background: 'radial-gradient(circle,rgba(14,165,233,0.18) 0%,transparent 70%)', borderRadius: '50%' }} />
+                        <div className="absolute pointer-events-none" style={{ bottom: -30, right: '5%', width: 100, height: 100, background: 'radial-gradient(circle,rgba(99,102,241,0.15) 0%,transparent 70%)', borderRadius: '50%' }} />
+
+                        {/* ── Navbar ── */}
+                        <div
+                          className="flex items-center justify-between px-3 py-1.5 shrink-0 relative z-10"
+                          style={{ background: 'rgba(15,23,42,0.85)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(14,165,233,0.15)' }}
+                        >
+                          <div className="flex items-center gap-1">
+                            <div className="w-3 h-3 rounded flex items-center justify-center text-[7px]" style={{ background: 'linear-gradient(135deg,#0ea5e9,#6366f1)' }}>
+                              🚗
+                            </div>
+                            <span style={{ fontSize: 7.5, fontWeight: 900, color: '#f8fafc', letterSpacing: '-0.02em' }}>Car<span style={{ color: '#38bdf8' }}>Verse</span></span>
+                          </div>
+                          <div className="flex items-center gap-2" style={{ fontSize: 6, fontWeight: 700 }}>
+                            <span className="px-1 py-0.5 rounded-md" style={{ background: 'rgba(14,165,233,0.15)', color: '#38bdf8' }}>Fleet</span>
+                            <span style={{ color: '#94a3b8' }}>Bookings</span>
+                            <span style={{ color: '#94a3b8' }}>Rates</span>
+                          </div>
+                          <div className="px-2 py-0.5 rounded-full" style={{ background: 'linear-gradient(135deg,#0ea5e9,#2563eb)', fontSize: 5.5, fontWeight: 800, color: '#fff' }}>Rent Now</div>
+                        </div>
+
+                        {/* ── Body ── */}
+                        <div className="flex-grow flex items-center justify-between gap-3 px-4 relative z-10 overflow-hidden">
+                          <div className="flex flex-col gap-1 min-w-0" style={{ maxWidth: 140 }}>
+                            <div className="inline-flex items-center gap-1 w-fit rounded-full px-2 py-0.5" style={{ background: 'rgba(14,165,233,0.12)', border: '1px solid rgba(14,165,233,0.3)' }}>
+                              <span className="w-1 h-1 rounded-full bg-cyan-400 animate-pulse" />
+                              <span style={{ fontSize: 5.5, fontWeight: 800, color: '#38bdf8' }}>Live Platform</span>
+                            </div>
+                            <div style={{ fontSize: 13, fontWeight: 900, lineHeight: 0.95, letterSpacing: '-0.03em', color: '#f8fafc' }}>
+                              CarVerse Rental
+                            </div>
+                            <div style={{ fontSize: 6.5, fontWeight: 800, color: '#38bdf8', letterSpacing: '0.05em', textTransform: 'uppercase' }}>MERN Stack Platform</div>
+                            <div style={{ fontSize: 6, color: '#94a3b8', lineHeight: 1.3 }}>
+                              Browse fleet, online bookings, and role-based admin controls.
+                            </div>
+                          </div>
+
+                          {/* Car Showcase Card */}
+                          <div className="p-2 rounded-xl flex flex-col justify-between shrink-0" style={{ width: 110, height: 78, background: 'rgba(30,41,59,0.7)', border: '1px solid rgba(14,165,233,0.2)' }}>
+                            <div className="flex items-center justify-between">
+                              <span style={{ fontSize: 6, fontWeight: 800, color: '#38bdf8' }}>Luxury Fleet</span>
+                              <span style={{ fontSize: 6.5, fontWeight: 900, color: '#f8fafc' }}>₹6,500<span style={{ fontSize: 5, color: '#64748b' }}>/d</span></span>
+                            </div>
+                            <div className="text-center text-lg select-none py-0.5">
+                              🏎️
+                            </div>
+                            <div className="flex items-center justify-between" style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 2 }}>
+                              <span style={{ fontSize: 5, color: '#4ade80' }}>● Available</span>
+                              <span style={{ fontSize: 5, color: '#94a3b8' }}>Razorpay Ready</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* ── Bottom Tech Strip ── */}
+                        <div className="flex items-center gap-1.5 px-3 py-1 shrink-0 relative z-10" style={{ background: 'rgba(15,23,42,0.92)', backdropFilter: 'blur(12px)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                          <span style={{ fontSize: 5.5, fontWeight: 700, color: '#94a3b8' }}>Stack:</span>
+                          {[
+                            { t: 'React', bg: '#0369a1', c: '#e0f2fe' },
+                            { t: 'Node.js', bg: '#15803d', c: '#dcfce7' },
+                            { t: 'MongoDB', bg: '#047857', c: '#d1fae5' },
+                            { t: 'Express', bg: '#475569', c: '#f1f5f9' },
+                            { t: 'JWT', bg: '#6b21a8', c: '#f3e8ff' }
+                          ].map(sk => (
+                            <span key={sk.t} style={{ fontSize: 5.5, fontWeight: 800, color: sk.c, background: `${sk.bg}30`, border: `1px solid ${sk.bg}60`, borderRadius: 3, padding: '0.5px 4px', whiteSpace: 'nowrap' }}>{sk.t}</span>
                           ))}
                         </div>
                       </div>

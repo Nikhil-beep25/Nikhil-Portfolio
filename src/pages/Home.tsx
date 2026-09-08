@@ -395,6 +395,23 @@ export default function Home() {
       ]
     },
     {
+      title: "CarVerse",
+      tagline: "Car Rental Management Platform",
+      desc: "A full-stack car rental management platform built with the MERN stack. Features vehicle fleet management, dynamic customer booking engine, JWT authentication, role-based admin dashboard, Razorpay payment workflow, and MongoDB Atlas database.",
+      tech: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS", "JWT"],
+      categories: ["Full Stack", "React", "SaaS"],
+      link: "https://carverse-india.vercel.app/",
+      repo: "https://github.com/Nikhil-beep25/CarVerse",
+      status: "Production Ready",
+      isSpotlight: false,
+      features: [
+        "Fleet & Vehicle Catalog",
+        "Online Booking & Rental Engine",
+        "Admin Fleet & Booking Dashboard",
+        "JWT Auth & Role-Based Access"
+      ]
+    },
+    {
       title: "Personal Portfolio",
       tagline: "Full-Stack Developer Portfolio",
       desc: "A developer portfolio built with React, TypeScript, Tailwind CSS, and Framer Motion. Features a dynamic theme customizer with 7 color palettes, dark/light/system modes, glassmorphism design, and a contact form powered by Resend.",
@@ -1063,8 +1080,14 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 2-column card grid */}
-          <div className={`grid gap-8 ${filteredProjects.length === 1 ? 'grid-cols-1 max-w-2xl mx-auto' : 'grid-cols-1 lg:grid-cols-2'}`}>
+          {/* Project card grid */}
+          <div className={`grid gap-8 ${
+            filteredProjects.length === 1
+              ? 'grid-cols-1 max-w-2xl mx-auto'
+              : filteredProjects.length === 2
+                ? 'grid-cols-1 lg:grid-cols-2'
+                : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+          }`}>
             <AnimatePresence mode="wait">
               {filteredProjects.map((project, pIdx) => (
                 <motion.div
@@ -1202,6 +1225,117 @@ export default function Home() {
                                     <span style={{ fontSize: 6.5, fontWeight: 800, padding: '1.5px 6px', borderRadius: 5, background: row.sb, color: row.sc, border: `1px solid ${row.sbd}`, flex: 1, textAlign: 'right' }}>{row.s}</span>
                                   </div>
                                 ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      ) : project.title === 'CarVerse' ? (
+                        /* ═══════════════════════════════════════════════
+                           CARVERSE FLEET & RENTAL DASHBOARD PREVIEW
+                           ═══════════════════════════════════════════════ */
+                        <div
+                          className="w-full h-full flex flex-col relative text-slate-100"
+                          style={{ background: 'linear-gradient(150deg,#090d16 0%,#0f172a 50%,#0d1527 100%)', fontFamily: 'system-ui,sans-serif' }}
+                        >
+                          {/* Ambient cyan / electric blue glows */}
+                          <div className="absolute pointer-events-none" style={{ top: -30, left: -20, width: 150, height: 150, background: 'radial-gradient(circle,rgba(14,165,233,0.18) 0%,transparent 70%)', borderRadius: '50%' }} />
+                          <div className="absolute pointer-events-none" style={{ bottom: -20, right: 10, width: 130, height: 130, background: 'radial-gradient(circle,rgba(99,102,241,0.15) 0%,transparent 70%)', borderRadius: '50%' }} />
+
+                          {/* ── Top Navbar ── */}
+                          <div className="flex items-center justify-between px-4 py-2 shrink-0 relative z-10" style={{ background: 'rgba(15,23,42,0.85)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(14,165,233,0.15)' }}>
+                            <div className="flex items-center gap-1.5">
+                              <div className="w-2.5 h-2.5 rounded flex items-center justify-center text-[7px]" style={{ background: 'linear-gradient(135deg,#0ea5e9,#6366f1)' }}>
+                                🚗
+                              </div>
+                              <span style={{ fontSize: 8.5, fontWeight: 900, color: '#f8fafc', letterSpacing: '-0.02em' }}>Car<span style={{ color: '#38bdf8' }}>Verse</span></span>
+                            </div>
+                            <div className="flex items-center gap-2.5">
+                              {['Fleet', 'Bookings', 'Rates', 'Reviews'].map((n, i) => (
+                                <span key={n} style={{ fontSize: 7, fontWeight: 700, color: i === 0 ? '#38bdf8' : '#94a3b8' }}>{n}</span>
+                              ))}
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <div className="px-2 py-0.5 rounded-full" style={{ background: 'rgba(14,165,233,0.12)', border: '1px solid rgba(14,165,233,0.3)', fontSize: 6.5, fontWeight: 800, color: '#38bdf8' }}>● Fleet Live</div>
+                              <div className="w-5 h-5 rounded-full flex items-center justify-center text-[7px] font-bold" style={{ background: 'linear-gradient(135deg,#0ea5e9,#2563eb)', color: '#fff' }}>⚡</div>
+                            </div>
+                          </div>
+
+                          {/* ── Dashboard Body ── */}
+                          <div className="flex-1 flex gap-2 p-3 overflow-hidden relative z-10">
+                            {/* Left: Featured Vehicle Card */}
+                            <div className="flex-1 rounded-xl p-2.5 flex flex-col justify-between relative overflow-hidden" style={{ background: 'rgba(30,41,59,0.7)', border: '1px solid rgba(14,165,233,0.2)', boxShadow: '0 4px 16px rgba(0,0,0,0.25)' }}>
+                              <div className="flex items-start justify-between">
+                                <div>
+                                  <span className="px-1.5 py-0.5 rounded text-[5.5px] font-extrabold uppercase tracking-wider" style={{ background: 'rgba(56,189,248,0.15)', color: '#38bdf8', border: '1px solid rgba(56,189,248,0.3)' }}>Luxury Sport</span>
+                                  <h4 style={{ fontSize: 10, fontWeight: 900, color: '#f8fafc', marginTop: 2, lineHeight: 1.1 }}>Porsche 911 GT3</h4>
+                                  <span style={{ fontSize: 6, color: '#94a3b8' }}>Automatic • 502 HP • Petrol</span>
+                                </div>
+                                <div className="text-right">
+                                  <span style={{ fontSize: 11, fontWeight: 900, color: '#38bdf8' }}>₹8,500</span>
+                                  <span style={{ fontSize: 6, color: '#64748b' }}>/day</span>
+                                </div>
+                              </div>
+
+                              {/* Stylized Visual / Car Silhouette Graphic */}
+                              <div className="py-2 flex items-center justify-center relative">
+                                <div className="text-center">
+                                  <div className="text-2xl select-none" style={{ filter: 'drop-shadow(0 0 12px rgba(14,165,233,0.4))' }}>🏎️</div>
+                                  <div className="flex items-center justify-center gap-1.5 mt-1">
+                                    <span style={{ fontSize: 6, padding: '1px 4px', borderRadius: 3, background: 'rgba(255,255,255,0.06)', color: '#cbd5e1' }}>0-100: 3.2s</span>
+                                    <span style={{ fontSize: 6, padding: '1px 4px', borderRadius: 3, background: 'rgba(255,255,255,0.06)', color: '#cbd5e1' }}>Top: 318 km/h</span>
+                                    <span style={{ fontSize: 6, padding: '1px 4px', borderRadius: 3, background: 'rgba(34,197,94,0.15)', color: '#4ade80', border: '1px solid rgba(34,197,94,0.3)' }}>Available</span>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Action Row */}
+                              <div className="flex items-center justify-between pt-1" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                                <span style={{ fontSize: 6.5, color: '#94a3b8' }}>Instant Confirmation</span>
+                                <div className="px-2.5 py-1 rounded-lg flex items-center gap-1" style={{ background: 'linear-gradient(135deg,#0ea5e9,#2563eb)', color: '#fff', fontSize: 6.5, fontWeight: 800 }}>
+                                  Book Vehicle →
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Right: Rental Stats & Recent Booking */}
+                            <div className="w-36 flex flex-col gap-1.5 shrink-0">
+                              {/* 2 Mini Stats */}
+                              <div className="grid grid-cols-2 gap-1.5">
+                                <div className="p-1.5 rounded-lg flex flex-col justify-center" style={{ background: 'rgba(30,41,59,0.6)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                                  <span style={{ fontSize: 5.5, color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Active Fleet</span>
+                                  <span style={{ fontSize: 10, fontWeight: 900, color: '#38bdf8' }}>48+</span>
+                                  <span style={{ fontSize: 5, color: '#4ade80' }}>● 100% Ready</span>
+                                </div>
+                                <div className="p-1.5 rounded-lg flex flex-col justify-center" style={{ background: 'rgba(30,41,59,0.6)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                                  <span style={{ fontSize: 5.5, color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Ratings</span>
+                                  <span style={{ fontSize: 10, fontWeight: 900, color: '#fbbf24' }}>4.9 ★</span>
+                                  <span style={{ fontSize: 5, color: '#94a3b8' }}>150+ Reviews</span>
+                                </div>
+                              </div>
+
+                              {/* Live Booking Feed */}
+                              <div className="flex-1 rounded-lg p-2 flex flex-col justify-between" style={{ background: 'rgba(30,41,59,0.6)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                                <div className="flex items-center justify-between">
+                                  <span style={{ fontSize: 6, fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase' }}>Recent Bookings</span>
+                                  <span style={{ fontSize: 5.5, color: '#4ade80', fontWeight: 700 }}>Live</span>
+                                </div>
+                                {[
+                                  { car: 'Mercedes C-Class', time: '2h ago', price: '₹5,200' },
+                                  { car: 'Audi Q7 SUV', time: '5h ago', price: '₹7,800' },
+                                ].map((b, bi) => (
+                                  <div key={bi} className="flex items-center justify-between py-0.5" style={{ borderTop: bi > 0 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
+                                    <div>
+                                      <div style={{ fontSize: 6.5, fontWeight: 700, color: '#f1f5f9' }}>{b.car}</div>
+                                      <div style={{ fontSize: 5, color: '#64748b' }}>{b.time}</div>
+                                    </div>
+                                    <span style={{ fontSize: 6, fontWeight: 800, color: '#38bdf8' }}>{b.price}</span>
+                                  </div>
+                                ))}
+                                <div className="pt-1 flex items-center justify-between" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                                  <span style={{ fontSize: 5.5, color: '#64748b' }}>Gateway:</span>
+                                  <span style={{ fontSize: 5.5, color: '#a5b4fc', fontWeight: 700 }}>Razorpay & MongoDB</span>
+                                </div>
                               </div>
                             </div>
                           </div>
