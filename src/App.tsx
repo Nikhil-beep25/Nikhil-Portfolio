@@ -13,6 +13,8 @@ import SkillsPage from './pages/SkillsPage';
 import ProjectsPage from './pages/ProjectsPage';
 import JourneyPage from './pages/JourneyPage';
 import ContactPage from './pages/ContactPage';
+import ServicesPage from './pages/ServicesPage';
+import CertificationsPage from './pages/CertificationsPage';
 
 // Scroll to top helper on route change
 function RouteScrollManager() {
@@ -73,7 +75,7 @@ function AppContent() {
           <Navbar />
           
           {/* Page Routing */}
-          <main className="flex-grow pt-[96px]">
+          <main className="flex-grow pt-[80px]">
             <RouteScrollManager />
             <Routes>
               <Route path="/" element={<Home />} />
@@ -81,6 +83,8 @@ function AppContent() {
               <Route path="/skills" element={<SkillsPage />} />
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/journey" element={<JourneyPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/certifications" element={<CertificationsPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="*" element={<Home />} />
             </Routes>

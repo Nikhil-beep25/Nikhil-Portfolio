@@ -436,7 +436,18 @@ export default function Home() {
   });
 
   // Timeline journey
-  const milestones = [
+  interface HomeMilestone {
+    step: string;
+    title: string;
+    subtitle?: string;
+    desc: string;
+    bullets?: string[];
+    badge?: string;
+    highlight?: boolean;
+    tech?: string[];
+  }
+
+  const milestones: HomeMilestone[] = [
     {
       step: "2024 – 2027",
       title: "Computer Applications & CS Core",
@@ -471,21 +482,17 @@ export default function Home() {
       tech: ["MongoDB", "Express.js", "React.js", "Node.js", "JWT", "Context API"]
     },
     {
-      step: "Mid 2026",
-      title: "CarVerse — Car Rental Ecosystem",
-      subtitle: "Full-Stack Production System",
-      desc: "Architected, built, and launched CarVerse, a modern vehicle rental management platform. Integrated fleet catalog filtering, dynamic booking engine with Razorpay, customer accounts, and real-time role-based admin controls.",
-      badge: "🚗 LIVE PRODUCTION",
-      tech: ["React.js", "Node.js", "Express", "MongoDB Atlas", "Tailwind CSS", "Razorpay"]
-    },
-    {
-      step: "Current Focus",
-      title: "VidyaSanchar ERP Platform",
-      subtitle: "School Management System Prototype",
-      desc: "Developing a full-stack educational portal simulating institutional automation with role-based access control, attendance logging, student dashboards, and a fee ledger.",
-      badge: "🔥 ACTIVE PROJECT",
-      highlight: true,
-      tech: ["React", "TypeScript", "Node.js", "Express", "PostgreSQL", "Prisma ORM"]
+      step: "Issued 2025",
+      title: "Verified Certifications & Credentials",
+      subtitle: "Udemy • freeCodeCamp • Coursera",
+      desc: "Earned industry-standard certifications in Full-Stack Web Development (Udemy), JavaScript Algorithms & Data Structures (freeCodeCamp), and Python for Everybody (University of Michigan / Coursera).",
+      bullets: [
+        "The Complete Web Developer Bootcamp — React, Node.js, Express & MongoDB (Udemy).",
+        "JavaScript Algorithms and Data Structures — 300+ CS algorithmic challenges (freeCodeCamp).",
+        "Python for Everybody Specialization — Web APIs, SQLite & network programming (Coursera)."
+      ],
+      badge: "📜 VERIFIED CREDENTIALS",
+      tech: ["React.js", "Node.js", "Express.js", "MongoDB", "Python", "Algorithms", "Data Structures"]
     },
     {
       step: "Next Phase",
@@ -505,7 +512,7 @@ export default function Home() {
 
   return (
     <motion.div
-      className="relative bg-bg-darkest min-h-screen text-text-main overflow-hidden pt-[80px]"
+      className="relative bg-bg-darkest min-h-screen text-text-main overflow-hidden pt-0"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -744,12 +751,34 @@ export default function Home() {
         <div className="max-w-[1400px] mx-auto px-6">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-transparent bg-gradient-to-r from-primary to-secondary bg-clip-text font-display text-xs font-bold tracking-widest uppercase mb-3 bg-white/[0.02] border border-white/5 px-3.5 py-1.5 rounded-full">
-              WHO I AM
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
-              About & Core Competencies
-            </h2>
+            <motion.span 
+              className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono font-bold text-primary-light uppercase tracking-wider inline-flex items-center gap-1.5 shadow-sm"
+              initial={{ opacity: 0, y: -10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+            >
+              <Sparkles size={13} className="text-primary-light" />
+              Engineering Bio & Background
+            </motion.span>
+            <motion.h2 
+              className="text-3xl md:text-5xl font-extrabold font-display text-text-title tracking-tight mt-3"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              About <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-pink-500">Me</span>
+            </motion.h2>
+            <motion.p 
+              className="text-text-muted mt-4 max-w-2xl mx-auto text-xs md:text-sm leading-relaxed"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              Building production-grade full-stack web applications, scalable database systems, and decoupled backend services.
+            </motion.p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
@@ -953,12 +982,34 @@ export default function Home() {
         <div className="max-w-[1400px] mx-auto px-6">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-transparent bg-gradient-to-r from-secondary to-primary bg-clip-text font-display text-xs font-bold tracking-widest uppercase mb-3 bg-white/[0.02] border border-white/5 px-3.5 py-1.5 rounded-full">
-              WHAT I DO
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
-              Core Engineering Services
-            </h2>
+            <motion.span 
+              className="px-4 py-1.5 rounded-full bg-secondary/10 border border-secondary/20 text-xs font-mono font-bold text-secondary-light uppercase tracking-wider inline-flex items-center gap-1.5 shadow-sm"
+              initial={{ opacity: 0, y: -10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+            >
+              <Sparkles size={13} className="text-secondary-light" />
+              Engineering Solutions & Capabilities
+            </motion.span>
+            <motion.h2 
+              className="text-3xl md:text-5xl font-extrabold font-display text-text-title tracking-tight mt-3"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              Core <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-pink-500">Services</span>
+            </motion.h2>
+            <motion.p 
+              className="text-text-muted mt-4 max-w-2xl mx-auto text-xs md:text-sm leading-relaxed"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              Full-stack software products, RESTful microservices, structured relational schemas, and intelligent GenAI integrations.
+            </motion.p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -993,12 +1044,34 @@ export default function Home() {
         <div className="max-w-[1400px] mx-auto px-6">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-transparent bg-gradient-to-r from-primary to-secondary bg-clip-text font-display text-xs font-bold tracking-widest uppercase mb-3 bg-white/[0.02] border border-white/5 px-3.5 py-1.5 rounded-full">
-              My Tech Stack
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
-              Full-Stack Tooling & Expertise
-            </h2>
+            <motion.span 
+              className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono font-bold text-primary-light uppercase tracking-wider inline-flex items-center gap-1.5 shadow-sm"
+              initial={{ opacity: 0, y: -10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+            >
+              <Sparkles size={13} className="text-primary-light" />
+              Technical Stack & Competencies
+            </motion.span>
+            <motion.h2 
+              className="text-3xl md:text-5xl font-extrabold font-display text-text-title tracking-tight mt-3"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-pink-500">Skills</span>
+            </motion.h2>
+            <motion.p 
+              className="text-text-muted mt-4 max-w-2xl mx-auto text-xs md:text-sm leading-relaxed"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              Languages, modern client architectures, backend frameworks, relational databases, and containerization tooling applied in production.
+            </motion.p>
           </div>
 
           {/* Equal height dashboard widgets */}
@@ -1062,15 +1135,34 @@ export default function Home() {
           {/* Header row: title left, filters right */}
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14">
             <div>
-              <span className="text-transparent bg-gradient-to-r from-secondary to-primary bg-clip-text font-display text-xs font-bold tracking-widest uppercase">
-                Featured Project
-              </span>
-              <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-2">
-                Engineering Projects Case Studies
-              </h2>
-              <p className="text-text-muted mt-4 max-w-2xl mx-auto text-xs md:text-sm leading-relaxed">
-                Projects I have built from scratch — each with a real codebase, verifiable tech stack, and a GitHub repository.
-              </p>
+              <motion.span 
+                className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono font-bold text-primary-light uppercase tracking-wider inline-flex items-center gap-1.5 shadow-sm"
+                initial={{ opacity: 0, y: -10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4 }}
+              >
+                <Sparkles size={13} className="text-primary-light" />
+                Featured Software Codebases
+              </motion.span>
+              <motion.h2 
+                className="text-3xl md:text-5xl font-extrabold font-display text-text-title tracking-tight mt-3"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-pink-500">Projects</span>
+              </motion.h2>
+              <motion.p 
+                className="text-text-muted mt-3 max-w-2xl text-xs md:text-sm leading-relaxed"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                Engineered from scratch with authentic git histories, verified full-stack architectures, and live production deployments.
+              </motion.p>
             </div>
 
             {/* Filter chips */}
@@ -1250,109 +1342,117 @@ export default function Home() {
 
                       ) : project.title === 'CarVerse' ? (
                         /* ═══════════════════════════════════════════════
-                           CARVERSE FLEET & RENTAL DASHBOARD PREVIEW
+                           CARVERSE FLEET & RENTAL DASHBOARD PREVIEW (LIGHT UI)
                            ═══════════════════════════════════════════════ */
                         <div
-                          className="w-full h-full flex flex-col relative text-slate-100"
-                          style={{ background: 'linear-gradient(150deg,#090d16 0%,#0f172a 50%,#0d1527 100%)', fontFamily: 'system-ui,sans-serif' }}
+                          className="w-full h-full flex flex-col relative text-slate-800"
+                          style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 40%, #f1f5f9 100%)', fontFamily: 'system-ui,sans-serif' }}
                         >
-                          {/* Ambient cyan / electric blue glows */}
-                          <div className="absolute pointer-events-none" style={{ top: -30, left: -20, width: 150, height: 150, background: 'radial-gradient(circle,rgba(14,165,233,0.18) 0%,transparent 70%)', borderRadius: '50%' }} />
-                          <div className="absolute pointer-events-none" style={{ bottom: -20, right: 10, width: 130, height: 130, background: 'radial-gradient(circle,rgba(99,102,241,0.15) 0%,transparent 70%)', borderRadius: '50%' }} />
+                          {/* Ambient subtle light luxury glows */}
+                          <div className="absolute pointer-events-none" style={{ top: -30, left: -20, width: 180, height: 180, background: 'radial-gradient(circle,rgba(14,165,233,0.12) 0%,transparent 70%)', borderRadius: '50%' }} />
+                          <div className="absolute pointer-events-none" style={{ bottom: -30, right: 0, width: 160, height: 160, background: 'radial-gradient(circle,rgba(59,130,246,0.1) 0%,transparent 70%)', borderRadius: '50%' }} />
 
-                          {/* ── Top Navbar ── */}
-                          <div className="flex items-center justify-between px-4 py-2 shrink-0 relative z-10" style={{ background: 'rgba(15,23,42,0.85)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(14,165,233,0.15)' }}>
+                          {/* ── Pristine White Top Navbar ── */}
+                          <div className="flex items-center justify-between px-4 py-2 shrink-0 relative z-10" style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid #e2e8f0', boxShadow: '0 2px 10px rgba(15,23,42,0.03)' }}>
                             <div className="flex items-center gap-1.5">
-                              <div className="w-2.5 h-2.5 rounded flex items-center justify-center text-[7px]" style={{ background: 'linear-gradient(135deg,#0ea5e9,#6366f1)' }}>
+                              <div className="w-5 h-5 rounded-lg flex items-center justify-center text-[10px] shadow-sm" style={{ background: 'linear-gradient(135deg,#0284c7,#2563eb)', color: '#fff' }}>
                                 🚗
                               </div>
-                              <span style={{ fontSize: 8.5, fontWeight: 900, color: '#f8fafc', letterSpacing: '-0.02em' }}>Car<span style={{ color: '#38bdf8' }}>Verse</span></span>
+                              <span style={{ fontSize: 9, fontWeight: 900, color: '#0f172a', letterSpacing: '-0.02em' }}>Car<span style={{ color: '#0284c7' }}>Verse</span></span>
                             </div>
-                            <div className="flex items-center gap-2.5">
-                              {['Fleet', 'Bookings', 'Rates', 'Reviews'].map((n, i) => (
-                                <span key={n} style={{ fontSize: 7, fontWeight: 700, color: i === 0 ? '#38bdf8' : '#94a3b8' }}>{n}</span>
+                            <div className="flex items-center gap-1.5">
+                              {['Fleet', 'Bookings', 'Rates', 'Luxury'].map((n, i) => (
+                                <span key={n} style={{ fontSize: 7, fontWeight: 700, padding: '1px 6px', borderRadius: 4, background: i === 0 ? '#e0f2fe' : 'transparent', color: i === 0 ? '#0369a1' : '#64748b' }}>{n}</span>
                               ))}
                             </div>
                             <div className="flex items-center gap-1.5">
-                              <div className="px-2 py-0.5 rounded-full" style={{ background: 'rgba(14,165,233,0.12)', border: '1px solid rgba(14,165,233,0.3)', fontSize: 6.5, fontWeight: 800, color: '#38bdf8' }}>● Fleet Live</div>
-                              <div className="w-5 h-5 rounded-full flex items-center justify-center text-[7px] font-bold" style={{ background: 'linear-gradient(135deg,#0ea5e9,#2563eb)', color: '#fff' }}>⚡</div>
+                              <div className="px-2 py-0.5 rounded-full flex items-center gap-1" style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', fontSize: 6.5, fontWeight: 800, color: '#059669' }}>
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                48+ Fleet Live
+                              </div>
+                              <div className="px-2 py-0.5 rounded-md flex items-center justify-center text-[6.5px] font-bold shadow-sm" style={{ background: 'linear-gradient(135deg,#0284c7,#2563eb)', color: '#fff' }}>
+                                Rent Now →
+                              </div>
                             </div>
                           </div>
 
-                          {/* ── Dashboard Body ── */}
-                          <div className="flex-1 flex gap-2 p-3 overflow-hidden relative z-10">
-                            {/* Left: Featured Vehicle Card */}
-                            <div className="flex-1 rounded-xl p-2.5 flex flex-col justify-between relative overflow-hidden" style={{ background: 'rgba(30,41,59,0.7)', border: '1px solid rgba(14,165,233,0.2)', boxShadow: '0 4px 16px rgba(0,0,0,0.25)' }}>
+                          {/* ── Dashboard Body (Light Theme) ── */}
+                          <div className="flex-1 flex gap-2.5 p-3 overflow-hidden relative z-10">
+                            {/* Left: Featured Supercar Card */}
+                            <div className="flex-1 rounded-2xl p-3 flex flex-col justify-between relative overflow-hidden" style={{ background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 8px 24px -4px rgba(15,23,42,0.08), 0 2px 6px -1px rgba(15,23,42,0.03)' }}>
                               <div className="flex items-start justify-between">
                                 <div>
-                                  <span className="px-1.5 py-0.5 rounded text-[5.5px] font-extrabold uppercase tracking-wider" style={{ background: 'rgba(56,189,248,0.15)', color: '#38bdf8', border: '1px solid rgba(56,189,248,0.3)' }}>Luxury Sport</span>
-                                  <h4 style={{ fontSize: 10, fontWeight: 900, color: '#f8fafc', marginTop: 2, lineHeight: 1.1 }}>Porsche 911 GT3</h4>
-                                  <span style={{ fontSize: 6, color: '#94a3b8' }}>Automatic • 502 HP • Petrol</span>
+                                  <span className="px-2 py-0.5 rounded-full text-[5.5px] font-extrabold uppercase tracking-wider" style={{ background: '#e0f2fe', color: '#0369a1', border: '1px solid #bae6fd' }}>Luxury Supercar</span>
+                                  <h4 style={{ fontSize: 11, fontWeight: 900, color: '#0f172a', marginTop: 2, lineHeight: 1.1 }}>Porsche 911 GT3 RS</h4>
+                                  <span style={{ fontSize: 6, color: '#64748b' }}>Automatic PDK • 518 HP • 4.0L Boxer-6</span>
                                 </div>
                                 <div className="text-right">
-                                  <span style={{ fontSize: 11, fontWeight: 900, color: '#38bdf8' }}>₹8,500</span>
-                                  <span style={{ fontSize: 6, color: '#64748b' }}>/day</span>
+                                  <span style={{ fontSize: 12, fontWeight: 900, color: '#0284c7' }}>₹8,500</span>
+                                  <span style={{ fontSize: 6, color: '#94a3b8', display: 'block' }}>/day (all inclusive)</span>
                                 </div>
                               </div>
 
-                              {/* Stylized Visual / Car Silhouette Graphic */}
-                              <div className="py-2 flex items-center justify-center relative">
+                              {/* Stylized Visual Vehicle Graphic with Reflection */}
+                              <div className="py-2.5 flex items-center justify-center relative">
                                 <div className="text-center">
-                                  <div className="text-2xl select-none" style={{ filter: 'drop-shadow(0 0 12px rgba(14,165,233,0.4))' }}>🏎️</div>
-                                  <div className="flex items-center justify-center gap-1.5 mt-1">
-                                    <span style={{ fontSize: 6, padding: '1px 4px', borderRadius: 3, background: 'rgba(255,255,255,0.06)', color: '#cbd5e1' }}>0-100: 3.2s</span>
-                                    <span style={{ fontSize: 6, padding: '1px 4px', borderRadius: 3, background: 'rgba(255,255,255,0.06)', color: '#cbd5e1' }}>Top: 318 km/h</span>
-                                    <span style={{ fontSize: 6, padding: '1px 4px', borderRadius: 3, background: 'rgba(34,197,94,0.15)', color: '#4ade80', border: '1px solid rgba(34,197,94,0.3)' }}>Available</span>
+                                  <div className="text-3xl select-none" style={{ filter: 'drop-shadow(0 10px 14px rgba(2,132,199,0.3))' }}>🏎️</div>
+                                  <div className="flex items-center justify-center gap-1.5 mt-1.5">
+                                    <span style={{ fontSize: 6, padding: '1.5px 5px', borderRadius: 4, background: '#f8fafc', border: '1px solid #e2e8f0', color: '#334155', fontWeight: 700 }}>0-100: 3.0s</span>
+                                    <span style={{ fontSize: 6, padding: '1.5px 5px', borderRadius: 4, background: '#f8fafc', border: '1px solid #e2e8f0', color: '#334155', fontWeight: 700 }}>Top: 320 km/h</span>
+                                    <span style={{ fontSize: 6, padding: '1.5px 5px', borderRadius: 4, background: '#ecfdf5', border: '1px solid #bbf7d0', color: '#16a34a', fontWeight: 800 }}>● Instant Delivery</span>
                                   </div>
                                 </div>
                               </div>
 
                               {/* Action Row */}
-                              <div className="flex items-center justify-between pt-1" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                                <span style={{ fontSize: 6.5, color: '#94a3b8' }}>Instant Confirmation</span>
-                                <div className="px-2.5 py-1 rounded-lg flex items-center gap-1" style={{ background: 'linear-gradient(135deg,#0ea5e9,#2563eb)', color: '#fff', fontSize: 6.5, fontWeight: 800 }}>
-                                  Book Vehicle →
+                              <div className="flex items-center justify-between pt-1.5" style={{ borderTop: '1px solid #f1f5f9' }}>
+                                <div className="flex items-center gap-1">
+                                  <span style={{ fontSize: 6.5, color: '#059669', fontWeight: 700 }}>✓ Zero Security Deposit</span>
+                                  <span style={{ fontSize: 6, color: '#94a3b8' }}>• Instant Razorpay</span>
+                                </div>
+                                <div className="px-3 py-1 rounded-lg flex items-center gap-1 shadow-sm cursor-pointer" style={{ background: 'linear-gradient(135deg,#0284c7,#2563eb)', color: '#fff', fontSize: 7, fontWeight: 800 }}>
+                                  Reserve Vehicle →
                                 </div>
                               </div>
                             </div>
 
-                            {/* Right: Rental Stats & Recent Booking */}
-                            <div className="w-36 flex flex-col gap-1.5 shrink-0">
-                              {/* 2 Mini Stats */}
+                            {/* Right: Rental Stats & Live Booking Feed */}
+                            <div className="w-40 flex flex-col gap-2 shrink-0">
+                              {/* 2 Crisp Light Mini Stats */}
                               <div className="grid grid-cols-2 gap-1.5">
-                                <div className="p-1.5 rounded-lg flex flex-col justify-center" style={{ background: 'rgba(30,41,59,0.6)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                                  <span style={{ fontSize: 5.5, color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Active Fleet</span>
-                                  <span style={{ fontSize: 10, fontWeight: 900, color: '#38bdf8' }}>48+</span>
-                                  <span style={{ fontSize: 5, color: '#4ade80' }}>● 100% Ready</span>
+                                <div className="p-2 rounded-xl flex flex-col justify-center" style={{ background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(15,23,42,0.04)' }}>
+                                  <span style={{ fontSize: 5.5, color: '#64748b', textTransform: 'uppercase', fontWeight: 800 }}>Fleet Ready</span>
+                                  <span style={{ fontSize: 11, fontWeight: 900, color: '#0284c7' }}>48+</span>
+                                  <span style={{ fontSize: 5, color: '#059669', fontWeight: 700 }}>● 100% Insured</span>
                                 </div>
-                                <div className="p-1.5 rounded-lg flex flex-col justify-center" style={{ background: 'rgba(30,41,59,0.6)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                                  <span style={{ fontSize: 5.5, color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Ratings</span>
-                                  <span style={{ fontSize: 10, fontWeight: 900, color: '#fbbf24' }}>4.9 ★</span>
-                                  <span style={{ fontSize: 5, color: '#94a3b8' }}>150+ Reviews</span>
+                                <div className="p-2 rounded-xl flex flex-col justify-center" style={{ background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(15,23,42,0.04)' }}>
+                                  <span style={{ fontSize: 5.5, color: '#64748b', textTransform: 'uppercase', fontWeight: 800 }}>Client Score</span>
+                                  <span style={{ fontSize: 11, fontWeight: 900, color: '#d97706' }}>4.95 ★</span>
+                                  <span style={{ fontSize: 5, color: '#64748b', fontWeight: 700 }}>250+ Reviews</span>
                                 </div>
                               </div>
 
                               {/* Live Booking Feed */}
-                              <div className="flex-1 rounded-lg p-2 flex flex-col justify-between" style={{ background: 'rgba(30,41,59,0.6)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                                <div className="flex items-center justify-between">
-                                  <span style={{ fontSize: 6, fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase' }}>Recent Bookings</span>
-                                  <span style={{ fontSize: 5.5, color: '#4ade80', fontWeight: 700 }}>Live</span>
+                              <div className="flex-1 rounded-xl p-2.5 flex flex-col justify-between" style={{ background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(15,23,42,0.04)' }}>
+                                <div className="flex items-center justify-between pb-1" style={{ borderBottom: '1px solid #f1f5f9' }}>
+                                  <span style={{ fontSize: 6, fontWeight: 800, color: '#334155', textTransform: 'uppercase' }}>Recent Bookings</span>
+                                  <span style={{ fontSize: 5.5, color: '#059669', fontWeight: 800, background: '#ecfdf5', padding: '1px 4px', borderRadius: 3 }}>Live</span>
                                 </div>
                                 {[
-                                  { car: 'Mercedes C-Class', time: '2h ago', price: '₹5,200' },
-                                  { car: 'Audi Q7 SUV', time: '5h ago', price: '₹7,800' },
+                                  { car: 'Mercedes AMG GT', time: 'Just now', price: '₹5,200', tag: 'Confirmed' },
+                                  { car: 'Audi RS Q8 SUV', time: '30m ago', price: '₹7,800', tag: 'Dispatched' },
                                 ].map((b, bi) => (
-                                  <div key={bi} className="flex items-center justify-between py-0.5" style={{ borderTop: bi > 0 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
+                                  <div key={bi} className="flex items-center justify-between py-1" style={{ borderTop: bi > 0 ? '1px solid #f8fafc' : 'none' }}>
                                     <div>
-                                      <div style={{ fontSize: 6.5, fontWeight: 700, color: '#f1f5f9' }}>{b.car}</div>
-                                      <div style={{ fontSize: 5, color: '#64748b' }}>{b.time}</div>
+                                      <div style={{ fontSize: 7, fontWeight: 800, color: '#0f172a' }}>{b.car}</div>
+                                      <div style={{ fontSize: 5, color: '#94a3b8' }}>{b.time} • <span style={{ color: '#0284c7' }}>{b.tag}</span></div>
                                     </div>
-                                    <span style={{ fontSize: 6, fontWeight: 800, color: '#38bdf8' }}>{b.price}</span>
+                                    <span style={{ fontSize: 7, fontWeight: 900, color: '#0284c7' }}>{b.price}</span>
                                   </div>
                                 ))}
-                                <div className="pt-1 flex items-center justify-between" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                                  <span style={{ fontSize: 5.5, color: '#64748b' }}>Gateway:</span>
-                                  <span style={{ fontSize: 5.5, color: '#a5b4fc', fontWeight: 700 }}>Razorpay & MongoDB</span>
+                                <div className="pt-1.5 flex items-center justify-between" style={{ borderTop: '1px solid #f1f5f9' }}>
+                                  <span style={{ fontSize: 5.5, color: '#64748b' }}>Security:</span>
+                                  <span style={{ fontSize: 5.5, color: '#0369a1', fontWeight: 800 }}>Razorpay 256-Bit SSL</span>
                                 </div>
                               </div>
                             </div>
@@ -1595,12 +1695,34 @@ export default function Home() {
         <div className="max-w-[1400px] mx-auto px-6">
           
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <span className="text-transparent bg-gradient-to-r from-primary to-secondary bg-clip-text font-display text-xs font-bold tracking-widest uppercase mb-3 bg-white/[0.02] border border-white/5 px-3.5 py-1.5 rounded-full">
-              Career & Engineering Journey
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
-              Professional Development Journey
-            </h2>
+            <motion.span 
+              className="px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider inline-flex items-center gap-1.5 shadow-sm"
+              initial={{ opacity: 0, y: -10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+            >
+              <Sparkles size={13} className="text-emerald-400" />
+              Career Path & Credentials
+            </motion.span>
+            <motion.h2 
+              className="text-3xl md:text-5xl font-extrabold font-display text-text-title tracking-tight mt-3"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              Career <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-pink-500">Journey</span>
+            </motion.h2>
+            <motion.p 
+              className="text-text-muted mt-4 max-w-2xl mx-auto text-xs md:text-sm leading-relaxed"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              Industry apprenticeships at DUCAT India, developer training at S O Infotech, university studies at DBRAU, and software certifications.
+            </motion.p>
           </div>
 
           <div className="relative max-w-3xl mx-auto py-8">
@@ -1690,12 +1812,34 @@ export default function Home() {
         <div className="max-w-[1400px] mx-auto px-6">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-transparent bg-gradient-to-r from-emerald-400 to-primary bg-clip-text font-display text-xs font-bold tracking-widest uppercase mb-3 bg-white/[0.02] border border-white/5 px-3.5 py-1.5 rounded-full">
-              GITHUB CODE
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
-              Open Source Presence
-            </h2>
+            <motion.span 
+              className="px-4 py-1.5 rounded-full bg-emerald-400/10 border border-emerald-400/20 text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider inline-flex items-center gap-1.5 shadow-sm"
+              initial={{ opacity: 0, y: -10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+            >
+              <Sparkles size={13} className="text-emerald-400" />
+              Open Source Codebases & Git Commits
+            </motion.span>
+            <motion.h2 
+              className="text-3xl md:text-5xl font-extrabold font-display text-text-title tracking-tight mt-3"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              GitHub <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-pink-500">Activity</span>
+            </motion.h2>
+            <motion.p 
+              className="text-text-muted mt-4 max-w-2xl mx-auto text-xs md:text-sm leading-relaxed"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              Explore public repositories, commit histories, architectural modularity, and production software patterns on GitHub.
+            </motion.p>
           </div>
 
           <div className="max-w-4xl mx-auto">
@@ -1772,12 +1916,34 @@ export default function Home() {
         <div className="max-w-[1400px] mx-auto px-6">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-transparent bg-gradient-to-r from-primary to-secondary bg-clip-text font-display text-xs font-bold tracking-widest uppercase mb-3 bg-white/[0.02] border border-white/5 px-3.5 py-1.5 rounded-full">
-              CONNECTION
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
-              Get In Touch
-            </h2>
+            <motion.span 
+              className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono font-bold text-primary-light uppercase tracking-wider inline-flex items-center gap-1.5 shadow-sm"
+              initial={{ opacity: 0, y: -10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+            >
+              <Sparkles size={13} className="text-primary-light" />
+              Direct Communication & Inquiries
+            </motion.span>
+            <motion.h2 
+              className="text-3xl md:text-5xl font-extrabold font-display text-text-title tracking-tight mt-3"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              Get In <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-pink-500">Touch</span>
+            </motion.h2>
+            <motion.p 
+              className="text-text-muted mt-4 max-w-2xl mx-auto text-xs md:text-sm leading-relaxed"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              Have an engineering opportunity, SaaS project, or technical question? Send a message directly.
+            </motion.p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-16 max-w-5xl mx-auto">
