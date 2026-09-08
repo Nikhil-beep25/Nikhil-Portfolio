@@ -28,3 +28,7 @@ dist-ssr
 .env.production
 .env.local
 .env.*.local
+
+# Local Downloads
+Downloads/
+downloads/
