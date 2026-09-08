@@ -333,9 +333,10 @@ export default function AboutPage() {
             <div className="absolute left-[15px] top-2 bottom-2 w-0.5 bg-gradient-to-b from-primary via-secondary to-transparent" />
             <div className="space-y-8 text-left">
               {[
-                { year: "2024", title: "Transitioning to Full Stack", desc: "Learned Javascript foundations, building mock UI templates, and mastering CSS grids." },
-                { year: "2025", title: "Mastering Core Web Frameworks", desc: "Building full stack prototypes using React, Express, PostgreSQL, and TypeScript." },
-                { year: "2026", title: "Scaling and Cloud Blueprints", desc: "Integrating Docker setups, exploring vector databases, and refining API routing structures." }
+                { year: "2024 - 2027", title: "BCA & Computer Science Core", desc: "Pursuing Bachelor of Computer Applications at DBRAU, building computer science fundamentals, data structures, and web technologies." },
+                { year: "Dec 2025 - Jul 2026", title: "S O Infotech (P) Ltd. — Python Full Stack Trainee", desc: "Engineered full-stack e-commerce systems in Noida with Python, Generative AI capabilities, payment integrations, and RESTful APIs." },
+                { year: "Mar 2026 - Aug 2026", title: "DUCAT India — MERN Full Stack Apprenticeship", desc: "Completed intensive apprenticeship specializing in MongoDB, Express.js, React.js, and Node.js with JWT auth and React Context API." },
+                { year: "2026", title: "CarVerse, VidyaSanchar & Cloud Scale", desc: "Architecting, engineering, and launching production platforms including CarVerse and VidyaSanchar ERP with modern web stacks." }
               ].map((step, sidx) => (
                 <div key={sidx} className="relative pl-10">
                   <div className="absolute left-0 top-1.5 w-8 h-8 rounded-full bg-bg-darkest border border-white/10 flex items-center justify-center text-[10px] font-bold text-text-title shadow-lg z-10">

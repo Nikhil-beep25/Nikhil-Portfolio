@@ -15,50 +15,58 @@ interface TimelineStep {
 export default function JourneyPage() {
   const journeySteps: TimelineStep[] = [
     {
-      step: "STEP 1",
-      title: "Computer Science Fundamentals",
-      subtitle: "Fundamentals & Basics",
-      desc: "Started learning web development fundamentals and computer science basics.",
-      tech: ["HTML", "CSS", "JavaScript", "Git", "Problem Solving"]
+      step: "2024 – 2027",
+      title: "Computer Applications & CS Core",
+      subtitle: "BCA — Dr. Bhimrao Ambedkar University, Agra",
+      desc: "Pursuing a Bachelor of Computer Applications (BCA). Building deep foundational competence in computer science, data structures, algorithms, object-oriented programming, and relational database systems.",
+      tech: ["C / C++", "Python", "JavaScript", "DBMS", "Data Structures", "OOP"]
     },
     {
-      step: "STEP 2",
-      title: "Frontend Development",
-      subtitle: "UI Engineering",
-      desc: "Focused on modern frontend development and UI engineering.",
-      tech: ["React", "TypeScript", "Tailwind CSS", "Responsive Design", "Component Architecture"]
+      step: "Dec 2025 – Jul 2026",
+      title: "S O Infotech (P) Ltd.",
+      subtitle: "Full Stack Developer Trainee (Python & GenAI) — Noida, India",
+      desc: "Engineered an E-commerce Website using Python Full Stack architecture integrated with Generative AI capabilities. Designed RESTful APIs, connected secure payment gateways, and optimized database queries for sub-second page performance in a cross-functional engineering team.",
+      badge: "🏢 INDUSTRY EXPERIENCE",
+      tech: ["Python", "REST APIs", "Generative AI", "Payment Gateways", "PostgreSQL", "Git"]
     },
     {
-      step: "STEP 3",
-      title: "Backend Development",
-      subtitle: "Server & REST APIs",
-      desc: "Expanded into backend development and server-side architecture.",
-      tech: ["Node.js", "Express.js", "REST APIs", "Authentication", "Database Design"]
+      step: "Mar 2026 – Aug 2026",
+      title: "DUCAT India",
+      subtitle: "Apprenticeship — MERN Full Stack Development",
+      desc: "Completed an intensive engineering apprenticeship focused on modern MERN architecture (MongoDB, Express.js, React.js, Node.js). Implemented robust JWT authentication flows, state management with React Context API and hooks, responsive component systems, and production debugging.",
+      badge: "⚡ MERN SPECIALIZATION",
+      tech: ["MongoDB", "Express.js", "React.js", "Node.js", "JWT", "Context API"]
     },
     {
-      step: "STEP 4",
-      title: "Database & DevOps",
-      subtitle: "Infrastructure & Scaling",
-      desc: "Built scalable applications with proper database structures.",
-      tech: ["PostgreSQL", "Prisma ORM", "GitHub", "Deployment", "Docker Basics"]
+      step: "Mid 2026",
+      title: "CarVerse — Car Rental Ecosystem",
+      subtitle: "Full-Stack Production System",
+      desc: "Architected, built, and launched CarVerse, a modern vehicle rental management platform. Integrated fleet catalog filtering, dynamic booking engine with Razorpay, customer accounts, and real-time role-based admin controls.",
+      badge: "🚗 LIVE PRODUCTION",
+      tech: ["React.js", "Node.js", "Express", "MongoDB Atlas", "Tailwind CSS", "Razorpay"]
     },
     {
-      step: "STEP 5",
-      title: "VidyaSanchar ERP",
-      subtitle: "🔥 CURRENT PROJECT",
-      desc: "Building a full-stack school ERP with authentication, student management, attendance, fee management, and PostgreSQL integration.",
-      tech: ["React", "Node.js", "Express", "PostgreSQL", "Prisma"],
-      badge: "🔥 CURRENT PROJECT",
-      highlight: true
+      step: "Current Focus",
+      title: "VidyaSanchar ERP Platform",
+      subtitle: "School Management System Prototype",
+      desc: "Developing a full-stack educational portal simulating institutional automation with role-based access control, attendance logging, student dashboards, and a fee ledger.",
+      badge: "🔥 ACTIVE PROJECT",
+      highlight: true,
+      tech: ["React", "TypeScript", "Node.js", "Express", "PostgreSQL", "Prisma ORM"]
     },
     {
-      step: "STEP 6",
-      title: "Future Goals",
-      subtitle: "🚀 NEXT PHASE",
-      desc: "",
-      bullets: ["SaaS Products", "AI Integrations", "Open Source Contributions", "Production Scale Applications"],
-      tech: [],
-      badge: "🚀 NEXT PHASE"
+      step: "Next Phase",
+      title: "Future Goals & Scale",
+      subtitle: "🚀 CLOUD & ARCHITECTURE",
+      desc: "Scaling distributed applications, exploring microservice architectures, integrating autonomous AI agents, and deploying production SaaS applications.",
+      bullets: [
+        "Production SaaS Platforms",
+        "Autonomous AI Agent Integrations",
+        "Docker Containerization & CI/CD",
+        "High-Throughput Distributed Backends"
+      ],
+      badge: "🚀 NEXT HORIZON",
+      tech: ["Docker", "Kubernetes Basics", "Vector DBs", "Cloud Infrastructure"]
     }
   ];
 
@@ -78,13 +86,13 @@ export default function JourneyPage() {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono font-bold text-primary-light uppercase tracking-wider">
-            Full Stack Developer Journey
+            Career & Engineering Journey
           </span>
           <h2 className="text-3xl md:text-5xl font-bold font-display text-text-title tracking-tight mt-4">
-            2026 — Full Stack Development Journey
+            Professional Development Journey
           </h2>
           <p className="text-text-muted mt-4 max-w-lg mx-auto text-xs md:text-sm leading-relaxed">
-            A vertical roadmap showing the progression from web basics, frontend styling, backend systems, database management, and flagship ERP deployment.
+            A chronological roadmap detailing my computer applications education, full-stack industry traineeship at S O Infotech, MERN apprenticeship at DUCAT India, and production systems engineering.
           </p>
         </div>
 
