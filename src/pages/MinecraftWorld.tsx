@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { AnimatePresence, MotionConfig, useScroll, useMotionValueEvent } from 'framer-motion';
+import type { EffectLevel } from '../components/minecraft/EffectsMenu';
 import LoadingScreen from '../components/minecraft/LoadingScreen';
 import Hotbar from '../components/minecraft/Hotbar';
 import HeroSection from '../components/minecraft/HeroSection';
@@ -19,11 +20,17 @@ import { audioManager } from '../utils/audioManager';
 export default function MinecraftWorld() {
   const [showLoading, setShowLoading] = useState(() => {
     try {
-      return sessionStorage.getItem('minecraft-world-entered') !== 'true';
+      return sessionStorage.getItem('minecraft-cinematic-entered-v2') !== 'true';
     } catch {
       return true;
     }
   });
+
+  const [effects, setEffects] = useState<EffectLevel>(() => {
+    try { const saved = localStorage.getItem('portfolio-effects'); return saved === 'calm' || saved === 'off' ? saved : 'cinematic'; } catch { return 'cinematic'; }
+  });
+  const [entrance, setEntrance] = useState(0);
+  useEffect(() => { try { localStorage.setItem('portfolio-effects', effects); } catch {} }, [effects]);
 
   const [isNight, setIsNight] = useState(() => {
     try {
@@ -85,7 +92,7 @@ export default function MinecraftWorld() {
   const handleNavigate = (sectionId: string) => {
     const el = document.getElementById(sectionId);
     if (el) {
-      el.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+      el.scrollIntoView({ behavior: effects === 'off' || window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
     }
   };
 
@@ -95,9 +102,10 @@ export default function MinecraftWorld() {
 
   const handleEnterWorld = () => {
     try {
-      sessionStorage.setItem('minecraft-world-entered', 'true');
+      sessionStorage.setItem('minecraft-cinematic-entered-v2', 'true');
     } catch {}
     setShowLoading(false);
+    setEntrance(value => value + 1);
   };
 
   const handleMineBlockXP = () => {
@@ -105,9 +113,9 @@ export default function MinecraftWorld() {
   };
 
   return (
-    <MotionConfig reducedMotion="user">
+    <MotionConfig reducedMotion={effects === 'off' ? 'always' : 'user'}>
     <WorldSceneContext.Provider value={rendererReady && world3D}>
-    <div data-3d={rendererReady && world3D ? 'ready' : 'fallback'} className={`world-page relative min-h-screen w-full transition-colors duration-700 ${isNight ? 'night-mode' : 'day-mode'}`}>
+    <div data-effects={effects} data-3d={rendererReady && world3D ? 'ready' : 'fallback'} className={`world-page relative min-h-screen w-full transition-colors duration-700 ${isNight ? 'night-mode' : 'day-mode'}`}>
       {/* SEO Metadata */}
       <SEO 
         title="Nikhil Bhadauriya | Minecraft Interactive Developer Portfolio"
@@ -115,15 +123,15 @@ export default function MinecraftWorld() {
       />
 
       {/* Loading Screen */}
-      <AnimatePresence>
+      <AnimatePresence onExitComplete={() => { document.getElementById('world-title')?.focus({preventScroll:true}); }}>
         {showLoading && (
-          <LoadingScreen onEnter={handleEnterWorld} />
+          <LoadingScreen effects={effects} world3D={world3D} onEnter={handleEnterWorld} />
         )}
       </AnimatePresence>
 
       {/* Night mode floating Fireflies */}
       {isNight && (
-        <div aria-hidden="true" className="fixed inset-0 pointer-events-none z-20 overflow-hidden">
+        <div aria-hidden="true" className="world-fireflies fixed inset-0 pointer-events-none z-20 overflow-hidden">
           {Array.from({ length: 18 }).map((_, i) => (
             <div
               key={i}
@@ -148,6 +156,10 @@ export default function MinecraftWorld() {
           isNight={isNight}
           world3D={world3D}
           onToggle3D={toggle3D}
+          effects={effects}
+          onEffects={setEffects}
+          entrance={entrance}
+          onReplay={() => { document.getElementById('hero')?.scrollIntoView({behavior:'instant'}); setShowLoading(true); }}
         />
 
         {/* 2. Character About Section */}
@@ -175,7 +187,7 @@ export default function MinecraftWorld() {
         />
       </main>
 
-      <WorldEnhancement night={isNight} enabled={world3D && !showLoading} onStatus={setRendererReady}/>
+      <WorldEnhancement effects={effects} night={isNight} enabled={world3D && !showLoading} onStatus={setRendererReady}/>
 
       {/* 9. Hotbar Navigation (Fixed Bottom) */}
       <div inert={showLoading}>

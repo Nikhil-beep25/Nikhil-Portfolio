@@ -1,126 +1,61 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { lazy, Suspense, useState, useEffect, useRef } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { ArrowUpRight, VolumeX } from 'lucide-react';
 import { audioManager } from '../../utils/audioManager';
+import { PORTFOLIO_DATA } from '../../data/portfolio';
+import type { EffectLevel } from './EffectsMenu';
+import './cinematic.css';
+const IntroScene = lazy(() => import('../world3d/IntroScene'));
 
-interface LoadingScreenProps {
-  onEnter: () => void;
-}
-
-export default function LoadingScreen({ onEnter }: LoadingScreenProps) {
+export default function LoadingScreen({ onEnter, effects, world3D }: {
+  onEnter: () => void; effects: EffectLevel; world3D: boolean;
+}) {
   const [progress, setProgress] = useState(0);
-  const [isReady, setIsReady] = useState(false);
-
+  const [ready, setReady] = useState(false);
+  const reduced = useReducedMotion();
+  const still = !!reduced || effects === 'off';
+  const dialog = useRef<HTMLDivElement>(null);
   useEffect(() => {
     let cancelled = false;
     let completed = 0;
     const assets = Array.from(document.querySelectorAll<HTMLImageElement>('#hero img'));
-    const finish = () => {
-      if (!cancelled) { setProgress(100); setIsReady(true); }
-    };
+    const finish = () => { if (!cancelled) { setProgress(100); setReady(true); } };
     const timeout = setTimeout(finish, 3000);
     Promise.allSettled(assets.map(image => image.decode().catch(() => {}).then(() => {
       completed += 1;
       if (!cancelled) setProgress(Math.round(completed / Math.max(assets.length, 1) * 100));
     }))).then(finish);
-    return () => { cancelled = true; clearTimeout(timeout); };
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { cancelled = true; clearTimeout(timeout); document.body.style.overflow = overflow; };
   }, []);
-
-  const handleEnter = () => {
-    audioManager.playEnterWorld();
-    onEnter();
-  };
-
-  const handleSkip = () => {
-    audioManager.playClick();
-    onEnter();
-  };
-
-  return (
-    <motion.div
-      data-world-loading
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="loading-title"
-      initial={{ opacity: 1 }}
-      exit={{ opacity: 0, scale: 1.02 }}
-      transition={{ duration: 0.6, ease: "easeInOut" }}
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center select-none overflow-hidden"
-      style={{
-        backgroundColor: '#101d18',
-        backgroundImage: 'linear-gradient(#071611bb,#071611ee), url(/world/valley-night-small.webp)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
-      {/* Skip button in corner */}
-      <button
-        autoFocus
-        onClick={handleSkip}
-        className="absolute top-6 right-6 font-pixel-sub text-[10px] md:text-xs text-white/70 hover:text-white px-3 py-1.5 border border-white/20 bg-black/40 hover:bg-black/60 transition-colors cursor-pointer"
-      >
-        [ SKIP ⏩ ]
-      </button>
-
-      <div className="w-full max-w-md px-6 text-center space-y-6">
-        {/* Title */}
-        <div className="space-y-2">
-          <motion.div
-            initial={{ y: -10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            className="inline-block"
-          >
-            <h2 id="loading-title" className="font-pixel text-xl sm:text-2xl md:text-3xl text-white mc-text-shadow tracking-wider">
-              {isReady ? "WORLD GENERATED!" : "GENERATING WORLD..."}
-            </h2>
-          </motion.div>
-          <p className="font-pixel-sub text-xs sm:text-sm text-amber-300 mc-text-shadow">
-            NIKHIL BHADAURIYA'S REALM
-          </p>
-        </div>
-
-        {/* Progress Bar Container */}
-        <div className="mc-panel-dark p-2 w-full space-y-2">
-          <div className="relative h-6 bg-[#111111] border-2 border-[#333333] overflow-hidden p-0.5">
-            <motion.div
-              className="h-full bg-gradient-to-r from-[#3C8527] to-[#55FF55] transition-all duration-200"
-              style={{ width: `${progress}%` }}
-            />
-            {/* Percentage text overlay inside bar */}
-            <span className="absolute inset-0 flex items-center justify-center font-pixel text-[10px] text-white mc-text-shadow">
-              {progress}%
-            </span>
-          </div>
-
-          {/* Current Loading Message */}
-          <p className="font-pixel-sub text-xs text-stone-300 min-h-[20px] flex items-center justify-center">
-            {isReady ? "READY TO EXPLORE!" : "Preparing landscape artwork..."}
-          </p>
-        </div>
-
-        {/* Enter World Button */}
-        <div className="pt-4 min-h-[64px] flex items-center justify-center">
-          <AnimatePresence>
-            {isReady && (
-              <motion.button
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.8, opacity: 0 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleEnter}
-                className="mc-button mc-button-green px-8 py-3.5 text-sm md:text-base font-pixel tracking-wider shadow-2xl cursor-pointer"
-              >
-                [ ENTER WORLD ]
-              </motion.button>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Tip at bottom */}
-        <p className="font-pixel-sub text-[10px] text-stone-400">
-          Tip: You can toggle sound effects anytime using the Hotbar!
-        </p>
-      </div>
-    </motion.div>
-  );
+  const enter = () => { audioManager.playEnterWorld(); onEnter(); };
+  return <motion.div ref={dialog} data-world-loading data-still={still} role="dialog" aria-modal="true" aria-labelledby="loading-title"
+    initial={{opacity:1}} exit={{opacity:0,scale:still?1:1.08}} transition={{duration:still?.1:.65}} className="realm-opening"
+    onKeyDown={event => {
+      if (event.key === 'Escape') { event.preventDefault(); onEnter(); }
+      if (event.key !== 'Tab') return;
+      const buttons = dialog.current?.querySelectorAll<HTMLButtonElement>('button:not(:disabled)');
+      if (!buttons?.length) return;
+      const first = buttons[0], last = buttons[buttons.length-1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    }}>
+    <div className="opening-backdrop" aria-hidden="true"/>
+    {world3D && <div className="opening-world"><Suspense fallback={null}><IntroScene still={still || effects === 'calm'}/></Suspense></div>}
+    <div className="opening-top"><span>N. / THE DEVELOPER REALM</span><button autoFocus onClick={onEnter}>Skip intro <ArrowUpRight size={15}/></button></div>
+    <div className="opening-content">
+      <p className="opening-kicker">A WORLD BUILT ONE BLOCK AT A TIME</p>
+      <h2 id="loading-title" className="opening-name" aria-label={`${PORTFOLIO_DATA.personal.firstName} ${PORTFOLIO_DATA.personal.lastName}`}>
+        {[PORTFOLIO_DATA.personal.firstName, PORTFOLIO_DATA.personal.lastName].map((word, row) => <span className="name-row" key={word} aria-hidden="true">
+          {Array.from(word).map((letter, i) => <span className="name-letter" key={i} style={{animationDelay:`${.12+i*.045+row*.25}s`}}>{letter}</span>)}
+        </span>)}
+      </h2>
+      <p className="opening-description">Ideas become systems.<br/>Blocks become worlds.</p>
+      <div className="opening-loading" role="progressbar" aria-label="Preparing world artwork" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}><span style={{width:`${progress}%`}}/></div>
+      <p className="opening-status" role="status">{ready ? 'YOUR NEXT ADVENTURE IS READY' : `FORMING YOUR WORLD · ${progress}%`}</p>
+      <button className="opening-enter" onClick={enter} disabled={!ready}>Enter my world <ArrowUpRight size={19}/></button>
+    </div>
+    <div className="opening-bottom"><span>CODE. CREATE. EXPLORE.</span><span><VolumeX size={13}/>{audioManager.getSoundEnabled() ? 'Sound enabled' : 'Sound is optional'}</span></div>
+  </motion.div>;
 }

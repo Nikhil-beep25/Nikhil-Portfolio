@@ -4,6 +4,8 @@ import { ArrowDown, ArrowUpRight, Compass, CodeXml, Box } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../../data/portfolio';
 import { audioManager } from '../../utils/audioManager';
 import './hero.css';
+import EffectsMenu, { type EffectLevel } from './EffectsMenu';
+import './cinematic.css';
 import SceneFrame from '../world3d/SceneFrame';
 
 interface HeroSectionProps {
@@ -12,9 +14,13 @@ interface HeroSectionProps {
   isNight: boolean;
   world3D: boolean;
   onToggle3D: () => void;
+  effects: EffectLevel;
+  onEffects: (value: EffectLevel) => void;
+  onReplay: () => void;
+  entrance: number;
 }
 
-export default function HeroSection({ onExplore, onViewProjects, isNight, world3D, onToggle3D }: HeroSectionProps) {
+export default function HeroSection({ onExplore, onViewProjects, isNight, world3D, onToggle3D, effects, onEffects, onReplay, entrance }: HeroSectionProps) {
   const scene = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: scene, offset: ['start start', 'end start'] });
@@ -32,7 +38,7 @@ export default function HeroSection({ onExplore, onViewProjects, isNight, world3
     let inView = true;
     const paint = () => {
       frame = 0;
-      if (reduced.matches || !inView) return;
+      if (reduced.matches || effects !== 'cinematic' || !inView) return;
       element.style.setProperty('--look-x', `${x}px`);
       element.style.setProperty('--look-y', `${y}px`);
     };
@@ -50,6 +56,7 @@ export default function HeroSection({ onExplore, onViewProjects, isNight, world3
       element.style.setProperty('--look-y', '0px');
       element.style.setProperty('--scene-scroll', '0px');
     };
+    reset();
     const observer = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; schedule(); });
     observer.observe(element);
     element.addEventListener('pointermove', move, { passive: true });
@@ -62,11 +69,11 @@ export default function HeroSection({ onExplore, onViewProjects, isNight, world3
       element.removeEventListener('pointerleave', reset);
       reduced.removeEventListener('change', reset);
     };
-  }, []);
+  }, [effects]);
 
   return (
     <section id="hero" ref={scene} className="hero-world" data-night={isNight} aria-labelledby="world-title">
-      <motion.div className="hero-depth" style={{ y: reducedMotion ? 0 : landscapeY }} aria-hidden="true">
+      <motion.div className="hero-depth" style={{ y: reducedMotion || effects === 'off' ? 0 : landscapeY }} aria-hidden="true">
       <div className="hero-landscape">
         <img className="hero-day" src="/world/valley-day.webp" srcSet="/world/valley-day-small.webp 960w, /world/valley-day.webp 1672w" sizes="100vw" width="1672" height="940" alt="" fetchPriority={isNight ? 'auto' : 'high'} />
         <img className="hero-night" src="/world/valley-night.webp" srcSet="/world/valley-night-small.webp 960w, /world/valley-night.webp 1672w" sizes="100vw" width="1672" height="940" alt="" fetchPriority={isNight ? 'high' : 'auto'} />
@@ -77,6 +84,7 @@ export default function HeroSection({ onExplore, onViewProjects, isNight, world3
       <div className="hero-motes" aria-hidden="true">
         {Array.from({ length: 10 }, (_, index) => <i key={index} style={{ left: `${9 + index * 9}%`, top: `${35 + (index * 13) % 50}%`, animationDelay: `${index * -1.7}s` }} />)}
       </div>
+      <div className="hero-light-trails" aria-hidden="true"><i/><i/><i/></div>
       <header className="world-header">
         <a className="world-brand" href="#hero" aria-label="Nikhil's world, home">
           <span className="world-monogram" aria-hidden="true">N<span>.</span></span>
@@ -84,6 +92,7 @@ export default function HeroSection({ onExplore, onViewProjects, isNight, world3
         </a>
         <div className="world-header-links">
           <button className="world-render-mode" aria-pressed={world3D} onClick={onToggle3D} title="Toggle interactive 3D scenes"><Box size={14}/>{world3D ? '3D world' : 'Lite mode'}</button>
+          <EffectsMenu value={effects} onChange={onEffects} onReplay={onReplay}/>
           <span className="world-time"><i />{isNight ? 'Moonlit hours' : 'Golden hours'}</span>
           <a href={socials.find(social => social.platform === 'GitHub')?.url} target="_blank" rel="noreferrer" aria-label="Nikhil on GitHub"><CodeXml size={17} /><span>GitHub</span></a>
           <a href={personal.resumeUrl} target="_blank" rel="noreferrer">Resume <ArrowUpRight size={16} /></a>
@@ -91,7 +100,7 @@ export default function HeroSection({ onExplore, onViewProjects, isNight, world3
       </header>
       <div className="hero-copy">
         <p className="hero-eyebrow"><span />HELLO, TRAVELER. I'M</p>
-        <h1 id="world-title"><span>{personal.firstName}</span><strong>{personal.lastName}</strong></h1>
+        <h1 key={entrance} id="world-title" tabIndex={-1}><span>{personal.firstName}</span><strong>{personal.lastName}</strong></h1>
         <p className="hero-tagline">{personal.tagline}</p>
         <p className="hero-quote">Exploring ideas. Building impact.<br />One block at a time.</p>
         <div className="hero-actions">

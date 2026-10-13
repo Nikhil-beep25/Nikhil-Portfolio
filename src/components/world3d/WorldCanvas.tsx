@@ -4,11 +4,13 @@ import { View, PerspectiveCamera } from '@react-three/drei';
 import { useMotionValueEvent, useScroll } from 'framer-motion';
 import * as THREE from 'three';
 import { makeMaterials, random, type Materials } from './materials';
+import { FloatingRelics } from './FloatingRelics';
+import type { EffectLevel } from '../minecraft/EffectsMenu';
 import { VoxelModel, type Controls } from './VoxelModels';
 import type { SceneKind } from './SceneFrame';
 
 type Slot = { element: HTMLElement; kind: SceneKind; index: number };
-function Scene({ slot, night, reduced, m }: { slot: Slot; night: boolean; reduced: boolean; m: Materials }) {
+function Scene({ slot, night, reduced, m, effects }: { effects:EffectLevel;slot: Slot; night: boolean; reduced: boolean; m: Materials }) {
   const group = useRef<THREE.Group>(null);
   const camera = useRef<THREE.PerspectiveCamera>(null);
   const [active, setActive] = useState(false);
@@ -50,7 +52,7 @@ function Scene({ slot, night, reduced, m }: { slot: Slot; night: boolean; reduce
     if(!active||!group.current)return;
     const c=controls.current;
     group.current.rotation.y=c.reduced?c.rotation:THREE.MathUtils.damp(group.current.rotation.y,c.rotation+(c.hovered?c.lookX*.08:Math.sin(clock.elapsedTime*.24)*.07),6,dt);
-    if(!avatar)group.current.position.y=c.reduced?0:Math.sin(clock.elapsedTime*1.2)*.045;
+    group.current.position.y=c.reduced?0:Math.sin(clock.elapsedTime*.9)*(effects==='cinematic'?.09:.025);
   });
   useEffect(()=>{camera.current?.lookAt(0,avatar?1.65:.8,0);},[avatar]);
   return <>
@@ -60,7 +62,8 @@ function Scene({ slot, night, reduced, m }: { slot: Slot; night: boolean; reduce
     <directionalLight position={[4,7,4]} color={night?'#b3d2ff':'#ffe0a8'} intensity={night?2.4:3.1} castShadow shadow-mapSize={[512,512]} shadow-camera-left={-4} shadow-camera-right={4} shadow-camera-top={6} shadow-camera-bottom={-2} shadow-bias={-.001}/>
     <directionalLight position={[-3,3,-3]} color="#759c9a" intensity={1}/>
     <group ref={group}><VoxelModel kind={slot.kind} m={m} controls={controls} active={active}/></group>
-    <points geometry={particles}><pointsMaterial color={night?'#d0e7a8':'#e4cb92'} size={.028} transparent opacity={.6} depthWrite={false}/></points>
+    {effects==='cinematic' && !reduced && <FloatingRelics m={m} active={active} avatar={avatar}/>}
+    <points visible={effects !== 'off'} geometry={particles}><pointsMaterial color={night?'#d0e7a8':'#e4cb92'} size={.028} transparent opacity={.6} depthWrite={false}/></points>
   </>;
 }
 function ContextHealth({onFailure}:{onFailure:()=>void}) {
@@ -81,7 +84,7 @@ function ClearFrame({ready}:{ready:()=>void}) {
   },0);
   return null;
 }
-export default function WorldCanvas({night,onReady,onFailure}:{night:boolean;onReady:()=>void;onFailure:()=>void}) {
+export default function WorldCanvas({night,onReady,onFailure,effects}:{effects:EffectLevel;night:boolean;onReady:()=>void;onFailure:()=>void}) {
   const [slots]=useState<Slot[]>(()=>Array.from(document.querySelectorAll<HTMLElement>('[data-voxel-scene]')).map((element,index)=>({element,index,kind:element.dataset.voxelScene as SceneKind})));
   const [reduced,setReduced]=useState(()=>matchMedia('(prefers-reduced-motion: reduce)').matches);
   const [visible,setVisible]=useState(!document.hidden);
@@ -100,16 +103,16 @@ export default function WorldCanvas({night,onReady,onFailure}:{night:boolean;onR
   useEffect(()=>{
     if(!visible||!inView)return;
     // Cap ambient animation at 30 fps. Reduced-motion mode renders only on interaction/scroll.
-    if(reduced){invalidate();return;}
+    if(reduced || effects === 'off'){invalidate();return;}
     const timer=setInterval(()=>invalidate(),1000/30);return()=>clearInterval(timer);
-  },[visible,reduced,inView]);
+  },[visible,reduced,inView,effects]);
   useEffect(()=>()=>{materials.dispose();materials.cube.dispose();},[materials]);
   return <div className="world-webgl" aria-hidden="true">
-    <Canvas frameloop="demand" dpr={[1,1.5]} shadows gl={{alpha:true,antialias:true,powerPreference:'low-power',failIfMajorPerformanceCaveat:true}}
+    <Canvas frameloop="demand" dpr={[1,1.5]} shadows={{type:THREE.PCFShadowMap}} gl={{alpha:true,antialias:true,powerPreference:'low-power',failIfMajorPerformanceCaveat:true}}
       fallback={null}>
       <ContextHealth onFailure={onFailure}/>
       <ClearFrame ready={onReady}/>
-      {slots.map(slot=><View key={slot.index} index={slot.index+1} track={{current:slot.element}}><Scene slot={slot} night={night} reduced={reduced} m={materials}/></View>)}
+      {slots.map(slot=><View key={slot.index} index={slot.index+1} track={{current:slot.element}}><Scene slot={slot} night={night} effects={effects} reduced={reduced || effects === 'off'} m={materials}/></View>)}
     </Canvas>
   </div>;
 }
