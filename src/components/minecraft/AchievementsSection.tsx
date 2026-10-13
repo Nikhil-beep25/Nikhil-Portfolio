@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PORTFOLIO_DATA, type Achievement } from '../../data/portfolio';
 import { MinecraftItemIcon, MinecraftTorch } from './PixelArt';
@@ -7,10 +7,14 @@ import { audioManager } from '../../utils/audioManager';
 export default function AchievementsSection() {
   const [unlockedToast, setUnlockedToast] = useState<Achievement | null>(null);
 
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (toastTimer.current) clearTimeout(toastTimer.current); }, []);
+
   const handleUnlock = (ach: Achievement) => {
     audioManager.playAdvancement();
     setUnlockedToast(ach);
-    setTimeout(() => {
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => {
       setUnlockedToast(null);
     }, 4500);
   };
@@ -29,7 +33,7 @@ export default function AchievementsSection() {
   return (
     <section 
       id="achievements" 
-      className="relative py-20 md:py-28 px-4 md:px-8 w-full z-10 overflow-hidden"
+      className="world-section relative py-20 md:py-28 px-4 md:px-8 w-full z-10 overflow-hidden"
     >
       {/* ─────────────────────────────────────────────────────────────
           ACHIEVEMENT UNLOCKED BANNER POPUP (Top Right Toast)
@@ -37,6 +41,8 @@ export default function AchievementsSection() {
       <AnimatePresence>
         {unlockedToast && (
           <motion.div
+            role="status"
+            aria-live="polite"
             initial={{ y: -80, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -80, opacity: 0 }}
@@ -63,7 +69,7 @@ export default function AchievementsSection() {
       <div className="max-w-6xl mx-auto space-y-10">
         
         {/* Section Header */}
-        <div className="text-center space-y-3">
+        <div className="section-heading text-center space-y-3">
           <div className="flex items-center justify-center gap-3">
             <MinecraftTorch size={24} />
             <h2 className="font-pixel text-2xl sm:text-3xl md:text-4xl text-white mc-text-shadow">
@@ -80,23 +86,22 @@ export default function AchievementsSection() {
         <div className="mc-panel-dark p-6 sm:p-8 border-4 border-stone-700 shadow-2xl space-y-6">
           <div className="flex items-center justify-between border-b-2 border-stone-700 pb-3">
             <span className="font-pixel text-xs text-amber-300">
-              ADVANCEMENT TREE (Click any card to unlock)
+              ADVANCEMENT TREE (Explore each milestone)
             </span>
             <span className="font-pixel text-[9px] text-emerald-400">
-              6 / 6 COMPLETED
+              {PORTFOLIO_DATA.achievements.length} MILESTONES
             </span>
           </div>
 
           {/* Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-2">
+          <div className="advancement-grid grid gap-5 pt-2">
             {PORTFOLIO_DATA.achievements.map((ach) => (
               <motion.div
                 key={ach.id}
                 whileHover={{ scale: 1.02, y: -2 }}
-                onClick={() => handleUnlock(ach)}
                 onMouseEnter={() => audioManager.playHover()}
                 className={`
-                  p-5 border-2 rounded-none cursor-pointer flex flex-col justify-between transition-all relative overflow-hidden group shadow-lg
+                  advancement-card p-5 border-2 rounded-none flex flex-col justify-between transition-all relative overflow-hidden group shadow-lg
                   ${getAdvancementBorder(ach.advancementType)}
                 `}
               >
@@ -140,9 +145,9 @@ export default function AchievementsSection() {
 
                   {/* Unlock Button / Link */}
                   <div className="flex items-center justify-between">
-                    <span className="font-pixel text-[8px] text-amber-400 group-hover:text-amber-200">
-                      [CLICK TO UNLOCK ⚡]
-                    </span>
+                    <button type="button" className="achievement-unlock font-pixel-sub text-[10px] text-amber-300 hover:text-amber-100" onClick={() => handleUnlock(ach)} aria-label={`Unlock ${ach.title}`}>
+                      UNLOCK ACHIEVEMENT ↗
+                    </button>
                     {ach.verificationLink && (
                       <a
                         href={ach.verificationLink}

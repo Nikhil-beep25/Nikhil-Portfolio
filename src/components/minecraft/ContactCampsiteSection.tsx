@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { PORTFOLIO_DATA } from '../../data/portfolio';
-import { MinecraftCampfire, MinecraftTorch, MinecraftCharacter } from './PixelArt';
+import { MinecraftTorch } from './PixelArt';
 import { audioManager } from '../../utils/audioManager';
 
 export default function ContactCampsiteSection() {
@@ -69,12 +69,12 @@ export default function ContactCampsiteSection() {
   return (
     <section 
       id="contact" 
-      className="relative py-20 md:py-28 px-4 md:px-8 w-full z-10 overflow-hidden"
+      className="world-section relative py-20 md:py-28 px-4 md:px-8 w-full z-10 overflow-hidden"
     >
       <div className="max-w-6xl mx-auto space-y-12">
         
         {/* Section Header */}
-        <div className="text-center space-y-3">
+        <div className="section-heading text-center space-y-3">
           <div className="flex items-center justify-center gap-3">
             <MinecraftTorch size={24} />
             <h2 className="font-pixel text-2xl sm:text-3xl md:text-4xl text-white mc-text-shadow">
@@ -99,10 +99,7 @@ export default function ContactCampsiteSection() {
           >
             {/* Campfire Visual Centerpiece */}
             <div className="flex flex-col items-center justify-center py-4 bg-black/30 border-2 border-[#4E2E16] p-4">
-              <div className="flex items-center justify-center gap-8 mb-2">
-                <MinecraftCharacter size={70} />
-                <MinecraftCampfire size={70} />
-              </div>
+              <img className="campsite-art" src="/world/woodland-campsite-small.webp" width="960" height="540" loading="lazy" decoding="async" alt="A glowing campfire and crafting bench in a detailed voxel forest beside a mountain lake" />
               <span className="font-pixel text-[10px] text-amber-300 mc-text-shadow mt-2">
                 WARM EMBERS REST STOP
               </span>
@@ -155,7 +152,7 @@ export default function ContactCampsiteSection() {
                 DISPATCH SCROLL TO NIKHIL
               </span>
               <span className="font-pixel-sub text-[10px] text-emerald-800">
-                RESEND API POWERED
+                LET’S BUILD SOMETHING
               </span>
             </div>
 
@@ -187,47 +184,58 @@ export default function ContactCampsiteSection() {
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Player Name */}
               <div className="space-y-1">
-                <label className="font-pixel text-[10px] text-stone-800 block">
+                <label htmlFor="contact-name" className="font-pixel text-[10px] text-stone-800 block">
                   YOUR NAME / GAMERTAG:
                 </label>
                 <input
+                  autoComplete="name"
                   type="text"
+                  id="contact-name"
                   name="name"
+                  aria-invalid={Boolean(errors.name)}
+                  aria-describedby={errors.name ? "contact-name-error" : undefined}
                   value={formData.name}
                   onChange={(e) => setFormData(p => ({ ...p, name: e.target.value }))}
                   placeholder="e.g. Alex"
                   className="w-full mc-slot px-3 py-2.5 font-body text-xs text-stone-900 bg-white placeholder-stone-400 outline-none focus:ring-2 focus:ring-amber-500"
                 />
                 {errors.name && (
-                  <span className="font-pixel text-[8px] text-red-600 block">{errors.name}</span>
+                  <span id="contact-name-error" role="alert" className="font-body text-xs text-red-900 block">{errors.name}</span>
                 )}
               </div>
 
               {/* Email */}
               <div className="space-y-1">
-                <label className="font-pixel text-[10px] text-stone-800 block">
+                <label htmlFor="contact-email" className="font-pixel text-[10px] text-stone-800 block">
                   RETURN ADDRESS (EMAIL):
                 </label>
                 <input
+                  autoComplete="email"
                   type="email"
+                  id="contact-email"
                   name="email"
+                  aria-invalid={Boolean(errors.email)}
+                  aria-describedby={errors.email ? "contact-email-error" : undefined}
                   value={formData.email}
                   onChange={(e) => setFormData(p => ({ ...p, email: e.target.value }))}
                   placeholder="alex@example.com"
                   className="w-full mc-slot px-3 py-2.5 font-body text-xs text-stone-900 bg-white placeholder-stone-400 outline-none focus:ring-2 focus:ring-amber-500"
                 />
                 {errors.email && (
-                  <span className="font-pixel text-[8px] text-red-600 block">{errors.email}</span>
+                  <span id="contact-email-error" role="alert" className="font-body text-xs text-red-900 block">{errors.email}</span>
                 )}
               </div>
 
               {/* Message */}
               <div className="space-y-1">
-                <label className="font-pixel text-[10px] text-stone-800 block">
+                <label htmlFor="contact-message" className="font-pixel text-[10px] text-stone-800 block">
                   PARCHMENT MESSAGE:
                 </label>
                 <textarea
+                  id="contact-message"
                   name="message"
+                  aria-invalid={Boolean(errors.message)}
+                  aria-describedby={errors.message ? "contact-message-error" : undefined}
                   rows={4}
                   value={formData.message}
                   onChange={(e) => setFormData(p => ({ ...p, message: e.target.value }))}
@@ -235,7 +243,7 @@ export default function ContactCampsiteSection() {
                   className="w-full mc-slot px-3 py-2.5 font-body text-xs text-stone-900 bg-white placeholder-stone-400 outline-none focus:ring-2 focus:ring-amber-500"
                 />
                 {errors.message && (
-                  <span className="font-pixel text-[8px] text-red-600 block">{errors.message}</span>
+                  <span id="contact-message-error" role="alert" className="font-body text-xs text-red-900 block">{errors.message}</span>
                 )}
               </div>
 

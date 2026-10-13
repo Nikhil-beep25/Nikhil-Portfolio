@@ -1,0 +1,61 @@
+/* Shared materials link each destination to the landscape above.
+   Layer order: scenery (0), section content (1), navigation (40), dialogs (50). */
+.world-page { --realm-ground:#101d18; --realm-panel:#202b24; --realm-edge:#697257; background:var(--realm-ground); color:#eee9d7; }
+.world-page.night-mode { --realm-ground:#0b151b; --realm-panel:#19232a; --realm-edge:#53636a; }
+.world-section { isolation:isolate; background:var(--realm-ground); padding-block:100px; scroll-margin-top:24px; }
+.world-section::before { content:''; position:absolute; inset:0; z-index:-1; pointer-events:none; background-size:cover; background-position:center; opacity:.3; }
+.world-section > div { position:relative; }
+#about::before { background-image:linear-gradient(#101d18, #101d18aa 30%, #101d18),url('/world/valley-day.webp'); background-position:25% center; }
+#projects { background-color:#131e1a; }
+#projects::before { background-image:linear-gradient(#131e1a, #131e1a77, #131e1a),url('/world/woodland-campsite.webp'); opacity:.45; }
+#skills::before { background-image:linear-gradient(#101d18,#101d1899 35%,#101d18),url('/world/woodland-campsite.webp'); background-position:left center; opacity:.55; }
+#achievements { background-color:#142023; }
+#achievements::before { background-image:linear-gradient(#142023, #14202388,#142023),url('/world/valley-night.webp'); opacity:.5; }
+#creator::before { background-image:linear-gradient(#101d18,#101d1888,#101d18),url('/world/valley-day.webp'); background-position:right center; opacity:.3; }
+#contact::before { background-image:linear-gradient(#101d18,#101d1822 30%,#101d18),url('/world/woodland-campsite.webp'); opacity:.7; }
+.night-mode #about::before,.night-mode #creator::before { background-image:linear-gradient(#0b151b,#0b151b99,#0b151b),url('/world/valley-night.webp'); }
+.world-section .section-heading { max-width:840px; margin-inline:auto; margin-bottom:48px; }
+.world-section .section-heading h2 { font-family:var(--font-pixel-sub); font-size:clamp(25px,3.2vw,42px); line-height:1.2; letter-spacing:-.04em; color:#eee6cb; text-shadow:0 3px #09120f; }
+.world-section .section-heading > p { color:#adbba6; font-family:var(--font-body); font-size:12px; letter-spacing:.075em; line-height:1.7; }
+.world-section .mc-panel { background:#b9bda5; border:1px solid #e3e6cc; box-shadow:inset 0 0 0 4px #78846b,0 8px 0 #080f0b50,0 16px 36px #0003; }
+.world-section .mc-panel-dark { background:var(--realm-panel); border:1px solid var(--realm-edge); box-shadow:inset 0 2px #d4dbad15,0 8px 0 #080f0b50,0 16px 36px #0003; }
+.world-section .mc-panel-wood { background:#3d382a; background-image:linear-gradient(115deg,#a9946d10,transparent 65%); border:1px solid #8d7f59; box-shadow:inset 0 0 0 4px #24271c,0 8px 0 #080f0b50,0 16px 36px #0003; }
+.world-section .mc-slot { background:#929c83; border-width:2px; border-color:#58624f #d0d6bc #d0d6bc #58624f; box-shadow:inset 0 0 0 1px #68745a; }
+.world-section button.mc-slot:hover { background:#acb69a; }
+.world-section .mc-button { min-height:44px; border-width:2px; font-family:var(--font-pixel-sub); letter-spacing:0; }
+.world-section .mc-button-green { background:#4f673b; border-color:#8ba665 #293d20 #293d20 #8ba665; }
+.world-section .mc-button-wood { background:#6b5736; border-color:#a18b5d #382d1b #382d1b #a18b5d; }
+.world-section :is(button,a,input,textarea):focus-visible { outline:3px solid #f3ca78; outline-offset:4px; }
+.world-section .font-body { line-height:1.7; }
+.world-section h3 { line-height:1.5; }
+#achievements .advancement-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+#achievements .advancement-card { background:#1d2a26; border-color:#788061; box-shadow:none; padding:24px; }
+#achievements .advancement-card h3 { font-family:var(--font-body); font-size:18px; letter-spacing:-.025em; text-shadow:none; }
+#achievements .advancement-card p { font-size:13px; }
+.achievement-unlock { cursor:pointer; text-align:left; min-height:44px; }
+#contact .campsite-art { width:100%; aspect-ratio:16/9; object-fit:cover; border:1px solid #b8a47677; }
+#contact input,#contact textarea { background:#d7dac8; color:#1b291f; border:2px solid #68755b; box-shadow:inset 0 2px 0 #111a1020; font-family:var(--font-body); font-size:14px; }
+#contact :is(input,textarea)::placeholder { color:#5c6956; opacity:1; }
+#contact { padding-bottom:150px; }
+.world-page footer { padding-bottom:150px; }
+@media(max-width:700px){
+  .world-section{padding:68px 20px;scroll-margin-top:16px}
+  .world-section .section-heading{margin-bottom:32px}
+  .world-section .section-heading h2{font-size:27px}
+  .world-section .section-heading > p{font-size:10px;letter-spacing:.04em}
+  .world-section .section-heading svg{flex-shrink:0;width:15px}
+  .world-section .mc-panel,.world-section .mc-panel-dark,.world-section .mc-panel-wood{padding:20px}
+  .world-section .mc-panel .mc-panel-dark{padding:12px}
+  .world-section .mc-panel > .flex.justify-between{flex-wrap:wrap;gap:12px}
+  #achievements .advancement-grid{grid-template-columns:1fr}
+  #about::before,#creator::before{background-image:linear-gradient(#101d18,#101d18bb,#101d18),url('/world/valley-day-small.webp')}
+  #projects::before,#skills::before,#contact::before{background-image:linear-gradient(#101d18,#101d1877,#101d18),url('/world/woodland-campsite-small.webp')}
+  #achievements::before{background-image:linear-gradient(#142023,#14202388,#142023),url('/world/valley-night-small.webp')}
+  #contact{padding-bottom:140px}
+}
+/* Keep small inventory labels legible against their material. */
+.world-section .mc-panel :is(.text-stone-600,.text-stone-700){color:#34412d}
+.world-section .mc-panel :is(.text-emerald-700,.text-emerald-800){color:#234f28}
+.world-section .mc-panel-dark .mc-slot{background:#17231c;border-color:#0d1812 #53644a #53644a #0d1812;box-shadow:none}
+.world-section .mc-panel-dark .mc-slot.text-cyan-300{color:#c6d9b1}
+@media(max-width:700px){.night-mode #about::before,.night-mode #creator::before{background-image:linear-gradient(#0b151b,#0b151b99,#0b151b),url('/world/valley-night-small.webp')}}

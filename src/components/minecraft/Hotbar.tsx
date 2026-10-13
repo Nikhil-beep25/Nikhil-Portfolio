@@ -1,5 +1,8 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useId, useRef } from 'react';
+import { Compass, UserRound, Box, Pickaxe, Trophy, Clapperboard, Mail, Volume2, VolumeX, Sun, Moon, Grid2X2, X } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { audioManager } from '../../utils/audioManager';
+import './hotbar.css';
 
 interface HotbarProps {
   activeSection: string;
@@ -7,138 +10,165 @@ interface HotbarProps {
   isNight: boolean;
   onToggleDayNight: () => void;
   xpLevel: number;
-  xpProgress: number; // 0 to 100
+  xpProgress: number;
 }
 
 interface HotbarSlot {
   id: string;
   label: string;
+  shortLabel: string;
   keyNum: number;
-  icon: string;
+  icon: LucideIcon;
   type: 'nav' | 'action';
 }
 
-export default function Hotbar({
-  activeSection,
-  onNavigate,
-  isNight,
-  onToggleDayNight,
-  xpLevel,
-  xpProgress
-}: HotbarProps) {
+const MOBILE_SECTIONS = ['hero', 'projects', 'skills', 'contact'];
+
+function shortcutsAreBlocked(target: EventTarget | null) {
+  if (target instanceof HTMLElement && (
+    target.isContentEditable ||
+    target.closest('input, textarea, select, [contenteditable="true"], [role="textbox"], [role="combobox"], [role="slider"]')
+  )) return true;
+
+  return Array.from(document.querySelectorAll<HTMLElement>(
+    'dialog[open], [aria-modal="true"], [data-world-loading], [data-loading-overlay]'
+  )).some(element => element.getClientRects().length > 0 && getComputedStyle(element).visibility !== 'hidden');
+}
+
+export default function Hotbar({ activeSection, onNavigate, isNight, onToggleDayNight, xpLevel, xpProgress }: HotbarProps) {
   const [soundEnabled, setSoundEnabled] = useState(() => audioManager.getSoundEnabled());
-  const [hoveredSlot, setHoveredSlot] = useState<string | null>(null);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const panelId = useId();
+  const navRef = useRef<HTMLElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const moreButtonRef = useRef<HTMLButtonElement>(null);
 
   const slots: HotbarSlot[] = useMemo(() => [
-    { id: 'hero', label: 'HOME', keyNum: 1, icon: '🧭', type: 'nav' },
-    { id: 'about', label: 'ABOUT', keyNum: 2, icon: '👤', type: 'nav' },
-    { id: 'projects', label: 'PROJECTS', keyNum: 3, icon: '📦', type: 'nav' },
-    { id: 'skills', label: 'SKILLS', keyNum: 4, icon: '⚒️', type: 'nav' },
-    { id: 'achievements', label: 'ADVANCE', keyNum: 5, icon: '🏆', type: 'nav' },
-    { id: 'creator', label: 'CONTENT', keyNum: 6, icon: '🎬', type: 'nav' },
-    { id: 'contact', label: 'CONTACT', keyNum: 7, icon: '🔥', type: 'nav' },
-    { id: 'sound', label: soundEnabled ? 'SFX: ON' : 'SFX: OFF', keyNum: 8, icon: soundEnabled ? '🔊' : '🔇', type: 'action' },
-    { id: 'daynight', label: isNight ? 'NIGHT' : 'DAY', keyNum: 9, icon: isNight ? '🌙' : '☀️', type: 'action' },
+    { id: 'hero', label: 'Home', shortLabel: 'Home', keyNum: 1, icon: Compass, type: 'nav' },
+    { id: 'about', label: 'About', shortLabel: 'About', keyNum: 2, icon: UserRound, type: 'nav' },
+    { id: 'projects', label: 'Projects', shortLabel: 'Projects', keyNum: 3, icon: Box, type: 'nav' },
+    { id: 'skills', label: 'Skills', shortLabel: 'Skills', keyNum: 4, icon: Pickaxe, type: 'nav' },
+    { id: 'achievements', label: 'Achievements', shortLabel: 'Awards', keyNum: 5, icon: Trophy, type: 'nav' },
+    { id: 'creator', label: 'Creator', shortLabel: 'Creator', keyNum: 6, icon: Clapperboard, type: 'nav' },
+    { id: 'contact', label: 'Contact', shortLabel: 'Contact', keyNum: 7, icon: Mail, type: 'nav' },
+    { id: 'sound', label: soundEnabled ? 'Turn sound effects off' : 'Turn sound effects on', shortLabel: soundEnabled ? 'SFX on' : 'SFX off', keyNum: 8, icon: soundEnabled ? Volume2 : VolumeX, type: 'action' },
+    { id: 'daynight', label: isNight ? 'Switch to day' : 'Switch to night', shortLabel: isNight ? 'Night' : 'Day', keyNum: 9, icon: isNight ? Moon : Sun, type: 'action' },
   ], [soundEnabled, isNight]);
 
   const handleSlotClick = useCallback((slot: HotbarSlot) => {
     if (slot.type === 'nav') {
       audioManager.playSelect();
+      setMoreOpen(false);
       onNavigate(slot.id);
     } else if (slot.id === 'sound') {
-      const next = audioManager.toggleSound();
-      setSoundEnabled(next);
-    } else if (slot.id === 'daynight') {
+      setSoundEnabled(audioManager.toggleSound());
+    } else {
       audioManager.playCelestialChime();
       onToggleDayNight();
     }
   }, [onNavigate, onToggleDayNight]);
 
-  // Number key shortcuts 1-9
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't trigger if user is typing in an input or textarea
-      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return;
-      const num = parseInt(e.key, 10);
-      if (num >= 1 && num <= 9) {
-        const slot = slots.find(s => s.keyNum === num);
-        if (slot) {
-          handleSlotClick(slot);
-        }
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && moreOpen) {
+        setMoreOpen(false);
+        moreButtonRef.current?.focus();
+        return;
+      }
+      if (event.defaultPrevented || event.repeat || event.isComposing || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || shortcutsAreBlocked(event.target)) return;
+      if (!/^[1-9]$/.test(event.key)) return;
+      const slot = slots.find(item => item.keyNum === Number(event.key));
+      if (slot) {
+        event.preventDefault();
+        handleSlotClick(slot);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [slots, handleSlotClick]);
+  }, [slots, handleSlotClick, moreOpen]);
+
+  useEffect(() => {
+    if (!moreOpen) return;
+    panelRef.current?.querySelector<HTMLButtonElement>('button')?.focus();
+    const closeOutside = (event: PointerEvent) => {
+      if (event.target instanceof Node && !navRef.current?.contains(event.target)) setMoreOpen(false);
+    };
+    document.addEventListener('pointerdown', closeOutside);
+    return () => document.removeEventListener('pointerdown', closeOutside);
+  }, [moreOpen]);
+
+  const activeLabel = slots.find(slot => slot.id === activeSection)?.label ?? 'Home';
+  const moreActive = !MOBILE_SECTIONS.includes(activeSection);
+  const progress = Number.isFinite(xpProgress) ? Math.min(100, Math.max(0, xpProgress)) : 0;
+
+  const renderSlot = (slot: HotbarSlot, expanded = false) => {
+    const Icon = slot.icon;
+    const selected = slot.type === 'nav' && activeSection === slot.id;
+    return (
+      <button
+        key={slot.id}
+        type="button"
+        className={`world-hotbar__slot${expanded ? ' world-hotbar__slot--expanded' : ''}${slot.type === 'action' ? ' world-hotbar__slot--action' : ''}`}
+        data-active={selected || undefined}
+        onClick={() => handleSlotClick(slot)}
+        onMouseEnter={() => audioManager.playHover()}
+        aria-label={slot.label}
+        aria-current={selected ? 'location' : undefined}
+        aria-pressed={slot.id === 'sound' ? soundEnabled : slot.id === 'daynight' ? isNight : undefined}
+        aria-keyshortcuts={String(slot.keyNum)}
+        title={`${slot.label} · ${slot.keyNum}`}
+      >
+        <Icon aria-hidden="true" className="world-hotbar__icon" size={21} strokeWidth={1.65} />
+        <span className="world-hotbar__label">{expanded && slot.type === 'nav' ? slot.label : slot.shortLabel}</span>
+        <span className="world-hotbar__key" aria-hidden="true">{slot.keyNum}</span>
+      </button>
+    );
+  };
 
   return (
-    <nav 
-      aria-label="Minecraft Hotbar Navigation"
-      className="fixed bottom-3 md:bottom-5 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-1.5 pointer-events-auto px-2 max-w-full"
-    >
-      {/* Tooltip on hover */}
-      <div className="h-6 flex items-center justify-center pointer-events-none">
-        {hoveredSlot && (
-          <div className="mc-tooltip text-[10px] md:text-xs tracking-wider animate-fadeIn">
-            {slots.find(s => s.id === hoveredSlot)?.label}
-            <span className="text-stone-400 ml-1.5 font-mono">[{slots.find(s => s.id === hoveredSlot)?.keyNum}]</span>
-          </div>
-        )}
-      </div>
-
-      {/* Decorative XP Bar directly above hotbar */}
-      <div className="w-full max-w-xs md:max-w-md px-1 flex flex-col items-center">
-        {/* Level Counter in green above center */}
-        <span className="font-pixel text-[11px] md:text-xs text-[#55FF55] -mb-1 select-none z-10 drop-shadow-[0_1px_1px_#000]">
-          {xpLevel}
-        </span>
-        <div className="w-full mc-xp-bar-container h-2 md:h-2.5">
-          <div
-            className="mc-xp-bar-fill"
-            style={{ width: `${Math.min(100, Math.max(0, xpProgress))}%` }}
-          />
-        </div>
-      </div>
-
-      {/* Hotbar 9-slot Container */}
-      <div className="mc-panel p-1 md:p-1.5 flex items-center gap-1 shadow-2xl overflow-x-auto max-w-[96vw] border-4">
-        {slots.map((slot) => {
-          const isActive = slot.type === 'nav' && activeSection === slot.id;
-          
-          return (
-            <button
-              key={slot.id}
-              onClick={() => handleSlotClick(slot)}
-              onMouseEnter={() => {
-                setHoveredSlot(slot.id);
-                audioManager.playHover();
-              }}
-              onMouseLeave={() => setHoveredSlot(null)}
-              className={`
-                mc-slot relative flex flex-col items-center justify-center cursor-pointer transition-all
-                w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12
-                ${isActive ? 'active mc-hotbar-slot-active bg-stone-300' : ''}
-              `}
-              title={`${slot.label} (Press ${slot.keyNum})`}
-              aria-label={slot.label}
-            >
-              {/* Slot Item Icon */}
-              <span className="text-base sm:text-lg md:text-xl select-none transition-transform hover:scale-110 active:scale-90">
-                {slot.icon}
-              </span>
-
-              {/* Hotbar Slot Key Number in corner */}
-              <span className="absolute bottom-0.5 right-1 font-pixel text-[8px] md:text-[9px] text-stone-900 opacity-60 select-none">
-                {slot.keyNum}
-              </span>
-
-              {/* Active Selection White Reticle Box */}
-              {isActive && (
-                <div className="absolute inset-0 border-2 border-white pointer-events-none" />
-              )}
+    <nav ref={navRef} className="world-hotbar" aria-label="World navigation">
+      {moreOpen && (
+        <div ref={panelRef} id={panelId} className="world-hotbar__more-panel" role="region" aria-label="More destinations and settings">
+          <div className="world-hotbar__panel-heading">
+            <span>Explore the world</span>
+            <button type="button" className="world-hotbar__close" aria-label="Close more navigation" onClick={() => { setMoreOpen(false); moreButtonRef.current?.focus(); }}>
+              <X size={18} aria-hidden="true" />
             </button>
-          );
-        })}
+          </div>
+          <div className="world-hotbar__extra-nav">
+            {slots.filter(slot => slot.type === 'nav' && !MOBILE_SECTIONS.includes(slot.id)).map(slot => renderSlot(slot, true))}
+          </div>
+          <div className="world-hotbar__settings" aria-label="World settings">
+            {slots.filter(slot => slot.type === 'action').map(slot => renderSlot(slot, true))}
+          </div>
+          <p className="world-hotbar__sound-note">Original sound effects · {soundEnabled ? 'enabled' : 'off until you enable them'}</p>
+        </div>
+      )}
+      <div className="world-hotbar__status">
+        <span className="world-hotbar__current"><span aria-hidden="true" />{activeLabel}</span>
+        <span className="world-hotbar__level" aria-label={`Experience level ${xpLevel}`}>LVL <b>{xpLevel}</b></span>
+      </div>
+      <div className="world-hotbar__xp" role="progressbar" aria-label="Exploration progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress)}>
+        <span style={{ width: `${progress}%` }} />
+      </div>
+      <div className="world-hotbar__frame world-hotbar__desktop">
+        {slots.map(slot => renderSlot(slot))}
+      </div>
+      <div className="world-hotbar__frame world-hotbar__mobile">
+        {slots.filter(slot => MOBILE_SECTIONS.includes(slot.id)).map(slot => renderSlot(slot))}
+        <button
+          ref={moreButtonRef}
+          type="button"
+          className="world-hotbar__slot"
+          data-active={moreActive || moreOpen || undefined}
+          aria-label="More destinations and settings"
+          aria-expanded={moreOpen}
+          aria-controls={moreOpen ? panelId : undefined}
+          onClick={() => { audioManager.playClick(); setMoreOpen(open => !open); }}
+        >
+          {moreOpen ? <X size={21} className="world-hotbar__icon" aria-hidden="true" /> : <Grid2X2 size={21} className="world-hotbar__icon" aria-hidden="true" />}
+          <span className="world-hotbar__label">More</span>
+        </button>
       </div>
     </nav>
   );

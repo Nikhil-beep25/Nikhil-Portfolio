@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { PORTFOLIO_DATA } from '../../data/portfolio';
 import { MinecraftCharacter, MinecraftTorch, MinecraftHeart } from './PixelArt';
@@ -6,16 +6,18 @@ import { audioManager } from '../../utils/audioManager';
 
 export default function AboutSection() {
   const [waving, setWaving] = useState(false);
+  const waveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (waveTimer.current) clearTimeout(waveTimer.current); }, []);
 
   return (
     <section 
       id="about" 
-      className="relative py-20 md:py-28 px-4 md:px-8 w-full z-10 overflow-hidden"
+      className="world-section relative py-20 md:py-28 px-4 md:px-8 w-full z-10 overflow-hidden"
     >
       <div className="max-w-6xl mx-auto space-y-12">
         
         {/* Section Header */}
-        <div className="text-center space-y-3">
+        <div className="section-heading text-center space-y-3">
           <div className="flex items-center justify-center gap-3">
             <MinecraftTorch size={24} />
             <h2 className="font-pixel text-2xl sm:text-3xl md:text-4xl text-white mc-text-shadow">
@@ -115,12 +117,13 @@ export default function AboutSection() {
             transition={{ duration: 0.5 }}
             className="lg:col-span-2 flex flex-col items-center justify-center py-4"
           >
-            <div 
+            <button type="button" aria-label="Wave to Nikhil"
               className="cursor-pointer group flex flex-col items-center animate-bounce-gentle"
               onClick={() => {
                 setWaving(true);
                 audioManager.playSelect();
-                setTimeout(() => setWaving(false), 2200);
+                if (waveTimer.current) clearTimeout(waveTimer.current);
+                waveTimer.current = setTimeout(() => setWaving(false), 2200);
               }}
               title="Click character to wave!"
             >
@@ -131,7 +134,7 @@ export default function AboutSection() {
               </div>
               <MinecraftCharacter isWaving={waving} size={130} />
               <div className="w-24 h-4 bg-black/40 rounded-full blur-sm mt-1" />
-            </div>
+            </button>
           </motion.div>
 
           {/* Right: Interests Board */}

@@ -16,12 +16,12 @@ export default function CreatorSpaceSection() {
   return (
     <section 
       id="creator" 
-      className="relative py-20 md:py-28 px-4 md:px-8 w-full z-10 overflow-hidden"
+      className="world-section relative py-20 md:py-28 px-4 md:px-8 w-full z-10 overflow-hidden"
     >
       <div className="max-w-6xl mx-auto space-y-10">
         
         {/* Section Header */}
-        <div className="text-center space-y-3">
+        <div className="section-heading text-center space-y-3">
           <div className="flex items-center justify-center gap-3">
             <MinecraftTorch size={24} />
             <h2 className="font-pixel text-2xl sm:text-3xl md:text-4xl text-white mc-text-shadow">

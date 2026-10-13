@@ -1,50 +1,28 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { audioManager } from '../../utils/audioManager';
-import { PORTFOLIO_DATA } from '../../data/portfolio';
 
 interface LoadingScreenProps {
   onEnter: () => void;
 }
 
-const STAGES = [
-  "Loading Projects...",
-  "Generating Skills...",
-  "Preparing Inventory...",
-  "Building My World..."
-];
-
 export default function LoadingScreen({ onEnter }: LoadingScreenProps) {
-  const [progress, setProgress] = useState(15);
-  const [stageIndex, setStageIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    // Real asset loading & initialization checks
-    let currentProgress = 20;
-    
-    // 1. Verify profile images
-    const img1 = new Image();
-    img1.src = PORTFOLIO_DATA.personal.avatarImage;
-    
-    const interval = setInterval(() => {
-      currentProgress += Math.floor(Math.random() * 15) + 10;
-      if (currentProgress >= 100) {
-        currentProgress = 100;
-        setProgress(100);
-        setIsReady(true);
-        clearInterval(interval);
-      } else {
-        setProgress(currentProgress);
-        const stageIdx = Math.min(
-          Math.floor((currentProgress / 100) * STAGES.length),
-          STAGES.length - 1
-        );
-        setStageIndex(stageIdx);
-      }
-    }, 180);
-
-    return () => clearInterval(interval);
+    let cancelled = false;
+    let completed = 0;
+    const assets = Array.from(document.querySelectorAll<HTMLImageElement>('#hero img'));
+    const finish = () => {
+      if (!cancelled) { setProgress(100); setIsReady(true); }
+    };
+    const timeout = setTimeout(finish, 3000);
+    Promise.allSettled(assets.map(image => image.decode().catch(() => {}).then(() => {
+      completed += 1;
+      if (!cancelled) setProgress(Math.round(completed / Math.max(assets.length, 1) * 100));
+    }))).then(finish);
+    return () => { cancelled = true; clearTimeout(timeout); };
   }, []);
 
   const handleEnter = () => {
@@ -59,20 +37,24 @@ export default function LoadingScreen({ onEnter }: LoadingScreenProps) {
 
   return (
     <motion.div
+      data-world-loading
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="loading-title"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, scale: 1.02 }}
       transition={{ duration: 0.6, ease: "easeInOut" }}
       className="fixed inset-0 z-50 flex flex-col items-center justify-center select-none overflow-hidden"
       style={{
-        backgroundColor: '#2C1D11',
-        backgroundImage: `
-          repeating-linear-gradient(45deg, rgba(0,0,0,0.15) 0, rgba(0,0,0,0.15) 8px, transparent 0, transparent 16px),
-          radial-gradient(circle at center, #4A3320 0%, #1E120A 100%)
-        `
+        backgroundColor: '#101d18',
+        backgroundImage: 'linear-gradient(#071611bb,#071611ee), url(/world/valley-night-small.webp)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
       }}
     >
       {/* Skip button in corner */}
       <button
+        autoFocus
         onClick={handleSkip}
         className="absolute top-6 right-6 font-pixel-sub text-[10px] md:text-xs text-white/70 hover:text-white px-3 py-1.5 border border-white/20 bg-black/40 hover:bg-black/60 transition-colors cursor-pointer"
       >
@@ -87,9 +69,9 @@ export default function LoadingScreen({ onEnter }: LoadingScreenProps) {
             animate={{ y: 0, opacity: 1 }}
             className="inline-block"
           >
-            <h1 className="font-pixel text-xl sm:text-2xl md:text-3xl text-white mc-text-shadow tracking-wider">
+            <h2 id="loading-title" className="font-pixel text-xl sm:text-2xl md:text-3xl text-white mc-text-shadow tracking-wider">
               {isReady ? "WORLD GENERATED!" : "GENERATING WORLD..."}
-            </h1>
+            </h2>
           </motion.div>
           <p className="font-pixel-sub text-xs sm:text-sm text-amber-300 mc-text-shadow">
             NIKHIL BHADAURIYA'S REALM
@@ -111,7 +93,7 @@ export default function LoadingScreen({ onEnter }: LoadingScreenProps) {
 
           {/* Current Loading Message */}
           <p className="font-pixel-sub text-xs text-stone-300 min-h-[20px] flex items-center justify-center">
-            {isReady ? "READY TO EXPLORE!" : STAGES[stageIndex]}
+            {isReady ? "READY TO EXPLORE!" : "Preparing landscape artwork..."}
           </p>
         </div>
 

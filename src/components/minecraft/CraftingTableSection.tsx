@@ -4,11 +4,22 @@ import { PORTFOLIO_DATA, type SkillItem } from '../../data/portfolio';
 import { MinecraftItemIcon, MinecraftTorch } from './PixelArt';
 import { audioManager } from '../../utils/audioManager';
 
+type CraftingResult = (typeof PORTFOLIO_DATA.craftingRecipes)[number]['result'];
+
+const findIngredient = (name: string) => PORTFOLIO_DATA.skills.find(
+  skill => skill.name.toLowerCase() === name.toLowerCase()
+);
+
+const quickRecipes = PORTFOLIO_DATA.craftingRecipes.map(recipe => ({
+  ...recipe,
+  missingIngredients: recipe.inputs.filter(name => !findIngredient(name))
+}));
+
 export default function CraftingTableSection() {
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   // 3x3 grid slots (up to 9 items placed)
   const [gridSlots, setGridSlots] = useState<(SkillItem | null)[]>(Array(9).fill(null));
-  const [craftingResult, setCraftingResult] = useState<any>(null);
+  const [craftingResult, setCraftingResult] = useState<CraftingResult | null>(null);
 
   const categories = ['ALL', 'LANGUAGES', 'WEB DEVELOPMENT', 'AI & TOOLS', 'DEVELOPER TOOLS'];
 
@@ -26,7 +37,7 @@ export default function CraftingTableSection() {
     }
 
     const matched = PORTFOLIO_DATA.craftingRecipes.find(recipe => {
-      return recipe.inputs.every(inp => presentNames.some(p => p.includes(inp.toLowerCase())));
+      return recipe.inputs.every(inp => presentNames.includes(inp.toLowerCase()));
     });
 
     if (matched) {
@@ -65,9 +76,10 @@ export default function CraftingTableSection() {
 
   const handleAutoCraft = (inputs: string[]) => {
     audioManager.playItemPop();
-    const newSlots = Array(9).fill(null);
+    if (inputs.some(name => !findIngredient(name))) return;
+    const newSlots: (SkillItem | null)[] = Array(9).fill(null);
     inputs.forEach((name, i) => {
-      const item = PORTFOLIO_DATA.skills.find(s => s.name.toLowerCase().includes(name.toLowerCase()));
+      const item = findIngredient(name);
       if (item) newSlots[i] = item;
     });
     setGridSlots(newSlots);
@@ -77,12 +89,12 @@ export default function CraftingTableSection() {
   return (
     <section 
       id="skills" 
-      className="relative py-20 md:py-28 px-4 md:px-8 w-full z-10 overflow-hidden"
+      className="world-section relative py-20 md:py-28 px-4 md:px-8 w-full z-10 overflow-hidden"
     >
       <div className="max-w-6xl mx-auto space-y-10">
         
         {/* Section Header */}
-        <div className="text-center space-y-3">
+        <div className="section-heading text-center space-y-3">
           <div className="flex items-center justify-center gap-3">
             <MinecraftTorch size={24} />
             <h2 className="font-pixel text-2xl sm:text-3xl md:text-4xl text-white mc-text-shadow">
@@ -108,6 +120,7 @@ export default function CraftingTableSection() {
             </div>
 
             <button
+              type="button"
               onClick={handleClearGrid}
               className="mc-button px-3 py-1 text-[10px] font-pixel text-white cursor-pointer"
             >
@@ -121,28 +134,31 @@ export default function CraftingTableSection() {
             <div className="md:col-span-5 flex justify-center">
               <div className="grid grid-cols-3 gap-2 bg-stone-700 p-3 border-4 border-stone-900 shadow-inner">
                 {gridSlots.map((slot, i) => (
-                  <div
+                  <button
                     key={i}
+                    type="button"
+                    disabled={!slot}
+                    aria-label={slot ? `Remove ${slot.name} from slot ${i + 1}` : `Crafting slot ${i + 1}: empty`}
                     onClick={() => slot && handleRemoveSlot(i)}
                     className={`
                       mc-slot w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center relative cursor-pointer
                       ${slot ? 'bg-stone-300 hover:bg-red-200' : 'bg-stone-500'}
                     `}
-                    title={slot ? `Click to remove ${slot.name}` : 'Empty slot'}
+                    title={slot ? `Remove ${slot.name}` : 'Empty slot'}
                   >
                     {slot ? (
-                      <div className="flex flex-col items-center">
+                      <span className="flex flex-col items-center">
                         <MinecraftItemIcon type={slot.minecraftItem} size={28} />
                         <span className="font-pixel text-[8px] text-stone-900 leading-none mt-1">
                           {slot.name.slice(0, 5)}
                         </span>
-                      </div>
+                      </span>
                     ) : (
                       <span className="text-stone-400 font-pixel text-[10px] opacity-40">
                         {i + 1}
                       </span>
                     )}
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
@@ -158,7 +174,7 @@ export default function CraftingTableSection() {
             </div>
 
             {/* Output Result Slot */}
-            <div className="md:col-span-5 flex flex-col items-center justify-center">
+            <div role="status" aria-live="polite" aria-atomic="true" className="md:col-span-5 flex flex-col items-center justify-center">
               <div className="mc-slot w-24 h-24 sm:w-28 sm:h-28 flex flex-col items-center justify-center bg-stone-300 border-4 border-stone-900 p-2 shadow-2xl relative">
                 {craftingResult ? (
                   <motion.div
@@ -209,30 +225,24 @@ export default function CraftingTableSection() {
               TRY POPULAR BLUEPRINTS:
             </span>
             <div className="flex flex-wrap gap-2">
-              <button
-                onClick={() => handleAutoCraft(["React", "TypeScript", "PostgreSQL"])}
-                className="mc-button px-3 py-1 text-[9px] font-pixel-sub cursor-pointer"
-              >
-                Recipe: NagrikSetu
-              </button>
-              <button
-                onClick={() => handleAutoCraft(["React", "Node.js", "PostgreSQL"])}
-                className="mc-button px-3 py-1 text-[9px] font-pixel-sub cursor-pointer"
-              >
-                Recipe: VidyaSanchar ERP
-              </button>
-              <button
-                onClick={() => handleAutoCraft(["React", "Node.js", "MongoDB"])}
-                className="mc-button px-3 py-1 text-[9px] font-pixel-sub cursor-pointer"
-              >
-                Recipe: CarVerse
-              </button>
-              <button
-                onClick={() => handleAutoCraft(["Python", "Gemini API"])}
-                className="mc-button px-3 py-1 text-[9px] font-pixel-sub cursor-pointer"
-              >
-                Recipe: GenAI Assistant
-              </button>
+              {quickRecipes.map((recipe, index) => (
+                <div key={recipe.result.title} className="flex flex-col gap-1">
+                  <button
+                    type="button"
+                    disabled={recipe.missingIngredients.length > 0}
+                    aria-describedby={recipe.missingIngredients.length > 0 ? `recipe-unavailable-${index}` : undefined}
+                    onClick={() => handleAutoCraft(recipe.inputs)}
+                    className="mc-button px-3 py-1 text-[9px] font-pixel-sub cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Recipe: {recipe.result.title}
+                  </button>
+                  {recipe.missingIngredients.length > 0 && (
+                    <span id={`recipe-unavailable-${index}`} className="font-body text-[11px] text-stone-700 max-w-64">
+                      Unavailable: {recipe.missingIngredients.join(', ')} is not in this skills inventory.
+                    </span>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -243,6 +253,8 @@ export default function CraftingTableSection() {
             {categories.map((cat) => (
               <button
                 key={cat}
+                type="button"
+                aria-pressed={selectedCategory === cat}
                 onClick={() => {
                   audioManager.playSelect();
                   setSelectedCategory(cat);
@@ -260,31 +272,34 @@ export default function CraftingTableSection() {
           {/* Skills Grid as Inventory Items */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {filteredSkills.map((skill) => (
-              <motion.div
+              <motion.button
                 key={skill.id}
+                type="button"
+                disabled={gridSlots.every(Boolean)}
+                aria-label={`Add ${skill.name} to crafting workbench. ${skill.description}`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleSelectSkill(skill)}
-                className="mc-slot p-3 bg-stone-300 hover:bg-stone-200 cursor-pointer flex flex-col items-center justify-between h-32 text-center group border-2"
-                title={`Click to add ${skill.name} to crafting workbench`}
+                className="mc-slot p-3 bg-stone-300 hover:bg-stone-200 cursor-pointer flex flex-col items-center justify-between h-32 text-center group border-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                title={`Add ${skill.name} to crafting workbench`}
               >
-                <div className="w-10 h-10 bg-stone-700 border-2 border-stone-900 flex items-center justify-center p-1 group-hover:border-emerald-400">
+                <span className="w-10 h-10 bg-stone-700 border-2 border-stone-900 flex items-center justify-center p-1 group-hover:border-emerald-400">
                   <MinecraftItemIcon type={skill.minecraftItem} size={24} />
-                </div>
+                </span>
 
-                <div className="mt-1">
-                  <h4 className="font-pixel text-[10px] text-stone-900 group-hover:text-emerald-800">
+                <span className="mt-1">
+                  <span className="block font-pixel text-[10px] text-stone-900 group-hover:text-emerald-800">
                     {skill.name}
-                  </h4>
+                  </span>
                   <span className="font-pixel text-[8px] text-stone-600">
                     LVL {skill.level}%
                   </span>
-                </div>
+                </span>
 
                 <span className="font-pixel text-[7px] text-stone-500 opacity-60 group-hover:opacity-100">
                   [ADD TO GRID]
                 </span>
-              </motion.div>
+              </motion.button>
             ))}
           </div>
         </div>

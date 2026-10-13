@@ -1,0 +1,121 @@
+.world-hotbar {
+  position: fixed;
+  z-index: 40;
+  bottom: max(18px, env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  width: min(650px, calc(100vw - 32px));
+  transform: translateX(-50%);
+  color: #e8e3ce;
+  font-family: var(--font-pixel-sub, monospace);
+  isolation: isolate;
+}
+
+.world-hotbar__status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 6px 6px;
+  font-size: 10px;
+  line-height: 1.4;
+  letter-spacing: .045em;
+  text-shadow: 0 1px 4px #07100b, 0 0 12px #07100b;
+}
+
+.world-hotbar__current { display: flex; align-items: center; gap: 7px; }
+.world-hotbar__current > span { width: 4px; height: 4px; background: #c8dda1; box-shadow: 0 0 8px #b0d48177; }
+.world-hotbar__level { color: #b5c99b; }
+.world-hotbar__level b { color: #e1edbf; font-weight: 400; }
+
+.world-hotbar__xp {
+  height: 4px;
+  margin: 0 3px 5px;
+  overflow: hidden;
+  background: #111b12;
+  border: 1px solid #53664488;
+  box-shadow: 0 1px 4px #0008;
+}
+
+.world-hotbar__xp > span { display: block; height: 100%; background: #b8cc81; box-shadow: 0 0 6px #aecb63; transition: width 400ms ease; }
+
+.world-hotbar__frame {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 4px;
+  padding: 5px;
+  background: #292c22f5;
+  border: 1px solid #827963;
+  outline: 2px solid #101710;
+  box-shadow: inset 0 1px 0 #c9b98e38, inset 0 -2px 0 #0b0e0b, 0 10px 30px #0005;
+}
+
+.world-hotbar__slot {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 58px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  padding: 7px 2px 6px;
+  color: #c7c9b9;
+  background: #20271e;
+  border: 1px solid #4e5544;
+  box-shadow: inset 1px 1px 0 #0007, inset -1px -1px 0 #c1b78b12;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: color 160ms ease, background 160ms ease, border-color 160ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.world-hotbar__slot:hover { background: #323c2b; border-color: #9caa7b; color: #fff5da; }
+.world-hotbar__slot:active { background: #182017; }
+.world-hotbar__slot:focus-visible, .world-hotbar__close:focus-visible { outline: 2px solid #f4d18c; outline-offset: 3px; z-index: 1; }
+.world-hotbar__slot[data-active="true"] { color: #f4e7bd; background: #465039; border-color: #d7c490; box-shadow: inset 0 0 0 1px #e5d2a459, 0 0 9px #d1c58517; }
+.world-hotbar__slot[data-active="true"]::after { content: ''; position: absolute; bottom: 2px; left: 37%; right: 37%; height: 2px; background: #e0d49e; }
+.world-hotbar__icon { flex-shrink: 0; filter: drop-shadow(1px 2px 0 #101510); }
+.world-hotbar__label { font-size: 9px; line-height: 1.4; white-space: nowrap; }
+.world-hotbar__key { position: absolute; top: 3px; right: 4px; color: #c1c3ad; font-family: var(--font-body, sans-serif); font-size: 8px; line-height: 1; opacity: .7; }
+.world-hotbar__slot--action { background: #252820; }
+.world-hotbar__slot--action .world-hotbar__icon { color: #bdb18d; }
+.world-hotbar__slot[aria-pressed="true"] .world-hotbar__icon { color: #ddca82; }
+.world-hotbar__mobile, .world-hotbar__more-panel { display: none; }
+
+@media (max-width: 699px) {
+  .world-hotbar { width: min(390px, calc(100vw - 24px)); bottom: max(12px, env(safe-area-inset-bottom, 0px)); }
+  .world-hotbar__status { padding-bottom: 5px; font-size: 9px; }
+  .world-hotbar__desktop { display: none; }
+  .world-hotbar__mobile { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; }
+  .world-hotbar__slot { min-height: 55px; gap: 5px; }
+  .world-hotbar__label { font-size: 9px; }
+  .world-hotbar__key { display: none; }
+  .world-hotbar__more-panel {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(100% + 12px);
+    padding: 7px 10px 12px;
+    border: 1px solid #88836a;
+    outline: 2px solid #131b13;
+    background: #1c251dee;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 12px 35px #0007, inset 0 1px #d1c8a233;
+    max-height: calc(100svh - 130px - env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+  }
+  .world-hotbar__panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 10px; color: #ede0b7; }
+  .world-hotbar__close { display: grid; place-items: center; color: #c9ceba; background: transparent; border: 0; min-width: 44px; min-height: 44px; margin-right: -7px; cursor: pointer; }
+  .world-hotbar__extra-nav { display: grid; gap: 5px; }
+  .world-hotbar__slot--expanded { min-height: 44px; flex-direction: row; justify-content: flex-start; gap: 12px; padding: 9px 12px; }
+  .world-hotbar__slot--expanded .world-hotbar__label { font-size: 10px; }
+  .world-hotbar__slot--expanded[data-active="true"]::after { width: 3px; height: 12px; top: 50%; bottom: auto; left: auto; right: 10px; transform: translateY(-50%); }
+  .world-hotbar__settings { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 9px; padding-top: 9px; border-top: 1px solid #69755a55; }
+  .world-hotbar__settings .world-hotbar__slot--expanded { justify-content: center; gap: 8px; padding: 9px 5px; }
+  .world-hotbar__settings .world-hotbar__label { font-size: 9px; }
+  .world-hotbar__sound-note { margin: 10px 0 0; color: #b3b9a6; font-family: var(--font-body, sans-serif); font-size: 10px; line-height: 1.5; text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-hotbar__slot, .world-hotbar__xp > span { transition: none; }
+}

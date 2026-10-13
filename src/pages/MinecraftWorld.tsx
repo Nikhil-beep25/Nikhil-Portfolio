@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { AnimatePresence, MotionConfig, useScroll, useMotionValueEvent } from 'framer-motion';
 import LoadingScreen from '../components/minecraft/LoadingScreen';
 import Hotbar from '../components/minecraft/Hotbar';
 import HeroSection from '../components/minecraft/HeroSection';
@@ -11,6 +11,7 @@ import CreatorSpaceSection from '../components/minecraft/CreatorSpaceSection';
 import ContactCampsiteSection from '../components/minecraft/ContactCampsiteSection';
 import FooterSection from '../components/minecraft/FooterSection';
 import SEO from '../components/SEO';
+import '../components/minecraft/world-sections.css';
 import { audioManager } from '../utils/audioManager';
 
 export default function MinecraftWorld() {
@@ -35,8 +36,10 @@ export default function MinecraftWorld() {
 
   const [activeSection, setActiveSection] = useState('hero');
   const [xpLevel, setXpLevel] = useState(25);
-  const [xpProgress, setXpProgress] = useState(10);
-  const [, setVisitedSections] = useState<Set<string>>(new Set(['hero']));
+  const [xpProgress, setXpProgress] = useState(0);
+  const visitedSections = useRef(new Set(['hero']));
+  const { scrollYProgress } = useScroll();
+  useMotionValueEvent(scrollYProgress, 'change', value => setXpProgress(Math.round(value * 100)));
 
   // Sync Day/Night mode class to documentElement
   useEffect(() => {
@@ -53,49 +56,29 @@ export default function MinecraftWorld() {
     } catch {}
   }, [isNight]);
 
-  // Section Observer for active hotbar slot & XP progress
+  // Award exploration once per section; keep side effects outside React state updaters.
   useEffect(() => {
-    const sectionIds = ['hero', 'about', 'projects', 'skills', 'achievements', 'creator', 'contact'];
-
-    const handleScroll = () => {
-      // Calculate overall scroll progress for XP bar
-      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const currentScroll = window.scrollY;
-      const progress = totalScroll > 0 ? (currentScroll / totalScroll) * 100 : 0;
-      setXpProgress(progress);
-
-      // Determine currently visible section
-      for (const id of sectionIds) {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= window.innerHeight * 0.45 && rect.bottom >= window.innerHeight * 0.25) {
-            setActiveSection(id);
-            setVisitedSections(prev => {
-              if (!prev.has(id)) {
-                const next = new Set(prev);
-                next.add(id);
-                // Level up bonus on discovering new area!
-                setXpLevel(lvl => lvl + 5);
-                audioManager.playItemPop();
-                return next;
-              }
-              return prev;
-            });
-            break;
-          }
+    const sections = document.querySelectorAll<HTMLElement>('main > section[id]');
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        const id = entry.target.id;
+        setActiveSection(id);
+        if (!visitedSections.current.has(id)) {
+          visitedSections.current.add(id);
+          setXpLevel(level => level + 5);
+          audioManager.playItemPop();
         }
       }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    }, { rootMargin: '-25% 0px -60% 0px' });
+    sections.forEach(section => observer.observe(section));
+    return () => observer.disconnect();
   }, []);
 
   const handleNavigate = (sectionId: string) => {
     const el = document.getElementById(sectionId);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      el.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
     }
   };
 
@@ -115,7 +98,8 @@ export default function MinecraftWorld() {
   };
 
   return (
-    <div className={`relative min-h-screen w-full transition-colors duration-700 ${isNight ? 'night-mode' : 'day-mode'}`}>
+    <MotionConfig reducedMotion="user">
+    <div className={`world-page relative min-h-screen w-full transition-colors duration-700 ${isNight ? 'night-mode' : 'day-mode'}`}>
       {/* SEO Metadata */}
       <SEO 
         title="Nikhil Bhadauriya | Minecraft Interactive Developer Portfolio"
@@ -131,11 +115,11 @@ export default function MinecraftWorld() {
 
       {/* Night mode floating Fireflies */}
       {isNight && (
-        <div className="fixed inset-0 pointer-events-none z-20 overflow-hidden">
+        <div aria-hidden="true" className="fixed inset-0 pointer-events-none z-20 overflow-hidden">
           {Array.from({ length: 18 }).map((_, i) => (
             <div
               key={i}
-              className="absolute w-2 h-2 rounded-full bg-[#55FF55] blur-[1px] animate-firefly opacity-70"
+              className="absolute w-[3px] h-[3px] rounded-full bg-[#d5e8a7] animate-firefly opacity-40"
               style={{
                 top: `${(i * 19 + 10) % 90}%`,
                 left: `${(i * 31 + 5) % 95}%`,
@@ -148,7 +132,7 @@ export default function MinecraftWorld() {
       )}
 
       {/* Main Content Sections */}
-      <main className="relative z-10 w-full flex flex-col">
+      <main inert={showLoading} className="relative z-10 w-full flex flex-col">
         {/* 1. Hero Landscape */}
         <HeroSection
           onExplore={() => handleNavigate('about')}
@@ -182,6 +166,7 @@ export default function MinecraftWorld() {
       </main>
 
       {/* 9. Hotbar Navigation (Fixed Bottom) */}
+      <div inert={showLoading}>
       <Hotbar
         activeSection={activeSection}
         onNavigate={handleNavigate}
@@ -190,6 +175,8 @@ export default function MinecraftWorld() {
         xpLevel={xpLevel}
         xpProgress={xpProgress}
       />
+      </div>
     </div>
+    </MotionConfig>
   );
 }

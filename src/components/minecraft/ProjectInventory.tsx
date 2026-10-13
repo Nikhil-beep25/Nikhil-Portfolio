@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PORTFOLIO_DATA, type Project } from '../../data/portfolio';
 import { MinecraftItemIcon, MinecraftTorch } from './PixelArt';
@@ -6,26 +7,77 @@ import { audioManager } from '../../utils/audioManager';
 
 export default function ProjectInventory() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
 
-  // Keyboard navigation & Escape to close
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && selectedProject) {
-        handleCloseProject();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedProject]);
-
-  const handleOpenProject = (project: Project) => {
-    audioManager.playChestOpen();
-    setSelectedProject(project);
-  };
-
-  const handleCloseProject = () => {
+  const handleCloseProject = useCallback(() => {
     audioManager.playChestClose();
     setSelectedProject(null);
+  }, []);
+
+  useEffect(() => {
+    if (!selectedProject || !dialogRef.current) return;
+
+    const dialog = dialogRef.current;
+    const previousOverflow = document.body.style.overflow;
+    const backgroundElements = Array.from(document.body.children)
+      .filter((element): element is HTMLElement => element instanceof HTMLElement && element !== dialog)
+      .map(element => ({ element, inert: element.inert }));
+
+    document.body.style.overflow = 'hidden';
+    backgroundElements.forEach(({ element }) => { element.inert = true; });
+
+    const getFocusableElements = () => Array.from(dialog.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )).filter(element => element.getClientRects().length > 0);
+
+    const focusFirstControl = () => (getFocusableElements()[0] || dialog).focus({ preventScroll: true });
+    focusFirstControl();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        e.stopPropagation();
+        handleCloseProject();
+      } else if (/^[1-9]$/.test(e.key)) {
+        // Global hotbar shortcuts must not navigate the background while inspecting a project.
+        e.stopPropagation();
+      } else if (e.key === 'Tab') {
+        const controls = getFocusableElements();
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (!first || !last) {
+          e.preventDefault();
+          dialog.focus();
+        } else if (e.shiftKey && (document.activeElement === first || document.activeElement === dialog)) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    const containFocus = (event: FocusEvent) => {
+      if (event.target instanceof Node && !dialog.contains(event.target)) focusFirstControl();
+    };
+
+    document.addEventListener('keydown', handleKeyDown, true);
+    document.addEventListener('focusin', containFocus);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown, true);
+      document.removeEventListener('focusin', containFocus);
+      document.body.style.overflow = previousOverflow;
+      backgroundElements.forEach(({ element, inert }) => { element.inert = inert; });
+      if (triggerRef.current?.isConnected) triggerRef.current.focus({ preventScroll: true });
+    };
+  }, [selectedProject, handleCloseProject]);
+
+  const handleOpenProject = (project: Project, trigger: HTMLElement) => {
+    triggerRef.current = trigger;
+    audioManager.playChestOpen();
+    setSelectedProject(project);
   };
 
   const getRarityBadge = (rarity?: string) => {
@@ -44,12 +96,12 @@ export default function ProjectInventory() {
   return (
     <section 
       id="projects" 
-      className="relative py-20 md:py-28 px-4 md:px-8 w-full z-10 overflow-hidden"
+      className="world-section relative py-20 md:py-28 px-4 md:px-8 w-full z-10 overflow-hidden"
     >
       <div className="max-w-6xl mx-auto space-y-10">
         
         {/* Section Header */}
-        <div className="text-center space-y-3">
+        <div className="section-heading text-center space-y-3">
           <div className="flex items-center justify-center gap-3">
             <MinecraftTorch size={24} />
             <h2 className="font-pixel text-2xl sm:text-3xl md:text-4xl text-white mc-text-shadow">
@@ -114,7 +166,10 @@ export default function ProjectInventory() {
                   {/* Action Buttons */}
                   <div className="flex flex-wrap gap-3 pt-1">
                     <button
-                      onClick={() => handleOpenProject(flagship)}
+                      type="button"
+                      aria-haspopup="dialog"
+                      aria-label={`Inspect ${flagship.title}`}
+                      onClick={event => handleOpenProject(flagship, event.currentTarget)}
                       className="mc-button mc-button-green px-5 py-2.5 text-xs font-pixel tracking-wider cursor-pointer"
                     >
                       [ OPEN CHEST 📦 ]
@@ -153,44 +208,47 @@ export default function ProjectInventory() {
               const badge = getRarityBadge(project.rarity);
 
               return (
-                <motion.div
+                <motion.button
                   key={project.id}
+                  type="button"
+                  aria-haspopup="dialog"
+                  aria-label={`Inspect ${project.title}`}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => handleOpenProject(project)}
+                  onClick={event => handleOpenProject(project, event.currentTarget)}
                   onMouseEnter={() => audioManager.playHover()}
                   className="mc-slot p-4 bg-stone-300 hover:bg-stone-200 cursor-pointer flex flex-col justify-between h-48 border-2 transition-all group"
                 >
                   {/* Top Bar with Icon & Rarity */}
-                  <div className="flex items-start justify-between">
-                    <div className="w-12 h-12 bg-stone-700 border-2 border-stone-900 flex items-center justify-center p-1 group-hover:border-amber-400 transition-colors">
+                  <span className="flex items-start justify-between">
+                    <span className="w-12 h-12 bg-stone-700 border-2 border-stone-900 flex items-center justify-center p-1 group-hover:border-amber-400 transition-colors">
                       <MinecraftItemIcon type={project.icon} size={32} />
-                    </div>
+                    </span>
                     <span className={`font-pixel text-[8px] ${badge.color} bg-black/60 px-1.5 py-0.5 border border-stone-700`}>
                       {badge.label}
                     </span>
-                  </div>
+                  </span>
 
                   {/* Project Info */}
-                  <div className="mt-2 text-left">
-                    <h4 className="font-pixel text-xs text-stone-900 group-hover:text-amber-800 transition-colors">
+                  <span className="mt-2 text-left">
+                    <span className="block font-pixel text-xs text-stone-900 group-hover:text-amber-800 transition-colors">
                       {project.title}
-                    </h4>
-                    <p className="font-body text-[11px] text-stone-600 line-clamp-2 mt-1 leading-snug">
+                    </span>
+                    <span className="font-body text-[11px] text-stone-600 line-clamp-2 mt-1 leading-snug">
                       {project.tagline}
-                    </p>
-                  </div>
+                    </span>
+                  </span>
 
                   {/* Bottom Tech summary */}
-                  <div className="flex items-center justify-between pt-2 border-t border-stone-400 mt-2">
+                  <span className="flex items-center justify-between pt-2 border-t border-stone-400 mt-2">
                     <span className="font-pixel-sub text-[9px] text-stone-700">
                       {project.tech.slice(0, 2).join(', ')}
                     </span>
                     <span className="font-pixel text-[8px] text-emerald-700 group-hover:translate-x-1 transition-transform">
                       [VIEW]
                     </span>
-                  </div>
-                </motion.div>
+                  </span>
+                </motion.button>
               );
             })}
           </div>
@@ -201,10 +259,12 @@ export default function ProjectInventory() {
       {/* ─────────────────────────────────────────────────────────────
           ACCESSIBLE CHEST DETAIL MODAL
           ───────────────────────────────────────────────────────────── */}
-      <AnimatePresence>
+      {createPortal(<AnimatePresence>
         {selectedProject && (
           <div 
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+            ref={dialogRef}
+            tabIndex={-1}
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm"
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-project-title"
@@ -213,10 +273,11 @@ export default function ProjectInventory() {
               initial={{ scale: 0.85, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.85, opacity: 0 }}
-              className="mc-panel-dark max-w-xl w-full p-6 sm:p-7 border-4 border-amber-400 shadow-2xl relative text-left space-y-5"
+              className="mc-panel-dark max-w-xl w-full max-h-[calc(100dvh-1.5rem)] overflow-y-auto overscroll-contain p-5 sm:p-7 border-4 border-amber-400 shadow-2xl relative text-left space-y-5"
             >
               {/* Close Button */}
               <button
+                type="button"
                 onClick={handleCloseProject}
                 className="absolute top-4 right-4 mc-button px-2.5 py-1 text-xs font-pixel text-white cursor-pointer"
                 aria-label="Close chest"
@@ -299,7 +360,7 @@ export default function ProjectInventory() {
             </motion.div>
           </div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>, document.body)}
 
     </section>
   );
