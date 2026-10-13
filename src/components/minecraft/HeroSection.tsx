@@ -4,7 +4,7 @@ import { ArrowDown, ArrowUpRight, Compass, CodeXml, Box } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../../data/portfolio';
 import { audioManager } from '../../utils/audioManager';
 import './hero.css';
-import EffectsMenu, { type EffectLevel } from './EffectsMenu';
+import { type EffectLevel } from './EffectsMenu';
 import './cinematic.css';
 import SceneFrame from '../world3d/SceneFrame';
 
@@ -14,13 +14,13 @@ interface HeroSectionProps {
   isNight: boolean;
   world3D: boolean;
   onToggle3D: () => void;
-  effects: EffectLevel;
-  onEffects: (value: EffectLevel) => void;
-  onReplay: () => void;
+  effects?: EffectLevel;
+  onEffects?: (value: EffectLevel) => void;
+  onReplay?: () => void;
   entrance: number;
 }
 
-export default function HeroSection({ onExplore, onViewProjects, isNight, world3D, onToggle3D, effects, onEffects, onReplay, entrance }: HeroSectionProps) {
+export default function HeroSection({ onExplore, onViewProjects, isNight, world3D, onToggle3D, effects = 'cinematic', entrance }: HeroSectionProps) {
   const scene = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: scene, offset: ['start start', 'end start'] });
@@ -92,7 +92,6 @@ export default function HeroSection({ onExplore, onViewProjects, isNight, world3
         </a>
         <div className="world-header-links">
           <button className="world-render-mode" aria-pressed={world3D} onClick={onToggle3D} title="Toggle interactive 3D scenes"><Box size={14}/>{world3D ? '3D world' : 'Lite mode'}</button>
-          <EffectsMenu value={effects} onChange={onEffects} onReplay={onReplay}/>
           <span className="world-time"><i />{isNight ? 'Moonlit hours' : 'Golden hours'}</span>
           <a href={socials.find(social => social.platform === 'GitHub')?.url} target="_blank" rel="noreferrer" aria-label="Nikhil on GitHub"><CodeXml size={17} /><span>GitHub</span></a>
           <a href={personal.resumeUrl} target="_blank" rel="noreferrer">Resume <ArrowUpRight size={16} /></a>

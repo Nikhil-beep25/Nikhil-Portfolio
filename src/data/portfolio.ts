@@ -93,7 +93,7 @@ export const PORTFOLIO_DATA = {
     email: "nikhilbhadauriya2500@gmail.com",
     whatsapp: "+91 80773 13959",
     whatsappUrl: "https://wa.me/918077313959",
-    location: "Agra & Noida, Uttar Pradesh, India",
+    location: "Noida, Uttar Pradesh, India",
     resumeUrl: "/resume/Nikhil_Bhadauriya_Resume.pdf",
     avatarImage: "/images/profile.jpg",
     avatarFallback: "/images/Nikhil Bhadauriya.png",
@@ -123,7 +123,7 @@ export const PORTFOLIO_DATA = {
       tech: ["React", "TypeScript", "Node.js", "Express", "PostgreSQL", "Tailwind CSS"],
       categories: ["Full Stack", "Civic Tech"],
       github: "https://github.com/Nikhil-beep25",
-      demo: "https://github.com/Nikhil-beep25",
+      demo: "https://nagriksetuai.vercel.app/",
       features: [
         "Citizen Grievance Portal",
         "Public Service Verification",
@@ -144,7 +144,7 @@ export const PORTFOLIO_DATA = {
       tech: ["React", "Node.js", "PostgreSQL", "Prisma ORM", "Express", "Docker"],
       categories: ["Full Stack", "SaaS"],
       github: "https://github.com/Nikhil-beep25/Nikhil-Portfolio",
-      demo: "https://github.com/Nikhil-beep25",
+      demo: "https://vidya-sanchar.vercel.app/",
       features: [
         "Role-Based Dashboards (Admin, Staff, Student)",
         "Attendance Logging & Records",
@@ -305,45 +305,6 @@ export const PORTFOLIO_DATA = {
       skillsGained: ["Python", "Generative AI", "Payment Gateways", "PostgreSQL", "RESTful APIs"],
       verificationLink: "https://github.com/Nikhil-beep25",
       advancementType: "challenge"
-    },
-    {
-      id: "adv-fcc",
-      title: "JavaScript Algorithms & Data Structures",
-      category: "Certification",
-      issuer: "freeCodeCamp Verified",
-      date: "Issued 2025",
-      badge: "📜 300+ ALGORITHMIC CHALLENGES",
-      icon: "enchanted_book",
-      description: "Rigorous verification in foundational and advanced computer science algorithms, complex data structures, and functional programming.",
-      skillsGained: ["Algorithms", "Data Structures", "OOP", "Recursion", "Big O Complexity"],
-      verificationLink: "https://github.com/Nikhil-beep25",
-      advancementType: "goal"
-    },
-    {
-      id: "adv-udemy",
-      title: "The Complete Web Developer Bootcamp",
-      category: "Certification",
-      issuer: "Udemy — Dr. Angela Yu",
-      date: "Issued 2025",
-      badge: "📜 FULL STACK MASTERY",
-      icon: "totem_of_undying",
-      description: "Mastered full-stack web development from fundamental frontend layouts to complex backend microservices, databases, and deployment.",
-      skillsGained: ["React.js", "Node.js", "Express.js", "MongoDB", "REST APIs", "JWT Auth"],
-      verificationLink: "https://github.com/Nikhil-beep25",
-      advancementType: "regular"
-    },
-    {
-      id: "adv-coursera",
-      title: "Python for Everybody Specialization",
-      category: "Certification",
-      issuer: "University of Michigan (Coursera)",
-      date: "Issued 2025",
-      badge: "📜 PYTHON & SQL ARCHITECTURE",
-      icon: "iron_pickaxe",
-      description: "Specialized programmatic series covering Python data structures, networked application programming, Web Scraping, REST APIs, and SQLite database engineering.",
-      skillsGained: ["Python 3", "SQLite Databases", "Web Scraping", "REST APIs", "JSON/XML Parsing"],
-      verificationLink: "https://github.com/Nikhil-beep25",
-      advancementType: "regular"
     },
     {
       id: "adv-dbrau",

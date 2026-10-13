@@ -199,7 +199,7 @@ export default function ContactCampsiteSection() {
                   aria-describedby={errors.name ? "contact-name-error" : undefined}
                   value={formData.name}
                   onChange={(e) => setFormData(p => ({ ...p, name: e.target.value }))}
-                  placeholder="e.g. Alex"
+                  placeholder="Nikhil"
                   className="w-full mc-slot px-3 py-2.5 font-body text-xs text-stone-900 bg-white placeholder-stone-400 outline-none focus:ring-2 focus:ring-amber-500"
                 />
                 {errors.name && (
@@ -221,7 +221,7 @@ export default function ContactCampsiteSection() {
                   aria-describedby={errors.email ? "contact-email-error" : undefined}
                   value={formData.email}
                   onChange={(e) => setFormData(p => ({ ...p, email: e.target.value }))}
-                  placeholder="alex@example.com"
+                  placeholder="nikhil.xyz@example.com"
                   className="w-full mc-slot px-3 py-2.5 font-body text-xs text-stone-900 bg-white placeholder-stone-400 outline-none focus:ring-2 focus:ring-amber-500"
                 />
                 {errors.email && (

@@ -51,7 +51,7 @@ export default function Hotbar({ activeSection, onNavigate, isNight, onToggleDay
     { id: 'achievements', label: 'Achievements', shortLabel: 'Awards', keyNum: 5, icon: Trophy, type: 'nav' },
     { id: 'creator', label: 'Creator', shortLabel: 'Creator', keyNum: 6, icon: Clapperboard, type: 'nav' },
     { id: 'contact', label: 'Contact', shortLabel: 'Contact', keyNum: 7, icon: Mail, type: 'nav' },
-    { id: 'sound', label: soundEnabled ? 'Turn sound effects off' : 'Turn sound effects on', shortLabel: soundEnabled ? 'SFX on' : 'SFX off', keyNum: 8, icon: soundEnabled ? Volume2 : VolumeX, type: 'action' },
+    { id: 'sound', label: soundEnabled ? 'Turn sound effects off' : 'Turn sound effects on', shortLabel: soundEnabled ? 'Sound on' : 'Sound off', keyNum: 8, icon: soundEnabled ? Volume2 : VolumeX, type: 'action' },
     { id: 'daynight', label: isNight ? 'Switch to day' : 'Switch to night', shortLabel: isNight ? 'Night' : 'Day', keyNum: 9, icon: isNight ? Moon : Sun, type: 'action' },
   ], [soundEnabled, isNight]);
 
@@ -141,7 +141,7 @@ export default function Hotbar({ activeSection, onNavigate, isNight, onToggleDay
           <div className="world-hotbar__settings" aria-label="World settings">
             {slots.filter(slot => slot.type === 'action').map(slot => renderSlot(slot, true))}
           </div>
-          <p className="world-hotbar__sound-note">Original sound effects · {soundEnabled ? 'enabled' : 'off until you enable them'}</p>
+          <p className="world-hotbar__sound-note">Minecraft sound effects · {soundEnabled ? 'enabled' : 'off until you enable them'}</p>
         </div>
       )}
       <div className="world-hotbar__status">

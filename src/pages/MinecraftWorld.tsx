@@ -26,11 +26,9 @@ export default function MinecraftWorld() {
     }
   });
 
-  const [effects, setEffects] = useState<EffectLevel>(() => {
-    try { const saved = localStorage.getItem('portfolio-effects'); return saved === 'calm' || saved === 'off' ? saved : 'cinematic'; } catch { return 'cinematic'; }
-  });
+  const effects: EffectLevel = 'cinematic';
   const [entrance, setEntrance] = useState(0);
-  useEffect(() => { try { localStorage.setItem('portfolio-effects', effects); } catch {} }, [effects]);
+  useEffect(() => { try { localStorage.setItem('portfolio-effects', 'cinematic'); } catch {} }, []);
 
   const [isNight, setIsNight] = useState(() => {
     try {
@@ -92,7 +90,7 @@ export default function MinecraftWorld() {
   const handleNavigate = (sectionId: string) => {
     const el = document.getElementById(sectionId);
     if (el) {
-      el.scrollIntoView({ behavior: effects === 'off' || window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+      el.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
     }
   };
 
@@ -113,7 +111,7 @@ export default function MinecraftWorld() {
   };
 
   return (
-    <MotionConfig reducedMotion={effects === 'off' ? 'always' : 'user'}>
+    <MotionConfig reducedMotion="user">
     <WorldSceneContext.Provider value={rendererReady && world3D}>
     <div data-effects={effects} data-3d={rendererReady && world3D ? 'ready' : 'fallback'} className={`world-page relative min-h-screen w-full transition-colors duration-700 ${isNight ? 'night-mode' : 'day-mode'}`}>
       {/* SEO Metadata */}
@@ -157,7 +155,6 @@ export default function MinecraftWorld() {
           world3D={world3D}
           onToggle3D={toggle3D}
           effects={effects}
-          onEffects={setEffects}
           entrance={entrance}
           onReplay={() => { document.getElementById('hero')?.scrollIntoView({behavior:'instant'}); setShowLoading(true); }}
         />
