@@ -178,25 +178,28 @@ export default function CraftingTableSection() {
 
             {/* Output Result Slot */}
             <div role="status" aria-live="polite" aria-atomic="true" className="md:col-span-5 flex flex-col items-center justify-center">
-              <div className="mc-slot w-24 h-24 sm:w-28 sm:h-28 flex flex-col items-center justify-center bg-stone-300 border-4 border-stone-900 p-2 shadow-2xl relative">
+              <div className="mc-slot w-28 sm:w-32 min-h-[7.5rem] sm:min-h-[8.5rem] flex flex-col items-center justify-center bg-stone-300 border-4 border-stone-900 p-2 sm:p-2.5 shadow-2xl relative">
                 {craftingResult ? (
                   <motion.div
                     initial={{ scale: 0.5, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="flex flex-col items-center text-center space-y-1"
+                    className="w-full flex flex-col items-center justify-center text-center space-y-1 min-w-0 px-1"
                   >
-                    <div className="animate-bounce">
-                      <MinecraftItemIcon type={craftingResult.icon} size={40} />
+                    <div className="animate-bounce shrink-0 mb-0.5">
+                      <MinecraftItemIcon type={craftingResult.icon} size={36} />
                     </div>
-                    <span className="font-pixel text-[10px] text-emerald-800 font-bold block">
+                    <span
+                      className="font-pixel text-[8.5px] sm:text-[9.5px] text-emerald-800 font-bold block w-full text-center leading-snug break-words min-w-0"
+                      style={{ overflowWrap: 'anywhere' }}
+                    >
                       {craftingResult.title}
                     </span>
-                    <span className="font-pixel-sub text-[8px] text-stone-600 block">
+                    <span className="font-pixel-sub text-[8px] text-stone-600 block tracking-wider uppercase">
                       [CRAFTED]
                     </span>
                   </motion.div>
                 ) : (
-                  <span className="font-pixel text-[9px] text-stone-500 text-center">
+                  <span className="font-pixel text-[9px] text-stone-500 text-center px-2">
                     NO RECIPE FORGED
                   </span>
                 )}
@@ -209,11 +212,11 @@ export default function CraftingTableSection() {
 
               {/* Result explanation box */}
               {craftingResult && (
-                <div className="mt-3 mc-panel-dark p-3 text-left w-full">
-                  <span className="font-pixel text-[9px] text-amber-300 block">
+                <div className="mt-3 mc-panel-dark p-3 text-left w-full max-w-sm">
+                  <span className="font-pixel text-[9px] text-amber-300 block break-words">
                     {craftingResult.type}:
                   </span>
-                  <p className="font-body text-xs text-stone-200 mt-0.5">
+                  <p className="font-body text-xs text-stone-200 mt-0.5 leading-relaxed break-words">
                     {craftingResult.desc}
                   </p>
                 </div>
@@ -283,18 +286,18 @@ export default function CraftingTableSection() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleSelectSkill(skill)}
-                className="mc-slot p-3 bg-stone-300 hover:bg-stone-200 cursor-pointer flex flex-col items-center justify-between h-32 text-center group border-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="mc-slot p-2.5 sm:p-3 bg-stone-300 hover:bg-stone-200 cursor-pointer flex flex-col items-center justify-between min-h-[8rem] h-auto text-center group border-2 disabled:opacity-50 disabled:cursor-not-allowed min-w-0"
                 title={`Add ${skill.name} to crafting workbench`}
               >
-                <span className="w-10 h-10 bg-stone-700 border-2 border-stone-900 flex items-center justify-center p-1 group-hover:border-emerald-400">
+                <span className="w-10 h-10 bg-stone-700 border-2 border-stone-900 flex items-center justify-center p-1 group-hover:border-emerald-400 shrink-0">
                   <MinecraftItemIcon type={skill.minecraftItem} size={24} />
                 </span>
 
-                <span className="mt-1">
-                  <span className="block font-pixel text-[10px] text-stone-900 group-hover:text-emerald-800">
+                <span className="mt-1 w-full min-w-0">
+                  <span className="block font-pixel text-[10px] text-stone-900 group-hover:text-emerald-800 break-words leading-tight">
                     {skill.name}
                   </span>
-                  <span className="font-pixel text-[8px] text-stone-600">
+                  <span className="font-pixel text-[8px] text-stone-600 block mt-0.5">
                     LVL {skill.level}%
                   </span>
                 </span>

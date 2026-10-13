@@ -4,7 +4,7 @@ import React from 'react';
 
 // 1. Minecraft Torch with animated flame
 export const MinecraftTorch: React.FC<{ size?: number; className?: string }> = ({ size = 28, className = "" }) => (
-  <div className={`relative inline-flex flex-col items-center ${className}`} style={{ width: size, height: size * 1.5 }}>
+  <div className={`relative inline-flex flex-col items-center shrink-0 ${className}`} style={{ width: size, height: size * 1.5 }}>
     {/* Flame glow */}
     <div className="absolute -top-2 w-6 h-6 rounded-full bg-amber-400/30 blur-sm animate-pulse pointer-events-none" />
     {/* Pixel Flame */}

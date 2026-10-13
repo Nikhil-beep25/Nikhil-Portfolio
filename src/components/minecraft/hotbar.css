@@ -112,6 +112,10 @@
   .world-hotbar__slot--expanded[data-active="true"]::after { width: 3px; height: 12px; top: 50%; bottom: auto; left: auto; right: 10px; transform: translateY(-50%); }
 }
 
+@media (max-width: 360px) {
+  .world-hotbar__label { font-size: 8px; letter-spacing: -0.02em; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .world-hotbar__slot, .world-hotbar__xp > span { transition: none; }
 }

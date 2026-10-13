@@ -47,7 +47,7 @@ export default function AchievementsSection() {
             initial={{ y: -80, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -80, opacity: 0 }}
-            className="fixed top-6 right-6 z-50 mc-panel-dark p-4 border-4 border-amber-400 shadow-2xl flex items-center gap-4 max-w-sm pointer-events-auto"
+            className="fixed top-6 right-4 left-4 sm:left-auto sm:right-6 z-50 mc-panel-dark p-4 border-4 border-amber-400 shadow-2xl flex items-center gap-4 max-w-sm pointer-events-auto"
           >
             <div className="w-12 h-12 bg-amber-950 border-2 border-amber-400 flex items-center justify-center p-1 shrink-0 animate-bounce">
               <MinecraftItemIcon type={unlockedToast.icon} size={32} />
@@ -87,9 +87,9 @@ export default function AchievementsSection() {
 
         {/* Advancements Tree Panel */}
         <div className="mc-panel-dark p-6 sm:p-8 border-4 border-stone-700 shadow-2xl space-y-6">
-          <div className="flex items-center justify-between border-b-2 border-stone-700 pb-3">
-            <span className="font-pixel text-xs text-amber-300">
-              ADVANCEMENT TREE (Explore each milestone)
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-stone-700 pb-3">
+            <span className="font-pixel text-[10.5px] sm:text-xs text-amber-300 leading-snug">
+              ADVANCEMENT TREE <span className="font-pixel-sub text-[9px] text-amber-200/80 block sm:inline">(Explore each milestone)</span>
             </span>
             <span className="font-pixel text-[9px] text-emerald-400">
               {PORTFOLIO_DATA.achievements.length} MILESTONES
@@ -147,7 +147,7 @@ export default function AchievementsSection() {
                   </div>
 
                   {/* Unlock Button / Link */}
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
                     <button type="button" className="achievement-unlock font-pixel-sub text-[10px] text-amber-300 hover:text-amber-100" onClick={() => handleUnlock(ach)} aria-label={`Unlock ${ach.title}`}>
                       UNLOCK ACHIEVEMENT ↗
                     </button>

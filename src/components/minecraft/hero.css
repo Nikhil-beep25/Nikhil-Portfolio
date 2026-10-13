@@ -59,10 +59,11 @@
 @media(prefers-reduced-motion:reduce){.hero-depth,.hero-near-depth{transform:none!important}}
 
 @media(max-width:365px){
+ .world-header{padding:16px 14px;gap:8px}
  .hero-world{min-height:780px}
- .hero-copy{margin-top:20px;margin-bottom:280px}
- .hero-copy h1 span{font-size:50px}
- .hero-copy h1 strong{font-size:31px}
+ .hero-copy{padding:0 18px;margin-top:20px;margin-bottom:280px}
+ .hero-copy h1 span{font-size:46px}
+ .hero-copy h1 strong{font-size:29px}
  .hero-actions{max-width:none;gap:8px}
  .world-button{width:auto;flex:1;padding:0 8px;gap:6px;font-size:10px;justify-content:center}
  .world-button-primary svg:last-child{display:none}

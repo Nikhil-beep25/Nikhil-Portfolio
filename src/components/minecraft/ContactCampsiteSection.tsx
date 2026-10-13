@@ -113,32 +113,32 @@ export default function ContactCampsiteSection() {
 
             {/* Direct Contact Links */}
             <div className="space-y-3 font-body text-xs">
-              <div className="mc-panel-dark p-3 flex items-center justify-between">
-                <div>
+              <div className="mc-panel-dark p-3 flex items-center justify-between gap-2 min-w-0">
+                <div className="min-w-0">
                   <span className="font-pixel text-[9px] text-[#4AEDD9] block">DIRECT EMAIL</span>
-                  <a href={`mailto:${PORTFOLIO_DATA.personal.email}`} className="text-stone-300 hover:text-white transition-colors">
+                  <a href={`mailto:${PORTFOLIO_DATA.personal.email}`} className="text-stone-300 hover:text-white transition-colors block break-all text-xs">
                     {PORTFOLIO_DATA.personal.email}
                   </a>
                 </div>
-                <span>📧</span>
+                <span className="shrink-0 text-base">📧</span>
               </div>
 
-              <div className="mc-panel-dark p-3 flex items-center justify-between">
-                <div>
+              <div className="mc-panel-dark p-3 flex items-center justify-between gap-2 min-w-0">
+                <div className="min-w-0">
                   <span className="font-pixel text-[9px] text-[#55FF55] block">WHATSAPP / PHONE</span>
-                  <a href={PORTFOLIO_DATA.personal.whatsappUrl} target="_blank" rel="noreferrer" className="text-stone-300 hover:text-white transition-colors">
+                  <a href={PORTFOLIO_DATA.personal.whatsappUrl} target="_blank" rel="noreferrer" className="text-stone-300 hover:text-white transition-colors block break-words text-xs">
                     {PORTFOLIO_DATA.personal.whatsapp}
                   </a>
                 </div>
-                <span>💬</span>
+                <span className="shrink-0 text-base">💬</span>
               </div>
 
-              <div className="mc-panel-dark p-3 flex items-center justify-between">
-                <div>
+              <div className="mc-panel-dark p-3 flex items-center justify-between gap-2 min-w-0">
+                <div className="min-w-0">
                   <span className="font-pixel text-[9px] text-amber-300 block">BASE LOCATION</span>
-                  <span className="text-stone-300">{PORTFOLIO_DATA.personal.location}</span>
+                  <span className="text-stone-300 block break-words text-xs">{PORTFOLIO_DATA.personal.location}</span>
                 </div>
-                <span>📍</span>
+                <span className="shrink-0 text-base">📍</span>
               </div>
             </div>
           </motion.div>
@@ -150,8 +150,8 @@ export default function ContactCampsiteSection() {
             viewport={{ once: true }}
             className="lg:col-span-7 mc-panel p-6 sm:p-8 space-y-5 text-stone-900 shadow-2xl text-left"
           >
-            <div className="border-b-2 border-stone-400 pb-3 flex items-center justify-between">
-              <span className="font-pixel text-xs sm:text-sm text-stone-900">
+            <div className="border-b-2 border-stone-400 pb-3 flex flex-wrap items-center justify-between gap-2">
+              <span className="font-pixel text-[10.5px] sm:text-sm text-stone-900 leading-snug">
                 DISPATCH SCROLL TO NIKHIL
               </span>
               <span className="font-pixel-sub text-[10px] text-emerald-800">

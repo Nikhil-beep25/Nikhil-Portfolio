@@ -141,11 +141,11 @@ export default function ProjectInventory() {
                   <div className="mc-slot w-20 h-20 flex items-center justify-center bg-stone-800 border-4 border-amber-400/40 p-2 shadow-inner">
                     <MinecraftItemIcon type={flagship.icon} size={48} />
                   </div>
-                  <div>
-                    <h3 className="font-pixel text-xl sm:text-2xl text-white mc-text-shadow">
+                  <div className="min-w-0 w-full">
+                    <h3 className="font-pixel text-xl sm:text-2xl text-white mc-text-shadow break-words">
                       {flagship.title}
                     </h3>
-                    <p className="font-pixel-sub text-xs text-amber-300 mt-1">
+                    <p className="font-pixel-sub text-xs text-amber-300 mt-1 break-words">
                       {flagship.tagline}
                     </p>
                   </div>
@@ -195,8 +195,8 @@ export default function ProjectInventory() {
 
         {/* ── Main Minecraft Chest Inventory Grid ── */}
         <div className="mc-panel p-6 sm:p-8 space-y-4 shadow-2xl">
-          <div className="flex items-center justify-between border-b-2 border-stone-500 pb-2">
-            <span className="font-pixel text-xs sm:text-sm text-stone-900 flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-stone-500 pb-2">
+            <span className="font-pixel text-xs sm:text-sm text-stone-900 flex flex-wrap items-center gap-2">
               <span>CHEST INVENTORY</span>
               <span className="text-[10px] font-pixel-sub text-stone-600">(Click any item to inspect)</span>
             </span>
@@ -220,24 +220,24 @@ export default function ProjectInventory() {
                   whileTap={{ scale: 0.98 }}
                   onClick={event => handleOpenProject(project, event.currentTarget)}
                   onMouseEnter={() => audioManager.playHover()}
-                  className="mc-slot p-4 bg-stone-300 hover:bg-stone-200 cursor-pointer flex flex-col justify-between h-48 border-2 transition-all group"
+                  className="mc-slot p-4 bg-stone-300 hover:bg-stone-200 cursor-pointer flex flex-col justify-between min-h-[12rem] h-auto border-2 transition-all group min-w-0"
                 >
                   {/* Top Bar with Icon & Rarity */}
                   <span className="flex items-start justify-between">
-                    <span className="w-12 h-12 bg-stone-700 border-2 border-stone-900 flex items-center justify-center p-1 group-hover:border-amber-400 transition-colors">
+                    <span className="w-12 h-12 bg-stone-700 border-2 border-stone-900 flex items-center justify-center p-1 group-hover:border-amber-400 transition-colors shrink-0">
                       <MinecraftItemIcon type={project.icon} size={32} />
                     </span>
-                    <span className={`font-pixel text-[8px] ${badge.color} bg-black/60 px-1.5 py-0.5 border border-stone-700`}>
+                    <span className={`font-pixel text-[8px] ${badge.color} bg-black/60 px-1.5 py-0.5 border border-stone-700 shrink-0`}>
                       {badge.label}
                     </span>
                   </span>
 
                   {/* Project Info */}
-                  <span className="mt-2 text-left">
-                    <span className="block font-pixel text-xs text-stone-900 group-hover:text-amber-800 transition-colors">
+                  <span className="mt-2 text-left w-full min-w-0">
+                    <span className="block font-pixel text-xs text-stone-900 group-hover:text-amber-800 transition-colors break-words">
                       {project.title}
                     </span>
-                    <span className="font-body text-[11px] text-stone-600 line-clamp-2 mt-1 leading-snug">
+                    <span className="font-body text-[11px] text-stone-600 line-clamp-2 mt-1 leading-snug break-words">
                       {project.tagline}
                     </span>
                   </span>
@@ -293,11 +293,11 @@ export default function ProjectInventory() {
                 <div className="w-14 h-14 bg-stone-800 border-2 border-amber-400 p-2 flex items-center justify-center shrink-0">
                   <MinecraftItemIcon type={selectedProject.icon} size={40} />
                 </div>
-                <div>
-                  <h3 id="modal-project-title" className="font-pixel text-lg sm:text-xl text-white mc-text-shadow">
+                <div className="min-w-0">
+                  <h3 id="modal-project-title" className="font-pixel text-lg sm:text-xl text-white mc-text-shadow break-words">
                     {selectedProject.title}
                   </h3>
-                  <p className="font-pixel-sub text-xs text-amber-300 mt-0.5">
+                  <p className="font-pixel-sub text-xs text-amber-300 mt-0.5 break-words">
                     {selectedProject.tagline}
                   </p>
                 </div>

@@ -48,13 +48,13 @@ export default function CreatorSpaceSection() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => audioManager.playClick()}
-              className="mc-button mc-button-wood p-4 flex flex-col items-center justify-center text-center space-y-1"
+              className="mc-button mc-button-wood p-3 sm:p-4 flex flex-col items-center justify-center text-center space-y-1 w-full min-w-0"
             >
-              <span className="text-2xl">{getPlatformIcon(soc.platform)}</span>
-              <span className="font-pixel text-xs text-white mc-text-shadow">
+              <span className="text-xl sm:text-2xl shrink-0">{getPlatformIcon(soc.platform)}</span>
+              <span className="font-pixel text-[10px] sm:text-xs text-white mc-text-shadow break-words">
                 {soc.platform}
               </span>
-              <span className="font-pixel-sub text-[10px] text-amber-200">
+              <span className="font-pixel-sub text-[9px] sm:text-[10px] text-amber-200 truncate max-w-full">
                 {soc.handle}
               </span>
             </motion.a>
@@ -63,8 +63,8 @@ export default function CreatorSpaceSection() {
 
         {/* Content Cards Styled as Minecraft Paintings / Screens */}
         <div className="mc-panel p-6 sm:p-8 space-y-6 shadow-2xl">
-          <div className="flex items-center justify-between border-b-2 border-stone-400 pb-3">
-            <span className="font-pixel text-xs sm:text-sm text-stone-900">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-stone-400 pb-3">
+            <span className="font-pixel text-[10.5px] sm:text-sm text-stone-900 leading-snug">
               FEATURED BROADCASTS & FEEDS
             </span>
             <span className="font-pixel text-[9px] text-emerald-800">
@@ -76,10 +76,10 @@ export default function CreatorSpaceSection() {
             {PORTFOLIO_DATA.creatorContent.map((item) => (
               <div 
                 key={item.id}
-                className="mc-slot p-5 bg-stone-200 hover:bg-stone-100 flex flex-col justify-between transition-colors border-2 text-left space-y-3"
+                className="mc-slot p-4 sm:p-5 bg-stone-200 hover:bg-stone-100 flex flex-col justify-between transition-colors border-2 text-left space-y-3 min-w-0"
               >
-                <div>
-                  <div className="flex items-center justify-between mb-2">
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                     <span className="font-pixel text-[9px] text-stone-900 bg-stone-300 border border-stone-500 px-2 py-0.5">
                       {getPlatformIcon(item.platform)} {item.platform}
                     </span>
@@ -88,16 +88,16 @@ export default function CreatorSpaceSection() {
                     </span>
                   </div>
 
-                  <h3 className="font-pixel text-xs text-stone-900 font-bold leading-snug">
+                  <h3 className="font-pixel text-xs text-stone-900 font-bold leading-snug break-words">
                     {item.title}
                   </h3>
 
-                  <p className="font-body text-xs text-stone-600 mt-2 leading-relaxed">
+                  <p className="font-body text-xs text-stone-600 mt-2 leading-relaxed break-words">
                     {item.description}
                   </p>
                 </div>
 
-                <div className="pt-2 border-t border-stone-400 flex items-center justify-between">
+                <div className="pt-2 border-t border-stone-400 flex flex-wrap items-center justify-between gap-2">
                   <span className="font-pixel-sub text-[10px] text-stone-600">
                     Visit Official Stream
                   </span>
