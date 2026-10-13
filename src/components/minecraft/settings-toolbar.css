@@ -1,0 +1,123 @@
+/* Minecraft-inspired vertical settings toolbar (Sound & Day/Night) */
+.world-settings-toolbar {
+  position: fixed;
+  z-index: 40;
+  right: max(18px, env(safe-area-inset-right, 0px));
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-pixel-sub, monospace);
+  color: #e8e3ce;
+  isolation: isolate;
+  pointer-events: auto;
+}
+
+.world-settings-toolbar__frame {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 5px;
+  background: #292c22f5;
+  border: 1px solid #827963;
+  outline: 2px solid #101710;
+  box-shadow: inset 0 1px 0 #c9b98e38, inset 0 -2px 0 #0b0e0b, 0 10px 30px #0005;
+}
+
+.world-settings-toolbar__slot {
+  position: relative;
+  display: flex;
+  min-width: 56px;
+  min-height: 56px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 6px 5px;
+  color: #c7c9b9;
+  background: #20271e;
+  border: 1px solid #4e5544;
+  box-shadow: inset 1px 1px 0 #0007, inset -1px -1px 0 #c1b78b12;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: color 160ms ease, background 160ms ease, border-color 160ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.world-settings-toolbar__slot:hover {
+  background: #323c2b;
+  border-color: #9caa7b;
+  color: #fff5da;
+}
+
+.world-settings-toolbar__slot:active {
+  background: #182017;
+}
+
+.world-settings-toolbar__slot:focus-visible {
+  outline: 2px solid #f4d18c;
+  outline-offset: 3px;
+  z-index: 1;
+}
+
+.world-settings-toolbar__slot[aria-pressed="true"] {
+  color: #f4e7bd;
+  background: #465039;
+  border-color: #d7c490;
+  box-shadow: inset 0 0 0 1px #e5d2a459, 0 0 9px #d1c58517;
+}
+
+.world-settings-toolbar__slot[aria-pressed="true"]::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 28%;
+  right: 28%;
+  height: 2px;
+  background: #e0d49e;
+}
+
+.world-settings-toolbar__icon {
+  flex-shrink: 0;
+  filter: drop-shadow(1px 2px 0 #101510);
+}
+
+.world-settings-toolbar__label {
+  font-size: 8px;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+/* Tablet adjustments */
+@media (max-width: 1024px) and (min-width: 700px) {
+  .world-settings-toolbar {
+    right: max(12px, env(safe-area-inset-right, 0px));
+  }
+}
+
+/* Mobile compact layout near upper-right edge */
+@media (max-width: 699px) {
+  .world-settings-toolbar {
+    top: max(78px, calc(env(safe-area-inset-top, 0px) + 68px));
+    right: max(10px, env(safe-area-inset-right, 0px));
+    transform: none;
+  }
+  .world-settings-toolbar__frame {
+    gap: 3px;
+    padding: 4px;
+  }
+  .world-settings-toolbar__slot {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 4px;
+  }
+  .world-settings-toolbar__label {
+    font-size: 7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-settings-toolbar__slot {
+    transition: none;
+  }
+}

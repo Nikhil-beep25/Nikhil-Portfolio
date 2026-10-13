@@ -3,7 +3,7 @@
   z-index: 40;
   bottom: max(18px, env(safe-area-inset-bottom, 0px));
   left: 50%;
-  width: min(650px, calc(100vw - 32px));
+  width: min(510px, calc(100vw - 32px));
   transform: translateX(-50%);
   color: #e8e3ce;
   font-family: var(--font-pixel-sub, monospace);
@@ -39,7 +39,7 @@
 
 .world-hotbar__frame {
   display: grid;
-  grid-template-columns: repeat(9, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 4px;
   padding: 5px;
   background: #292c22f5;
@@ -110,10 +110,6 @@
   .world-hotbar__slot--expanded { min-height: 44px; flex-direction: row; justify-content: flex-start; gap: 12px; padding: 9px 12px; }
   .world-hotbar__slot--expanded .world-hotbar__label { font-size: 10px; }
   .world-hotbar__slot--expanded[data-active="true"]::after { width: 3px; height: 12px; top: 50%; bottom: auto; left: auto; right: 10px; transform: translateY(-50%); }
-  .world-hotbar__settings { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 9px; padding-top: 9px; border-top: 1px solid #69755a55; }
-  .world-hotbar__settings .world-hotbar__slot--expanded { justify-content: center; gap: 8px; padding: 9px 5px; }
-  .world-hotbar__settings .world-hotbar__label { font-size: 9px; }
-  .world-hotbar__sound-note { margin: 10px 0 0; color: #b3b9a6; font-family: var(--font-body, sans-serif); font-size: 10px; line-height: 1.5; text-align: center; }
 }
 
 @media (prefers-reduced-motion: reduce) {

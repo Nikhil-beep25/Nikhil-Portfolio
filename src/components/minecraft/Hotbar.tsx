@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo, useCallback, useId, useRef } from 'react';
-import { Compass, UserRound, Box, Pickaxe, Trophy, Clapperboard, Mail, Volume2, VolumeX, Sun, Moon, Grid2X2, X } from 'lucide-react';
+import { useEffect, useMemo, useCallback, useId, useRef, useState } from 'react';
+import { Compass, UserRound, Box, Pickaxe, Trophy, Clapperboard, Mail, Grid2X2, X } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { audioManager } from '../../utils/audioManager';
 import './hotbar.css';
@@ -7,8 +7,8 @@ import './hotbar.css';
 interface HotbarProps {
   activeSection: string;
   onNavigate: (sectionId: string) => void;
-  isNight: boolean;
-  onToggleDayNight: () => void;
+  isNight?: boolean;
+  onToggleDayNight?: () => void;
   xpLevel: number;
   xpProgress: number;
 }
@@ -19,7 +19,7 @@ interface HotbarSlot {
   shortLabel: string;
   keyNum: number;
   icon: LucideIcon;
-  type: 'nav' | 'action';
+  type: 'nav';
 }
 
 const MOBILE_SECTIONS = ['hero', 'projects', 'skills', 'contact'];
@@ -35,8 +35,7 @@ function shortcutsAreBlocked(target: EventTarget | null) {
   )).some(element => element.getClientRects().length > 0 && getComputedStyle(element).visibility !== 'hidden');
 }
 
-export default function Hotbar({ activeSection, onNavigate, isNight, onToggleDayNight, xpLevel, xpProgress }: HotbarProps) {
-  const [soundEnabled, setSoundEnabled] = useState(() => audioManager.getSoundEnabled());
+export default function Hotbar({ activeSection, onNavigate, xpLevel, xpProgress }: HotbarProps) {
   const [moreOpen, setMoreOpen] = useState(false);
   const panelId = useId();
   const navRef = useRef<HTMLElement>(null);
@@ -51,22 +50,15 @@ export default function Hotbar({ activeSection, onNavigate, isNight, onToggleDay
     { id: 'achievements', label: 'Achievements', shortLabel: 'Awards', keyNum: 5, icon: Trophy, type: 'nav' },
     { id: 'creator', label: 'Creator', shortLabel: 'Creator', keyNum: 6, icon: Clapperboard, type: 'nav' },
     { id: 'contact', label: 'Contact', shortLabel: 'Contact', keyNum: 7, icon: Mail, type: 'nav' },
-    { id: 'sound', label: soundEnabled ? 'Turn sound effects off' : 'Turn sound effects on', shortLabel: soundEnabled ? 'Sound on' : 'Sound off', keyNum: 8, icon: soundEnabled ? Volume2 : VolumeX, type: 'action' },
-    { id: 'daynight', label: isNight ? 'Switch to day' : 'Switch to night', shortLabel: isNight ? 'Night' : 'Day', keyNum: 9, icon: isNight ? Moon : Sun, type: 'action' },
-  ], [soundEnabled, isNight]);
+  ], []);
 
   const handleSlotClick = useCallback((slot: HotbarSlot) => {
     if (slot.type === 'nav') {
       audioManager.playSelect();
       setMoreOpen(false);
       onNavigate(slot.id);
-    } else if (slot.id === 'sound') {
-      setSoundEnabled(audioManager.toggleSound());
-    } else {
-      audioManager.playCelestialChime();
-      onToggleDayNight();
     }
-  }, [onNavigate, onToggleDayNight]);
+  }, [onNavigate]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -76,7 +68,7 @@ export default function Hotbar({ activeSection, onNavigate, isNight, onToggleDay
         return;
       }
       if (event.defaultPrevented || event.repeat || event.isComposing || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || shortcutsAreBlocked(event.target)) return;
-      if (!/^[1-9]$/.test(event.key)) return;
+      if (!/^[1-7]$/.test(event.key)) return;
       const slot = slots.find(item => item.keyNum === Number(event.key));
       if (slot) {
         event.preventDefault();
@@ -103,23 +95,22 @@ export default function Hotbar({ activeSection, onNavigate, isNight, onToggleDay
 
   const renderSlot = (slot: HotbarSlot, expanded = false) => {
     const Icon = slot.icon;
-    const selected = slot.type === 'nav' && activeSection === slot.id;
+    const selected = activeSection === slot.id;
     return (
       <button
         key={slot.id}
         type="button"
-        className={`world-hotbar__slot${expanded ? ' world-hotbar__slot--expanded' : ''}${slot.type === 'action' ? ' world-hotbar__slot--action' : ''}`}
+        className={`world-hotbar__slot${expanded ? ' world-hotbar__slot--expanded' : ''}`}
         data-active={selected || undefined}
         onClick={() => handleSlotClick(slot)}
         onMouseEnter={() => audioManager.playHover()}
         aria-label={slot.label}
         aria-current={selected ? 'location' : undefined}
-        aria-pressed={slot.id === 'sound' ? soundEnabled : slot.id === 'daynight' ? isNight : undefined}
         aria-keyshortcuts={String(slot.keyNum)}
         title={`${slot.label} · ${slot.keyNum}`}
       >
         <Icon aria-hidden="true" className="world-hotbar__icon" size={21} strokeWidth={1.65} />
-        <span className="world-hotbar__label">{expanded && slot.type === 'nav' ? slot.label : slot.shortLabel}</span>
+        <span className="world-hotbar__label">{expanded ? slot.label : slot.shortLabel}</span>
         <span className="world-hotbar__key" aria-hidden="true">{slot.keyNum}</span>
       </button>
     );
@@ -128,7 +119,7 @@ export default function Hotbar({ activeSection, onNavigate, isNight, onToggleDay
   return (
     <nav ref={navRef} className="world-hotbar" aria-label="World navigation">
       {moreOpen && (
-        <div ref={panelRef} id={panelId} className="world-hotbar__more-panel" role="region" aria-label="More destinations and settings">
+        <div ref={panelRef} id={panelId} className="world-hotbar__more-panel" role="region" aria-label="More destinations">
           <div className="world-hotbar__panel-heading">
             <span>Explore the world</span>
             <button type="button" className="world-hotbar__close" aria-label="Close more navigation" onClick={() => { setMoreOpen(false); moreButtonRef.current?.focus(); }}>
@@ -136,12 +127,8 @@ export default function Hotbar({ activeSection, onNavigate, isNight, onToggleDay
             </button>
           </div>
           <div className="world-hotbar__extra-nav">
-            {slots.filter(slot => slot.type === 'nav' && !MOBILE_SECTIONS.includes(slot.id)).map(slot => renderSlot(slot, true))}
+            {slots.filter(slot => !MOBILE_SECTIONS.includes(slot.id)).map(slot => renderSlot(slot, true))}
           </div>
-          <div className="world-hotbar__settings" aria-label="World settings">
-            {slots.filter(slot => slot.type === 'action').map(slot => renderSlot(slot, true))}
-          </div>
-          <p className="world-hotbar__sound-note">Minecraft sound effects · {soundEnabled ? 'enabled' : 'off until you enable them'}</p>
         </div>
       )}
       <div className="world-hotbar__status">

@@ -3,6 +3,7 @@ import { AnimatePresence, MotionConfig, useScroll, useMotionValueEvent } from 'f
 import type { EffectLevel } from '../components/minecraft/EffectsMenu';
 import LoadingScreen from '../components/minecraft/LoadingScreen';
 import Hotbar from '../components/minecraft/Hotbar';
+import SettingsToolbar from '../components/minecraft/SettingsToolbar';
 import HeroSection from '../components/minecraft/HeroSection';
 import AboutSection from '../components/minecraft/AboutSection';
 import ProjectInventory from '../components/minecraft/ProjectInventory';
@@ -186,15 +187,17 @@ export default function MinecraftWorld() {
 
       <WorldEnhancement effects={effects} night={isNight} enabled={world3D && !showLoading} onStatus={setRendererReady}/>
 
-      {/* 9. Hotbar Navigation (Fixed Bottom) */}
+      {/* 9. Hotbar Navigation (Fixed Bottom) & Right Settings Toolbar */}
       <div inert={showLoading}>
       <Hotbar
         activeSection={activeSection}
         onNavigate={handleNavigate}
-        isNight={isNight}
-        onToggleDayNight={handleToggleDayNight}
         xpLevel={xpLevel}
         xpProgress={xpProgress}
+      />
+      <SettingsToolbar
+        isNight={isNight}
+        onToggleDayNight={handleToggleDayNight}
       />
       </div>
     </div>
