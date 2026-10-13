@@ -1,3 +1,4 @@
+import SceneFrame from '../world3d/SceneFrame';
 import { motion } from 'framer-motion';
 import { PORTFOLIO_DATA } from '../../data/portfolio';
 import { MinecraftTorch } from './PixelArt';
@@ -20,6 +21,8 @@ export default function CreatorSpaceSection() {
     >
       <div className="max-w-6xl mx-auto space-y-10">
         
+        <SceneFrame kind="portal" />
+
         {/* Section Header */}
         <div className="section-heading text-center space-y-3">
           <div className="flex items-center justify-center gap-3">

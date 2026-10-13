@@ -1,24 +1,24 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
-import { ArrowDown, ArrowUpRight, Compass, CodeXml } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, Compass, CodeXml, Box } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../../data/portfolio';
 import { audioManager } from '../../utils/audioManager';
 import './hero.css';
+import SceneFrame from '../world3d/SceneFrame';
 
 interface HeroSectionProps {
   onExplore: () => void;
   onViewProjects: () => void;
   isNight: boolean;
+  world3D: boolean;
+  onToggle3D: () => void;
 }
 
-export default function HeroSection({ onExplore, onViewProjects, isNight }: HeroSectionProps) {
+export default function HeroSection({ onExplore, onViewProjects, isNight, world3D, onToggle3D }: HeroSectionProps) {
   const scene = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: scene, offset: ['start start', 'end start'] });
   const landscapeY = useTransform(scrollYProgress, [0, 1], ['0%', '12%']);
-  const foregroundY = useTransform(scrollYProgress, [0, 1], ['0%', '-4%']);
-  const greetingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [greeting, setGreeting] = useState(false);
   const { personal, socials } = PORTFOLIO_DATA;
 
   useEffect(() => {
@@ -64,14 +64,6 @@ export default function HeroSection({ onExplore, onViewProjects, isNight }: Hero
     };
   }, []);
 
-  useEffect(() => () => { if (greetingTimer.current) clearTimeout(greetingTimer.current); }, []);
-  const greet = () => {
-    setGreeting(true);
-    audioManager.playSelect();
-    if (greetingTimer.current) clearTimeout(greetingTimer.current);
-    greetingTimer.current = setTimeout(() => setGreeting(false), 4000);
-  };
-
   return (
     <section id="hero" ref={scene} className="hero-world" data-night={isNight} aria-labelledby="world-title">
       <motion.div className="hero-depth" style={{ y: reducedMotion ? 0 : landscapeY }} aria-hidden="true">
@@ -91,6 +83,7 @@ export default function HeroSection({ onExplore, onViewProjects, isNight }: Hero
           <span>NIKHIL'S WORLD<small>A DEVELOPER'S ADVENTURE</small></span>
         </a>
         <div className="world-header-links">
+          <button className="world-render-mode" aria-pressed={world3D} onClick={onToggle3D} title="Toggle interactive 3D scenes"><Box size={14}/>{world3D ? '3D world' : 'Lite mode'}</button>
           <span className="world-time"><i />{isNight ? 'Moonlit hours' : 'Golden hours'}</span>
           <a href={socials.find(social => social.platform === 'GitHub')?.url} target="_blank" rel="noreferrer" aria-label="Nikhil on GitHub"><CodeXml size={17} /><span>GitHub</span></a>
           <a href={personal.resumeUrl} target="_blank" rel="noreferrer">Resume <ArrowUpRight size={16} /></a>
@@ -107,14 +100,7 @@ export default function HeroSection({ onExplore, onViewProjects, isNight }: Hero
         </div>
         <p className="hero-location">{personal.location}<span>•</span>Always building something.</p>
       </div>
-      <motion.div className="hero-near-depth" style={{ y: reducedMotion ? 0 : foregroundY }}>
-      <div className="hero-foreground">
-        <img src="/world/character-cliff.webp" srcSet="/world/character-cliff-small.webp 600w, /world/character-cliff.webp 1100w" sizes="(max-width: 700px) 110vw, 58vw" width="1100" height="825" alt="Nikhil's voxel adventurer standing on a grassy cliff beside a glowing lantern" decoding="async" />
-        <button className="hero-character-target" onClick={greet} aria-label="Say hello to Nikhil" title="Say hello to Nikhil" />
-        <div className={`character-greeting ${greeting ? 'is-visible' : ''}`} role="status" aria-hidden={!greeting}>Hey, welcome to my world!<span>Let's build something together.</span></div>
-        <span className="lantern-glow" aria-hidden="true" />
-      </div>
-      </motion.div>
+      <SceneFrame kind="avatar" hero />
     </section>
   );
 }

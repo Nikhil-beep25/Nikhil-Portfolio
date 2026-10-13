@@ -1,14 +1,10 @@
-import { useState, useRef, useEffect } from 'react';
+import SceneFrame from '../world3d/SceneFrame';
 import { motion } from 'framer-motion';
 import { PORTFOLIO_DATA } from '../../data/portfolio';
-import { MinecraftCharacter, MinecraftTorch, MinecraftHeart } from './PixelArt';
+import { MinecraftTorch, MinecraftHeart } from './PixelArt';
 import { audioManager } from '../../utils/audioManager';
 
 export default function AboutSection() {
-  const [waving, setWaving] = useState(false);
-  const waveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useEffect(() => () => { if (waveTimer.current) clearTimeout(waveTimer.current); }, []);
-
   return (
     <section 
       id="about" 
@@ -109,33 +105,7 @@ export default function AboutSection() {
             </div>
           </motion.div>
 
-          {/* Center: Minecraft Character with Breathing & Interactive Wave */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-2 flex flex-col items-center justify-center py-4"
-          >
-            <button type="button" aria-label="Wave to Nikhil"
-              className="cursor-pointer group flex flex-col items-center animate-bounce-gentle"
-              onClick={() => {
-                setWaving(true);
-                audioManager.playSelect();
-                if (waveTimer.current) clearTimeout(waveTimer.current);
-                waveTimer.current = setTimeout(() => setWaving(false), 2200);
-              }}
-              title="Click character to wave!"
-            >
-              <div className="mc-panel-dark p-2 border-2 border-amber-500/40 mb-2 shadow-lg">
-                <span className="font-pixel text-[9px] text-[#55FF55]">
-                  NIKHIL
-                </span>
-              </div>
-              <MinecraftCharacter isWaving={waving} size={130} />
-              <div className="w-24 h-4 bg-black/40 rounded-full blur-sm mt-1" />
-            </button>
-          </motion.div>
+          <div className="profile-avatar-stage"><SceneFrame kind="avatar" /></div>
 
           {/* Right: Interests Board */}
           <motion.div
@@ -143,7 +113,7 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="lg:col-span-5 mc-panel p-6 sm:p-7 space-y-4 text-stone-900 shadow-2xl"
+            className="lg:col-span-4 mc-panel p-6 sm:p-7 space-y-4 text-stone-900 shadow-2xl"
           >
             <div className="border-b-2 border-stone-400 pb-2 flex items-center justify-between">
               <span className="font-pixel text-xs text-stone-800">

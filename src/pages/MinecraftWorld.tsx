@@ -11,6 +11,8 @@ import CreatorSpaceSection from '../components/minecraft/CreatorSpaceSection';
 import ContactCampsiteSection from '../components/minecraft/ContactCampsiteSection';
 import FooterSection from '../components/minecraft/FooterSection';
 import SEO from '../components/SEO';
+import { WorldSceneContext } from '../components/world3d/WorldSceneContext';
+import WorldEnhancement from '../components/world3d/WorldEnhancement';
 import '../components/minecraft/world-sections.css';
 import { audioManager } from '../utils/audioManager';
 
@@ -33,6 +35,11 @@ export default function MinecraftWorld() {
       return false;
     }
   });
+
+  const [world3D, setWorld3D] = useState(() => { try { return localStorage.getItem('portfolio-3d') !== 'off'; } catch { return true; } });
+  const [rendererReady, setRendererReady] = useState(false);
+  const toggle3D = () => setWorld3D(current => !current);
+  useEffect(() => { try { localStorage.setItem('portfolio-3d', world3D ? 'on' : 'off'); } catch {} }, [world3D]);
 
   const [activeSection, setActiveSection] = useState('hero');
   const [xpLevel, setXpLevel] = useState(25);
@@ -99,7 +106,8 @@ export default function MinecraftWorld() {
 
   return (
     <MotionConfig reducedMotion="user">
-    <div className={`world-page relative min-h-screen w-full transition-colors duration-700 ${isNight ? 'night-mode' : 'day-mode'}`}>
+    <WorldSceneContext.Provider value={rendererReady && world3D}>
+    <div data-3d={rendererReady && world3D ? 'ready' : 'fallback'} className={`world-page relative min-h-screen w-full transition-colors duration-700 ${isNight ? 'night-mode' : 'day-mode'}`}>
       {/* SEO Metadata */}
       <SEO 
         title="Nikhil Bhadauriya | Minecraft Interactive Developer Portfolio"
@@ -138,6 +146,8 @@ export default function MinecraftWorld() {
           onExplore={() => handleNavigate('about')}
           onViewProjects={() => handleNavigate('projects')}
           isNight={isNight}
+          world3D={world3D}
+          onToggle3D={toggle3D}
         />
 
         {/* 2. Character About Section */}
@@ -165,6 +175,8 @@ export default function MinecraftWorld() {
         />
       </main>
 
+      <WorldEnhancement night={isNight} enabled={world3D && !showLoading} onStatus={setRendererReady}/>
+
       {/* 9. Hotbar Navigation (Fixed Bottom) */}
       <div inert={showLoading}>
       <Hotbar
@@ -177,6 +189,7 @@ export default function MinecraftWorld() {
       />
       </div>
     </div>
+    </WorldSceneContext.Provider>
     </MotionConfig>
   );
 }

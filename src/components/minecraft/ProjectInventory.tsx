@@ -1,3 +1,4 @@
+import SceneFrame from '../world3d/SceneFrame';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -100,6 +101,8 @@ export default function ProjectInventory() {
     >
       <div className="max-w-6xl mx-auto space-y-10">
         
+        <SceneFrame kind="chest" />
+
         {/* Section Header */}
         <div className="section-heading text-center space-y-3">
           <div className="flex items-center justify-center gap-3">

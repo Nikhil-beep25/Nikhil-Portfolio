@@ -1,0 +1,41 @@
+.world-webgl{position:fixed;inset:0;z-index:16;pointer-events:none;contain:strict}
+.world-webgl>div{pointer-events:none!important}
+.world-diorama{position:relative;width:min(100%,540px);margin:0 auto 22px;isolation:isolate}
+.voxel-stage{width:100%;height:270px;position:relative;cursor:grab;touch-action:pan-y;border-radius:4px;outline-offset:3px}
+.voxel-stage:active{cursor:grabbing}
+.voxel-stage:focus-visible{outline:2px solid #dfc88d}
+.voxel-fallback{width:100%;height:100%;object-fit:contain;transition:opacity .4s;pointer-events:none}
+.world-diorama:not(.world-diorama--hero) .voxel-fallback{object-fit:cover;opacity:.85;mask-image:linear-gradient(transparent,#000 20%,#000 80%,transparent)}
+.world-page[data-3d=ready] .voxel-fallback{opacity:0}
+.voxel-controls{display:flex;justify-content:center;align-items:center;gap:10px;font-family:var(--font-body);font-size:10px;color:#d7dfc7;min-height:44px}
+.voxel-controls>span{display:flex;align-items:center;gap:6px;opacity:.8}
+.voxel-controls button{display:flex;align-items:center;gap:6px;background:#17251dd9;border:1px solid #a9b38655;color:#eadbb5;padding:0 12px;min-height:36px;cursor:pointer}
+.voxel-controls button:hover{background:#31432d}
+.world-page:not([data-3d=ready]) .voxel-controls{visibility:hidden}
+.world-diorama--hero{position:absolute;right:0;bottom:96px;width:53%;max-width:850px;margin:0;z-index:3;pointer-events:auto}
+.world-diorama--hero .voxel-stage{height:min(75vh,680px);min-height:440px}
+.world-diorama--hero .voxel-controls{position:absolute;top:0;left:15%;right:15%}
+.world-render-mode{display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:0 11px;border:1px solid #c9d4a755;background:#10241dc9;color:#e6eadc;font-size:11px;cursor:pointer}
+.world-render-mode:hover{background:#31452f}
+.world-render-mode:focus-visible{outline:2px solid #dfc88d;outline-offset:3px}
+#about .profile-avatar-stage{grid-column:span 3/span 3}
+#about .profile-avatar-stage .voxel-stage{height:360px}
+#about .profile-avatar-stage .voxel-controls>span{display:none}
+@media(max-width:1050px) and (min-width:701px){.world-diorama--hero{width:56%;right:-8%;bottom:105px}.world-diorama--hero .voxel-stage{height:600px}.world-header-links{gap:14px}}
+@media(max-width:700px){
+ .world-diorama--hero{width:100%;right:-2%;bottom:91px}
+ .world-diorama--hero .voxel-stage{height:340px;min-height:0}
+ .world-diorama--hero .voxel-controls{top:0;bottom:auto;left:0;right:0}
+ .world-diorama--hero .voxel-controls>span{display:none}
+ .voxel-stage{height:245px}
+ .voxel-controls button{min-height:44px}
+ .world-render-mode{font-size:10px;padding:0 8px}
+ .world-header-links{gap:6px}
+ .world-header-links>a:last-child{display:none}
+ #about .profile-avatar-stage{grid-column:auto}
+ #about .profile-avatar-stage .voxel-stage{height:330px}
+ .hero-world{min-height:920px}
+ .hero-copy{margin-bottom:400px}
+}
+@media(max-width:365px){.hero-world{min-height:860px}.hero-copy{margin-bottom:365px}.world-diorama--hero .voxel-stage{height:310px}}
+@media(prefers-reduced-motion:reduce){.voxel-fallback{transition:none}}
