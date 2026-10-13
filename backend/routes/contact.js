@@ -2,7 +2,7 @@ const express = require('express');
 const { Resend } = require('resend');
 
 const router = express.Router();
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder');
 
 // GET /api/contact
 router.get('/', (req, res) => {
