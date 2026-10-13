@@ -1,417 +1,451 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary: #06B6D4;
-  --color-primary-hover: #0891B2;
-  --color-primary-light: #67E8F9;
-  
-  --color-secondary: #8B5CF6;
-  --color-secondary-hover: #7C3AED;
-  --color-secondary-light: #A78BFA;
-  
-  /* Aurora dark theme default values */
-  --color-bg-darkest: #050816;
-  --color-bg-dark: #0A0F29;
-  --color-bg-card: rgba(10, 15, 41, 0.45);
-  --color-bg-card-hover: rgba(17, 24, 61, 0.65);
-  --color-border-dark: rgba(255, 255, 255, 0.05);
-  --color-border-light: rgba(255, 255, 255, 0.09);
-  
-  --color-text-title: #F8FAFC;
-  --color-text-main: #E2E8F0;
-  --color-text-muted: #94A3B8;
-  
-  --glass-bg: rgba(5, 8, 22, 0.65);
-  --glass-card-bg: rgba(10, 15, 41, 0.3);
-  --glass-border: rgba(255, 255, 255, 0.06);
-  
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Outfit', sans-serif;
+  /* Core Minecraft Color Palette */
+  --mc-grass: #5B8731;
+  --mc-grass-dark: #34552B;
+  --mc-dirt: #79543B;
+  --mc-dirt-dark: #583A24;
+  --mc-wood: #6B442B;
+  --mc-wood-light: #9B6C47;
+  --mc-wood-dark: #4A2E1B;
+  --mc-stone: #777777;
+  --mc-stone-light: #999999;
+  --mc-stone-dark: #4D4D4D;
+  --mc-sky-day: #78B9E7;
+  --mc-sky-sunset: #D97E52;
+  --mc-sky-night: #0D1322;
+  --mc-inv-dark: #252525;
+  --mc-inv-bg: #C6C6C6;
+  --mc-inv-slot: #8B8B8B;
+  --mc-inv-slot-dark: #373737;
+  --mc-gold: #FFCC33;
+  --mc-gold-shadow: #AA7700;
+  --mc-diamond: #4AEDD9;
+  --mc-emerald: #17DD62;
+  --mc-redstone: #FF2200;
+  --mc-lapis: #2A4BD8;
+  --mc-xp-bar: #55FF55;
+  --mc-bedrock: #1A1A1A;
+
+  /* Day/Night dynamic theme variables */
+  --world-sky: #78B9E7;
+  --world-horizon: #BEE3F8;
+  --world-sun-opacity: 1;
+  --world-moon-opacity: 0;
+  --world-stars-opacity: 0;
+  --world-fog: rgba(120, 185, 231, 0.4);
+  --world-ambient-light: #FFFFFF;
+  --world-cloud-color: #FFFFFF;
+  --world-cloud-shadow: #C0D8EC;
+
+  /* Typography */
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-pixel-sub: 'Silkscreen', monospace;
+  --font-pixel-tall: 'VT323', monospace;
+  --font-body: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* Light mode overrides: retain elegant high-contrast glass style */
-:root:not(.dark) {
-  --color-primary: #0891B2;
-  --color-primary-hover: #0e7490;
-  --color-primary-light: #22d3ee;
-  
-  --color-secondary: #7C3AED;
-  --color-secondary-hover: #6D28D9;
-  --color-secondary-light: #8B5CF6;
-  
-  --color-bg-darkest: #FAFBFD;
-  --color-bg-dark: #F1F5F9;
-  --color-bg-card: rgba(255, 255, 255, 0.7);
-  --color-bg-card-hover: rgba(241, 245, 249, 0.95);
-  --color-border-dark: #E2E8F0;
-  --color-border-light: #F1F5F9;
-  
-  --color-text-title: #0F172A;
-  --color-text-main: #334155;
-  --color-text-muted: #64748B;
-  
-  --glass-bg: rgba(250, 251, 253, 0.75);
-  --glass-card-bg: rgba(255, 255, 255, 0.65);
-  --glass-border: rgba(15, 23, 42, 0.07);
+/* Day Mode Variables */
+.day-mode {
+  --world-sky: #78B9E7;
+  --world-horizon: #D0E9FA;
+  --world-sun-opacity: 1;
+  --world-moon-opacity: 0;
+  --world-stars-opacity: 0;
+  --world-fog: rgba(120, 185, 231, 0.25);
+  --world-ambient-light: #FFFFFF;
+  --world-cloud-color: #FFFFFF;
+  --world-cloud-shadow: #C6DAEB;
 }
 
-.dark {
-  --color-bg-darkest: #050816;
-  --color-bg-dark: #0A0F29;
-  --color-bg-card: rgba(10, 15, 41, 0.45);
-  --color-bg-card-hover: rgba(17, 24, 61, 0.65);
-  --color-border-dark: rgba(255, 255, 255, 0.05);
-  --color-border-light: rgba(255, 255, 255, 0.09);
-  
-  --color-text-title: #F8FAFC;
-  --color-text-main: #E2E8F0;
-  --color-text-muted: #94A3B8;
-  
-  --glass-bg: rgba(5, 8, 22, 0.65);
-  --glass-card-bg: rgba(10, 15, 41, 0.3);
-  --glass-border: rgba(255, 255, 255, 0.06);
+/* Night Mode Variables */
+.night-mode {
+  --world-sky: #0A0F1D;
+  --world-horizon: #141E38;
+  --world-sun-opacity: 0;
+  --world-moon-opacity: 1;
+  --world-stars-opacity: 1;
+  --world-fog: rgba(10, 15, 29, 0.6);
+  --world-ambient-light: #8E9EBE;
+  --world-cloud-color: #2D3A55;
+  --world-cloud-shadow: #182238;
 }
 
-@theme {
-  --color-primary: var(--color-primary);
-  --color-primary-hover: var(--color-primary-hover);
-  --color-primary-light: var(--color-primary-light);
-  --color-secondary: var(--color-secondary);
-  --color-secondary-hover: var(--color-secondary-hover);
-  --color-secondary-light: var(--color-secondary-light);
-  
-  --color-bg-darkest: var(--color-bg-darkest);
-  --color-bg-dark: var(--color-bg-dark);
-  --color-bg-card: var(--color-bg-card);
-  --color-bg-card-hover: var(--color-bg-card-hover);
-  --color-border-dark: var(--color-border-dark);
-  --color-border-light: var(--color-border-light);
-  
-  --color-text-title: var(--color-text-title);
-  --color-text-main: var(--color-text-main);
-  --color-text-muted: var(--color-text-muted);
-  
-  --font-sans: var(--font-sans);
-  --font-display: var(--font-display);
-  
-  --animate-aurora-slow: aurora-shift 25s ease-in-out infinite alternate;
-  --animate-aurora-fast: aurora-shift 15s ease-in-out infinite alternate;
-  --animate-float-badge: float-badge 6s ease-in-out infinite;
-  
-  @keyframes aurora-shift {
-    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-    33% { transform: translate(6%, 8%) scale(1.12) rotate(120deg); }
-    66% { transform: translate(-8%, -6%) scale(0.88) rotate(240deg); }
-    100% { transform: translate(0, 0) scale(1) rotate(360deg); }
-  }
-
-  @keyframes float-badge {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
+/* Custom Pixel Fonts and Rendering */
+.font-pixel {
+  font-family: var(--font-pixel);
+  letter-spacing: -0.05em;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+.font-pixel-sub {
+  font-family: var(--font-pixel-sub);
+}
+
+.font-pixel-tall {
+  font-family: var(--font-pixel-tall);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Pixel text drop-shadow like classic Minecraft titles */
+.mc-text-shadow {
+  text-shadow: 2px 2px 0px #1a1a1a, 1px 1px 0px #1a1a1a;
+}
+
+.mc-text-shadow-gold {
+  text-shadow: 2px 2px 0px #AA7700, 1px 1px 0px #AA7700;
+}
+
+.mc-text-shadow-green {
+  text-shadow: 2px 2px 0px #1B4400, 1px 1px 0px #1B4400;
+}
+
+.mc-text-shadow-diamond {
+  text-shadow: 2px 2px 0px #0E5E55, 1px 1px 0px #0E5E55;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MINECRAFT BUTTONS (Beveled, pixel borders, pressed states)
+   ───────────────────────────────────────────────────────────── */
+.mc-button {
+  position: relative;
+  font-family: var(--font-pixel-sub);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #727272;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 0px #222222;
+  border-top: 3px solid #ABABAB;
+  border-left: 3px solid #ABABAB;
+  border-right: 3px solid #373737;
+  border-bottom: 3px solid #373737;
+  box-shadow: inset 0 0 0 1px #8B8B8B, 0 3px 0 #000000;
+  transition: all 0.05s ease-in-out;
+  cursor: pointer;
+  user-select: none;
+}
+
+.mc-button:hover {
+  background-color: #8C8C8C;
+  border-top-color: #C0C0C0;
+  border-left-color: #C0C0C0;
+  border-right-color: #4A4A4A;
+  border-bottom-color: #4A4A4A;
+  color: #FFFF99;
+}
+
+.mc-button:active {
+  transform: translateY(2px);
+  border-top-color: #373737;
+  border-left-color: #373737;
+  border-right-color: #ABABAB;
+  border-bottom-color: #ABABAB;
+  box-shadow: inset 0 0 0 1px #4A4A4A, 0 1px 0 #000000;
+}
+
+/* Green Wood/Grass Action Button */
+.mc-button-green {
+  background-color: #4E822B;
+  border-top: 3px solid #7EC844;
+  border-left: 3px solid #7EC844;
+  border-right: 3px solid #284A14;
+  border-bottom: 3px solid #284A14;
+  box-shadow: inset 0 0 0 1px #5C9A33, 0 3px 0 #000000;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 0px #18300B;
+}
+
+.mc-button-green:hover {
+  background-color: #5C9B33;
+  color: #FFFF88;
+}
+
+.mc-button-green:active {
+  transform: translateY(2px);
+  border-top-color: #284A14;
+  border-left-color: #284A14;
+  border-right-color: #7EC844;
+  border-bottom-color: #7EC844;
+  box-shadow: inset 0 0 0 1px #284A14, 0 1px 0 #000000;
+}
+
+/* Wood Plank Button */
+.mc-button-wood {
+  background-color: #825432;
+  border-top: 3px solid #B87B4E;
+  border-left: 3px solid #B87B4E;
+  border-right: 3px solid #4E2E16;
+  border-bottom: 3px solid #4E2E16;
+  box-shadow: inset 0 0 0 1px #9A653E, 0 3px 0 #000000;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 0px #311B0B;
+}
+
+.mc-button-wood:hover {
+  background-color: #9A653E;
+  color: #FFE6A0;
+}
+
+.mc-button-wood:active {
+  transform: translateY(2px);
+  border-top-color: #4E2E16;
+  border-left-color: #4E2E16;
+  border-right-color: #B87B4E;
+  border-bottom-color: #B87B4E;
+  box-shadow: inset 0 0 0 1px #4E2E16, 0 1px 0 #000000;
+}
+
+/* Diamond Blue Button */
+.mc-button-diamond {
+  background-color: #269E93;
+  border-top: 3px solid #57E8DC;
+  border-left: 3px solid #57E8DC;
+  border-right: 3px solid #145952;
+  border-bottom: 3px solid #145952;
+  box-shadow: inset 0 0 0 1px #32BAAD, 0 3px 0 #000000;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 0px #0D3E3A;
+}
+
+.mc-button-diamond:hover {
+  background-color: #32BAAD;
+  color: #EAFFFF;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MINECRAFT PANELS & INVENTORY
+   ───────────────────────────────────────────────────────────── */
+/* Classic Minecraft Gray GUI Panel */
+.mc-panel {
+  background-color: #C6C6C6;
+  border-top: 4px solid #FFFFFF;
+  border-left: 4px solid #FFFFFF;
+  border-right: 4px solid #555555;
+  border-bottom: 4px solid #555555;
+  box-shadow: 0 4px 0 #000000, inset 0 0 0 2px #DBDBDB;
+}
+
+/* Darker Obsidian/Bedrock Panel */
+.mc-panel-dark {
+  background-color: #212121;
+  border-top: 4px solid #3F3F3F;
+  border-left: 4px solid #3F3F3F;
+  border-right: 4px solid #141414;
+  border-bottom: 4px solid #141414;
+  box-shadow: 0 4px 0 #000000, inset 0 0 0 2px #2A2A2A;
+}
+
+/* Oak Wood Planks Panel */
+.mc-panel-wood {
+  background-color: #6B442B;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 18px,
+    rgba(0, 0, 0, 0.25) 18px,
+    rgba(0, 0, 0, 0.25) 20px
+  );
+  border-top: 4px solid #9C6742;
+  border-left: 4px solid #9C6742;
+  border-right: 4px solid #442816;
+  border-bottom: 4px solid #442816;
+  box-shadow: 0 4px 0 #000000, inset 0 0 0 2px #7A4F32;
+}
+
+/* Inset Inventory Slot (3D Recessed) */
+.mc-slot {
+  position: relative;
+  background-color: #8B8B8B;
+  border-top: 3px solid #373737;
+  border-left: 3px solid #373737;
+  border-right: 3px solid #FFFFFF;
+  border-bottom: 3px solid #FFFFFF;
+  box-shadow: inset 0 0 0 1px #4A4A4A;
+  transition: background-color 0.1s ease;
+  user-select: none;
+}
+
+.mc-slot:hover {
+  background-color: #A3A3A3;
+}
+
+.mc-slot.active {
+  background-color: #BDBDBD;
+  border-top-color: #1A1A1A;
+  border-left-color: #1A1A1A;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  outline: 2px solid #FFFFFF;
+  outline-offset: -1px;
+}
+
+/* Hotbar active slot highlight white border */
+.mc-hotbar-slot-active {
+  box-shadow: inset 0 0 0 2px #FFFFFF, inset 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+/* Minecraft In-Game Tooltip */
+.mc-tooltip {
+  background: #100010;
+  border: 2px solid #28007F;
+  box-shadow: 0 0 0 2px #5000FF, 0 4px 10px rgba(0, 0, 0, 0.8);
+  font-family: var(--font-pixel-sub);
+  color: #FFFFFF;
+  padding: 6px 10px;
+  z-index: 50;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   EXPERIENCE BAR (XP Bar)
+   ───────────────────────────────────────────────────────────── */
+.mc-xp-bar-container {
   height: 8px;
+  background-color: #1A1A1A;
+  border: 1px solid #000000;
+  border-radius: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mc-xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #55FF55 0%, #B8FF55 50%, #55FF55 100%);
+  box-shadow: 0 0 8px #55FF55;
+  transition: width 0.3s ease-out;
+}
+
+.mc-xp-level-badge {
+  font-family: var(--font-pixel);
+  color: #55FF55;
+  text-shadow: 2px 2px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ANIMATIONS (Torches, Clouds, Particles, Block Cracking)
+   ───────────────────────────────────────────────────────────── */
+@keyframes torchFlicker {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+    filter: drop-shadow(0 0 8px rgba(255, 170, 0, 0.85));
+  }
+  25% {
+    transform: scale(1.06) translateY(-1px);
+    filter: drop-shadow(0 0 12px rgba(255, 200, 50, 0.95));
+  }
+  50% {
+    transform: scale(0.96) translateY(0.5px);
+    filter: drop-shadow(0 0 6px rgba(255, 140, 0, 0.75));
+  }
+  75% {
+    transform: scale(1.03) translateY(-0.5px);
+    filter: drop-shadow(0 0 10px rgba(255, 180, 20, 0.9));
+  }
+}
+
+.animate-torch-flicker {
+  animation: torchFlicker 0.6s infinite ease-in-out;
+}
+
+@keyframes cloudDriftSlow {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(120vw); }
+}
+
+@keyframes cloudDriftFast {
+  0% { transform: translateX(-150%); }
+  100% { transform: translateX(120vw); }
+}
+
+.animate-cloud-slow {
+  animation: cloudDriftSlow 75s linear infinite;
+}
+
+.animate-cloud-fast {
+  animation: cloudDriftFast 45s linear infinite;
+}
+
+@keyframes floatIsland {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float-island {
+  animation: floatIsland 5s ease-in-out infinite;
+}
+
+@keyframes fireflyPulse {
+  0%, 100% { opacity: 0.2; transform: translateY(0) scale(0.8); }
+  50% { opacity: 0.9; transform: translateY(-12px) scale(1.2); }
+}
+
+.animate-firefly {
+  animation: fireflyPulse 3s ease-in-out infinite;
+}
+
+@keyframes speechBubbleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.animate-speech-bubble {
+  animation: speechBubbleFloat 3.5s ease-in-out infinite;
+}
+
+/* Custom Scrollbar styled as Minecraft gray GUI slider */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-bg-darkest);
+  background: #373737;
+  border-left: 2px solid #252525;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border-dark);
-  border-radius: 4px;
+  background: #8B8B8B;
+  border-top: 2px solid #C6C6C6;
+  border-left: 2px solid #C6C6C6;
+  border-right: 2px solid #4A4A4A;
+  border-bottom: 2px solid #4A4A4A;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #06B6D4, #8B5CF6);
+  background: #AAAAAA;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--color-bg-darkest);
-  color: var(--color-text-main);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: var(--world-sky);
+  color: #FFFFFF;
+  transition: background-color 0.8s ease;
 }
 
 body {
   overflow-x: hidden;
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
+  background-color: var(--world-sky);
+  transition: background-color 0.8s ease;
 }
 
-/* Aurora Glassmorphism Utilities */
-.glass-aurora {
-  background: var(--glass-card-bg);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid var(--glass-border);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-}
-
-.glass-aurora:hover {
-  border-color: rgba(139, 92, 246, 0.35);
-  background: var(--color-bg-card-hover);
-  box-shadow: 
-    0 15px 30px -5px rgba(139, 92, 246, 0.15), 
-    0 0 30px 0 rgba(6, 182, 212, 0.05);
-}
-
-.glass-aurora-static {
-  background: var(--glass-card-bg);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-}
-
-/* Premium Floating Glassmorphism Navbar styling */
-.glass-navbar {
-  background: rgba(5, 8, 22, 0.4);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 
-    0 10px 30px -10px rgba(0, 0, 0, 0.5), 
-    0 1px 1px 0 rgba(255, 255, 255, 0.05) inset,
-    0 0 40px 0 rgba(139, 92, 246, 0.03);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-:root:not(.dark) .glass-navbar {
-  background: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 
-    0 10px 30px -10px rgba(15, 23, 42, 0.1), 
-    0 1px 1px 0 rgba(255, 255, 255, 0.6) inset;
-}
-
-.glass-navbar:hover {
-  border-color: rgba(139, 92, 246, 0.2);
-  box-shadow: 
-    0 12px 40px -10px rgba(0, 0, 0, 0.6), 
-    0 1px 1px 0 rgba(255, 255, 255, 0.08) inset,
-    0 0 50px 0 rgba(139, 92, 246, 0.06);
-}
-
-/* Rainbow Border Spotlight Effect */
-.glass-rainbow-border {
-  position: relative;
-  background: var(--glass-card-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
-
-.glass-rainbow-border::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, #06B6D4 0%, #8B5CF6 25%, #EC4899 50%, #3B82F6 75%, #10B981 100%);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  opacity: 0.15;
-  transition: opacity 0.4s ease;
-}
-
-.glass-rainbow-border:hover::before {
-  opacity: 0.5;
-}
-
-/* Custom premium glow effects */
-.glow-card-purple {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.glow-card-purple:hover {
-  box-shadow: 0 0 30px 0 rgba(139, 92, 246, 0.15);
-  border-color: rgba(139, 92, 246, 0.3);
-}
-
-.glow-card-blue {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.glow-card-blue:hover {
-  box-shadow: 0 0 30px 0 rgba(6, 182, 212, 0.15);
-  border-color: rgba(6, 182, 212, 0.3);
-}
-
-/* Premium gradient text collections */
-.text-gradient-aurora {
-  background: linear-gradient(135deg, #06B6D4 0%, #8B5CF6 50%, #EC4899 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-cyan-blue {
-  background: linear-gradient(135deg, #06B6D4 0%, #3B82F6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-purple-pink {
-  background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-blue-emerald {
-  background: linear-gradient(135deg, #3B82F6 0%, #10B981 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Floating background blurred gradient orbs */
-.orb-cyan {
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.18) 0%, transparent 70%);
-}
-
-.orb-purple {
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.18) 0%, transparent 70%);
-}
-
-.orb-pink {
-  background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, transparent 70%);
-}
-
-.orb-blue {
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.18) 0%, transparent 70%);
-}
-
-.orb-emerald {
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
-}
-
-@keyframes orbit-rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes counter-orbit-rotate {
-  0% { transform: rotate(360deg); }
-  100% { transform: rotate(0deg); }
-}
-
-.animate-orbit {
-  animation: orbit-rotate 25s linear infinite;
-}
-
-.animate-counter-orbit {
-  animation: counter-orbit-rotate 25s linear infinite;
-}
-
-@keyframes gradient-flow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.animate-gradient-flow {
-  background-size: 300% 300%;
-  animation: gradient-flow 6s ease infinite;
-}
-
-@keyframes glow-pulse {
-  0% { text-shadow: 0 0 15px rgba(139, 92, 246, 0.15); }
-  50% { text-shadow: 0 0 35px rgba(139, 92, 246, 0.35); }
-  100% { text-shadow: 0 0 15px rgba(139, 92, 246, 0.15); }
-}
-
-.glow-pulse {
-  animation: glow-pulse 4s ease-in-out infinite;
-}
-
-@keyframes name-gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes shine-sweep {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-.name-gradient-text {
-  background: linear-gradient(
-    110deg,
-    #38BDF8 0%,
-    #60A5FA 25%,
-    #ffffff 45%,
-    #60A5FA 55%,
-    #8B5CF6 80%,
-    #38BDF8 100%
-  );
-  background-size: 300% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-  animation: 
-    name-gradient-shift 8s ease-in-out infinite,
-    shine-sweep 6s linear infinite;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.3s ease;
-}
-
-@keyframes splash-shimmer {
-  0% {
-    background-position: 0% center;
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
   }
-  100% {
-    background-position: -200% center;
-  }
-}
-
-.splash-name-shimmer {
-  background-image: linear-gradient(
-    90deg,
-    #3B82F6 0%,
-    #8B5CF6 25%,
-    #EC4899 50%,
-    #8B5CF6 75%,
-    #3B82F6 100%
-  );
-  background-size: 200% auto;
-  background-attachment: fixed;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-  animation: splash-shimmer 4s linear infinite;
-}
-
-@keyframes typewriter-blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-
-.animate-typewriter-blink {
-  animation: typewriter-blink 1.2s infinite;
-}
-
-@keyframes text-gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.animate-text-gradient-purple-blue {
-  background-image: linear-gradient(
-    135deg,
-    #7C3AED 0%,
-    #6366F1 30%,
-    #3B82F6 50%,
-    #6366F1 70%,
-    #7C3AED 100%
-  );
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: text-gradient-shift 5s ease infinite;
 }
