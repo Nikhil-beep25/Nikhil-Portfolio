@@ -89,7 +89,7 @@ This project transforms the traditional developer portfolio into an interactive,
 
 ### 10. 🧊 Hybrid 3D Voxel Engine (Three.js & React Three Fiber)
 - Three-dimensional floating artifacts, voxel lighting, and post-processing depth effects.
-- Graceful low-power fallbacks for mobile and battery-constrained devices.
+- Defaults to ultra-fast **Lite Mode** on initial load for instant performance, with an interactive one-click toggle to enable the immersive **3D World** scenes.
 
 ---
 

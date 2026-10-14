@@ -33,21 +33,35 @@ export default function MinecraftWorld() {
 
   const [isNight, setIsNight] = useState(() => {
     try {
-      const manual = localStorage.getItem('minecraft-portfolio-manual-theme');
-      if (manual === 'true') {
-        const saved = localStorage.getItem('minecraft-portfolio-night');
-        if (saved !== null) return saved === 'true';
-      }
-      return false; // Default to lite (day) mode when opening site
+      const saved = localStorage.getItem('minecraft-portfolio-night');
+      if (saved !== null) return saved === 'true';
+      const hour = new Date().getHours();
+      return hour < 6 || hour >= 18;
     } catch {
       return false;
     }
   });
 
-  const [world3D, setWorld3D] = useState(() => { try { return localStorage.getItem('portfolio-3d') !== 'off'; } catch { return true; } });
+  const [world3D, setWorld3D] = useState(() => {
+    try {
+      const manual = localStorage.getItem('portfolio-3d-manual');
+      if (manual === 'true') {
+        return localStorage.getItem('portfolio-3d') === 'on';
+      }
+      return false; // Default to Lite mode (3D scenes off)
+    } catch {
+      return false;
+    }
+  });
   const [rendererReady, setRendererReady] = useState(false);
-  const toggle3D = () => setWorld3D(current => !current);
-  useEffect(() => { try { localStorage.setItem('portfolio-3d', world3D ? 'on' : 'off'); } catch {} }, [world3D]);
+  const toggle3D = () => setWorld3D(current => {
+    const next = !current;
+    try {
+      localStorage.setItem('portfolio-3d-manual', 'true');
+      localStorage.setItem('portfolio-3d', next ? 'on' : 'off');
+    } catch {}
+    return next;
+  });
 
   const [activeSection, setActiveSection] = useState('hero');
   const [xpLevel, setXpLevel] = useState(25);

@@ -29,12 +29,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Press+Start+2P&family=Silkscreen:wght@400;700&family=VT323&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Inline Theme Synchronization Script (Default: Lite / Day Mode) -->
+    <!-- Inline Theme Synchronization Script -->
     <script>
       (function() {
         try {
           const manual = localStorage.getItem('minecraft-portfolio-manual-theme');
-          const isNight = manual === 'true' && localStorage.getItem('minecraft-portfolio-night') === 'true';
+          let isNight = false;
+          if (manual === 'true') {
+            isNight = localStorage.getItem('minecraft-portfolio-night') === 'true';
+          } else {
+            const hour = new Date().getHours();
+            isNight = hour < 6 || hour >= 18;
+          }
           const root = document.documentElement;
           if (isNight) {
             root.classList.add('night-mode');
