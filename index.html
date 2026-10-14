@@ -29,26 +29,27 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Press+Start+2P&family=Silkscreen:wght@400;700&family=VT323&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Inline Theme Synchronization Script -->
+    <!-- Inline Theme Synchronization Script (Default: Lite / Day Mode) -->
     <script>
       (function() {
-        const savedMode = localStorage.getItem('portfolio-theme');
-        let isDark = false;
-        if (savedMode) {
-          isDark = savedMode === 'dark';
-        } else {
-          const hour = new Date().getHours();
-          isDark = hour < 6 || hour >= 18;
-        }
-        if (isDark) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
+        try {
+          const manual = localStorage.getItem('minecraft-portfolio-manual-theme');
+          const isNight = manual === 'true' && localStorage.getItem('minecraft-portfolio-night') === 'true';
+          const root = document.documentElement;
+          if (isNight) {
+            root.classList.add('night-mode');
+            root.classList.remove('day-mode');
+          } else {
+            root.classList.add('day-mode');
+            root.classList.remove('night-mode');
+          }
+        } catch (e) {
+          document.documentElement.classList.add('day-mode');
         }
       })();
     </script>
   </head>
-  <body class="bg-bg-darkest text-text-main antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+  <body class="antialiased selection:bg-emerald-500/30 selection:text-emerald-200">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

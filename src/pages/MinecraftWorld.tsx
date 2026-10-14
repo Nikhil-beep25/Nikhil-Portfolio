@@ -33,10 +33,12 @@ export default function MinecraftWorld() {
 
   const [isNight, setIsNight] = useState(() => {
     try {
-      const saved = localStorage.getItem('minecraft-portfolio-night');
-      if (saved !== null) return saved === 'true';
-      const hour = new Date().getHours();
-      return hour < 6 || hour >= 18;
+      const manual = localStorage.getItem('minecraft-portfolio-manual-theme');
+      if (manual === 'true') {
+        const saved = localStorage.getItem('minecraft-portfolio-night');
+        if (saved !== null) return saved === 'true';
+      }
+      return false; // Default to lite (day) mode when opening site
     } catch {
       return false;
     }
@@ -64,9 +66,6 @@ export default function MinecraftWorld() {
       root.classList.add('day-mode');
       root.classList.remove('night-mode');
     }
-    try {
-      localStorage.setItem('minecraft-portfolio-night', isNight ? 'true' : 'false');
-    } catch {}
   }, [isNight]);
 
   // Award exploration once per section; keep side effects outside React state updaters.
@@ -96,7 +95,14 @@ export default function MinecraftWorld() {
   };
 
   const handleToggleDayNight = () => {
-    setIsNight(prev => !prev);
+    setIsNight(prev => {
+      const next = !prev;
+      try {
+        localStorage.setItem('minecraft-portfolio-manual-theme', 'true');
+        localStorage.setItem('minecraft-portfolio-night', next ? 'true' : 'false');
+      } catch {}
+      return next;
+    });
   };
 
   const handleEnterWorld = () => {
