@@ -131,23 +131,23 @@ export default function AboutSection() {
               {PORTFOLIO_DATA.interests.map((interest, idx) => (
                 <div
                   key={idx}
-                  className="mc-slot p-2.5 sm:p-3 bg-stone-200 hover:bg-stone-100 flex flex-col justify-between transition-colors group cursor-default min-w-0"
+                  className="mc-slot p-2 sm:p-2.5 bg-stone-200 hover:bg-stone-100 flex flex-col justify-between transition-colors group cursor-default min-w-0"
                   onMouseEnter={() => audioManager.playHover()}
                 >
-                  <div className="flex items-start gap-2 mb-1 min-w-0">
-                    <span className="text-lg sm:text-xl shrink-0 group-hover:scale-110 transition-transform select-none pt-0.5 leading-none">
+                  <div className="space-y-1 mb-1 min-w-0">
+                    <span className="text-base sm:text-lg block shrink-0 group-hover:scale-110 transition-transform select-none leading-none mb-1">
                       {interest.icon}
                     </span>
                     <h3
-                      className="font-pixel-sub text-[10.5px] sm:text-xs text-stone-900 font-bold leading-tight break-words min-w-0"
-                      style={{ overflowWrap: 'anywhere' }}
+                      className="font-pixel-sub text-[9px] sm:text-[9.5px] xl:text-[10px] text-stone-900 font-bold leading-tight min-w-0 tracking-tight"
+                      style={{ whiteSpace: 'normal', wordBreak: 'normal', overflowWrap: 'normal', hyphens: 'none' }}
                     >
                       {interest.title}
                     </h3>
+                    <p className="font-body text-[10.5px] sm:text-[11px] text-stone-600 leading-snug">
+                      {interest.desc}
+                    </p>
                   </div>
-                  <p className="font-body text-[11px] text-stone-600 leading-snug break-words">
-                    {interest.desc}
-                  </p>
                 </div>
               ))}
             </div>

@@ -178,7 +178,7 @@ export default function CraftingTableSection() {
 
             {/* Output Result Slot */}
             <div role="status" aria-live="polite" aria-atomic="true" className="md:col-span-5 flex flex-col items-center justify-center">
-              <div className="mc-slot w-28 sm:w-32 min-h-[7.5rem] sm:min-h-[8.5rem] flex flex-col items-center justify-center bg-stone-300 border-4 border-stone-900 p-2 sm:p-2.5 shadow-2xl relative">
+              <div className="mc-slot w-36 sm:w-40 min-h-[7.5rem] sm:min-h-[8.5rem] flex flex-col items-center justify-center bg-stone-300 border-4 border-stone-900 p-2 sm:p-2.5 shadow-2xl relative">
                 {craftingResult ? (
                   <motion.div
                     initial={{ scale: 0.5, opacity: 0 }}
@@ -189,8 +189,8 @@ export default function CraftingTableSection() {
                       <MinecraftItemIcon type={craftingResult.icon} size={36} />
                     </div>
                     <span
-                      className="font-pixel text-[8.5px] sm:text-[9.5px] text-emerald-800 font-bold block w-full text-center leading-snug break-words min-w-0"
-                      style={{ overflowWrap: 'anywhere' }}
+                      className="font-pixel text-[8px] sm:text-[8.5px] text-emerald-800 font-bold block w-full text-center leading-snug min-w-0"
+                      style={{ whiteSpace: 'normal', wordBreak: 'normal', overflowWrap: 'normal', hyphens: 'none' }}
                     >
                       {craftingResult.title}
                     </span>
