@@ -36,7 +36,7 @@ export default function SceneFrame({ kind, hero = false }: { kind: SceneKind; he
         if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); act(event.key === 'ArrowLeft' ? 'left' : 'right'); }
         if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); act('activate'); }
       }}>
-      <img aria-hidden={ready} className="voxel-fallback" srcSet={kind === 'avatar' ? '/world/nikhil-avatar-small.webp 600w, /world/nikhil-avatar.webp 1200w' : undefined} sizes={hero ? '(max-width: 700px) 100vw, 53vw' : '340px'} src={kind === 'avatar' ? '/world/nikhil-avatar.webp' : '/world/woodland-campsite-small.webp'} alt={kind === 'avatar' ? labels.avatar : 'An illustrated woodland campsite'} loading={hero ? 'eager' : 'lazy'} width={kind === 'avatar' ? 1200 : 960} height={kind === 'avatar' ? 890 : 540} />
+      <img aria-hidden={ready} className="voxel-fallback" srcSet={kind === 'avatar' ? '/world/nikhil-avatar-small.webp 600w, /world/nikhil-avatar.webp 1200w' : undefined} sizes={hero ? '(max-width: 700px) 100vw, (max-aspect-ratio: 1/1) and (max-height: 1100px) min(70vw, 540px), (max-aspect-ratio: 1/1) min(82vw, 850px), 53vw' : '340px'} src={kind === 'avatar' ? '/world/nikhil-avatar.webp' : '/world/woodland-campsite-small.webp'} alt={kind === 'avatar' ? labels.avatar : 'An illustrated woodland campsite'} loading={hero ? 'eager' : 'lazy'} width={kind === 'avatar' ? 1200 : 960} height={kind === 'avatar' ? 890 : 540} />
     </div>
     {ready && <div className="voxel-controls">
       <span><Box size={12} aria-hidden="true" />Drag to explore</span>

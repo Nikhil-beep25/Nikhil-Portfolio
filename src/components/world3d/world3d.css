@@ -39,3 +39,22 @@
 }
 @media(max-width:365px){.hero-world{min-height:860px}.hero-copy{margin-bottom:365px}.world-diorama--hero .voxel-stage{height:310px}}
 @media(prefers-reduced-motion:reduce){.voxel-fallback{transition:none}}
+
+/* Portrait tablets and phones requesting a desktop viewport use a stacked hero. */
+@media (min-width:701px) and (max-aspect-ratio:1/1){
+ .hero-copy{margin-bottom:0}
+ .world-diorama--hero{position:relative;right:auto;bottom:auto;width:82%;max-width:850px;margin:48px auto 140px}
+ .world-diorama--hero .voxel-stage{height:auto;min-height:0;aspect-ratio:1200/890}
+}
+
+/* Keep the full island clear of the fixed hotbar on shorter portrait tablets. */
+@media (min-width:701px) and (max-aspect-ratio:1/1) and (max-height:1100px){
+ .hero-copy{margin-top:24px}
+ .hero-eyebrow{margin-bottom:16px}
+ .hero-copy h1{margin-bottom:18px}
+ .hero-copy h1 span{font-size:64px}
+ .hero-copy h1 strong{font-size:44px}
+ .hero-tagline{margin-bottom:16px}
+ .hero-quote{font-size:18px;margin-bottom:20px}
+ .world-diorama--hero{width:70%;max-width:540px;margin-top:24px}
+}
