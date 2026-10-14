@@ -144,7 +144,7 @@ export default function MinecraftWorld() {
       {/* Loading Screen */}
       <AnimatePresence onExitComplete={() => { document.getElementById('world-title')?.focus({preventScroll:true}); }}>
         {showLoading && (
-          <LoadingScreen effects={effects} world3D={world3D} onEnter={handleEnterWorld} />
+          <LoadingScreen effects={effects} world3D={world3D} isNight={isNight} onEnter={handleEnterWorld} />
         )}
       </AnimatePresence>
 

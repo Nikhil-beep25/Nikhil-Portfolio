@@ -1,15 +1,16 @@
 // Web Audio API Synthesizer - 100% Original Minecraft-inspired interaction sound effects
 class MinecraftAudioManager {
   private ctx: AudioContext | null = null;
-  private isEnabled: boolean = false;
+  private isEnabled: boolean = true;
   private volume: number = 0.3; // Default UI interaction sound volume
 
   constructor() {
     try {
       const savedPref = localStorage.getItem('minecraft-portfolio-sound');
-      this.isEnabled = savedPref === 'true'; // Default is false (sound off)
+      // Default to volume/sound ON (true) unless explicitly muted by user
+      this.isEnabled = savedPref !== null ? savedPref === 'true' : true;
     } catch {
-      this.isEnabled = false;
+      this.isEnabled = true;
     }
   }
 

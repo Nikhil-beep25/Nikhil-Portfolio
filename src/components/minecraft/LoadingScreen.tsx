@@ -1,14 +1,14 @@
 import { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowUpRight, VolumeX } from 'lucide-react';
+import { ArrowUpRight, Volume2, VolumeX } from 'lucide-react';
 import { audioManager } from '../../utils/audioManager';
 import { PORTFOLIO_DATA } from '../../data/portfolio';
 import type { EffectLevel } from './EffectsMenu';
 import './cinematic.css';
 const IntroScene = lazy(() => import('../world3d/IntroScene'));
 
-export default function LoadingScreen({ onEnter, effects, world3D }: {
-  onEnter: () => void; effects: EffectLevel; world3D: boolean;
+export default function LoadingScreen({ onEnter, effects, world3D, isNight = false }: {
+  onEnter: () => void; effects: EffectLevel; world3D: boolean; isNight?: boolean;
 }) {
   const [progress, setProgress] = useState(0);
   const [ready, setReady] = useState(false);
@@ -30,8 +30,8 @@ export default function LoadingScreen({ onEnter, effects, world3D }: {
     return () => { cancelled = true; clearTimeout(timeout); document.body.style.overflow = overflow; };
   }, []);
   const enter = () => { audioManager.playEnterWorld(); onEnter(); };
-  return <motion.div ref={dialog} data-world-loading data-still={still} role="dialog" aria-modal="true" aria-labelledby="loading-title"
-    initial={{opacity:1}} exit={{opacity:0,scale:still?1:1.08}} transition={{duration:still?.1:.65}} className="realm-opening"
+  return <motion.div ref={dialog} data-world-loading data-night={isNight} data-still={still} role="dialog" aria-modal="true" aria-labelledby="loading-title"
+    initial={{opacity:1}} exit={{opacity:0,scale:still?1:1.08}} transition={{duration:still?.1:.65}} className={`realm-opening ${isNight ? 'night-mode' : 'day-mode'}`}
     onKeyDown={event => {
       if (event.key === 'Escape') { event.preventDefault(); onEnter(); }
       if (event.key !== 'Tab') return;
@@ -56,6 +56,6 @@ export default function LoadingScreen({ onEnter, effects, world3D }: {
       <p className="opening-status" role="status">{ready ? 'YOUR NEXT ADVENTURE IS READY' : `FORMING YOUR WORLD · ${progress}%`}</p>
       <button className="opening-enter" onClick={enter} disabled={!ready}>Enter my world <ArrowUpRight size={19}/></button>
     </div>
-    <div className="opening-bottom"><span>CODE. CREATE. EXPLORE.</span><span><VolumeX size={13}/>{audioManager.getSoundEnabled() ? 'Sound enabled' : 'Sound is optional'}</span></div>
+    <div className="opening-bottom"><span>CODE. CREATE. EXPLORE.</span><span>{audioManager.getSoundEnabled() ? <Volume2 size={13}/> : <VolumeX size={13}/>}{audioManager.getSoundEnabled() ? 'Sound enabled' : 'Sound is optional'}</span></div>
   </motion.div>;
 }

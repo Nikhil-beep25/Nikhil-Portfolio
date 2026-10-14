@@ -1,6 +1,8 @@
 /* Shared atmosphere: dimensional type, slow light, and deliberately sparse relics. */
-.realm-opening{position:fixed;inset:0;z-index:80;display:grid;place-items:center;overflow-x:hidden;overflow-y:auto;background:#061715;color:#f4f2df;font-family:var(--font-body);isolation:isolate;perspective:1200px;min-height:100dvh}
-.opening-backdrop{position:absolute;inset:0;z-index:-2;background:radial-gradient(ellipse at 50% 42%,#08292360,#031211dd 78%),linear-gradient(#06222366,#061614aa),url('/world/valley-night.webp') center/cover;animation:opening-landscape 3s ease-out both}
+.realm-opening{position:fixed;inset:0;z-index:80;display:grid;place-items:center;overflow-x:hidden;overflow-y:auto;background:#152820;color:#f4f2df;font-family:var(--font-body);isolation:isolate;perspective:1200px;min-height:100dvh}
+.realm-opening[data-night=true],.realm-opening.night-mode{background:#061715}
+.opening-backdrop{position:absolute;inset:0;z-index:-2;background:radial-gradient(ellipse at 50% 42%,rgba(20,55,40,.35),rgba(15,35,25,.82) 78%),linear-gradient(rgba(10,30,22,.2),rgba(12,28,20,.65)),url('/world/valley-day.webp') center/cover;animation:opening-landscape 3s ease-out both}
+.realm-opening[data-night=true] .opening-backdrop,.realm-opening.night-mode .opening-backdrop{background:radial-gradient(ellipse at 50% 42%,#08292360,#031211dd 78%),linear-gradient(#06222366,#061614aa),url('/world/valley-night.webp') center/cover}
 .opening-world{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.95}
 .opening-top,.opening-bottom{position:absolute;left:5%;right:5%;display:flex;align-items:center;justify-content:space-between;font-size:10px;letter-spacing:.16em;color:#bbcfbf;gap:20px}
 .opening-top{top:28px}.opening-bottom{bottom:26px}.opening-bottom>span:last-child{display:flex;align-items:center;gap:7px;font-size:11px;letter-spacing:0}
@@ -49,7 +51,8 @@
  .opening-top,.opening-bottom{left:22px;right:22px}.opening-top{top:20px;font-size:8px;letter-spacing:.08em}.opening-bottom{font-size:8px;letter-spacing:.08em}
  .opening-content{width:90%;padding:100px 0}.opening-kicker{font-size:8px;letter-spacing:.16em;margin-bottom:29px}
  .name-row{font-size:19.5vw}.name-row:last-child{font-size:10.4vw;margin-top:15px;letter-spacing:-.06em}
- .opening-description{margin-top:30px}.opening-world{inset:0 -20%;opacity:.65}.opening-backdrop{background-image:radial-gradient(ellipse at 50% 42%,#08292360,#031211dd 78%),linear-gradient(#06222366,#061614aa),url('/world/valley-night-small.webp')}
+ .opening-description{margin-top:30px}.opening-world{inset:0 -20%;opacity:.65}.opening-backdrop{background-image:radial-gradient(ellipse at 50% 42%,rgba(20,55,40,.35),rgba(15,35,25,.82) 78%),linear-gradient(rgba(10,30,22,.2),rgba(12,28,20,.65)),url('/world/valley-day-small.webp')}
+ .realm-opening[data-night=true] .opening-backdrop,.realm-opening.night-mode .opening-backdrop{background-image:radial-gradient(ellipse at 50% 42%,#08292360,#031211dd 78%),linear-gradient(#06222366,#061614aa),url('/world/valley-night-small.webp')}
  .world-brand>span:last-child{display:none}.world-header{gap:8px}.world-header-links{gap:8px}.effects-trigger{min-height:44px}.world-render-mode{min-height:44px}
  .effects-panel{right:22px;width:min(276px,calc(100vw - 44px))}
  .hero-light-trails{opacity:.4}
