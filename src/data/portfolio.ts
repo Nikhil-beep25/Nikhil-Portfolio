@@ -290,7 +290,7 @@ export const PORTFOLIO_DATA = {
       icon: "diamond_sword",
       description: "Completed an intensive engineering apprenticeship focused on modern MERN architecture, JWT security, and agile git workflows.",
       skillsGained: ["MongoDB", "Express.js", "React.js", "Node.js", "JWT Auth", "REST APIs"],
-      verificationLink: "https://github.com/Nikhil-beep25",
+      verificationLink: "https://www.linkedin.com/in/nikhil-bhadauriya-308414321",
       advancementType: "challenge"
     },
     {
@@ -303,7 +303,7 @@ export const PORTFOLIO_DATA = {
       icon: "golden_apple",
       description: "Engineered commercial platforms with Python, Generative AI capabilities, payment integrations, and PostgreSQL query optimization.",
       skillsGained: ["Python", "Generative AI", "Payment Gateways", "PostgreSQL", "RESTful APIs"],
-      verificationLink: "https://github.com/Nikhil-beep25",
+      verificationLink: "https://www.linkedin.com/in/nikhil-bhadauriya-308414321",
       advancementType: "challenge"
     },
     {
@@ -316,7 +316,7 @@ export const PORTFOLIO_DATA = {
       icon: "beacon",
       description: "Pursuing BCA with a focus on Data Structures, Algorithms, Object-Oriented Programming, DBMS, Operating Systems, and Computer Networks.",
       skillsGained: ["Data Structures", "Algorithms", "Relational DBMS", "Computer Networks", "Software Engineering"],
-      verificationLink: "https://github.com/Nikhil-beep25",
+      verificationLink: "https://www.linkedin.com/in/nikhil-bhadauriya-308414321",
       advancementType: "goal"
     }
   ] as Achievement[],

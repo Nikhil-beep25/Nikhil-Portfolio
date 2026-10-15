@@ -156,6 +156,8 @@ export default function AchievementsSection() {
                         href={ach.verificationLink}
                         target="_blank"
                         rel="noopener noreferrer"
+                        aria-label={`Verify ${ach.title} on LinkedIn`}
+                        title="Verify on LinkedIn"
                         onClick={(e) => {
                           e.stopPropagation();
                           audioManager.playClick();
